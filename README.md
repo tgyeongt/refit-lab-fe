@@ -1,5 +1,22 @@
 # ReFitLab Frontend
 
+## 🎯 Git Convention
+
+- 🎉 **Start:** Start New Project [:tada]
+- ✨ **Feat:** 새로운 기능을 추가 [:sparkles]
+- 🐛 **Fix:** 버그 수정 [:bug]
+- 🎨 **Design:** CSS 등 사용자 UI 디자인 변경 [:art]
+- ♻️ **Refactor:** 코드 리팩토링 [:recycle]
+- 🔧 **Settings:** Changing configuration files [:wrench]
+- 🗃️ **Comment:** 필요한 주석 추가 및 변경 [:card_file_box]
+- ➕ **Dependency/Plugin:** Add a dependency/plugin [:heavy_plus_sign]
+- 📝 **Docs:** 문서 수정 [:memo]
+- 🔀 **Merge:** Merge branches [:twisted_rightwards_arrows:]
+- 🚀 **Deploy:** Deploying stuff [:rocket]
+- 🚚 **Rename:** 파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우 [:truck]
+- 🔥 **Remove:** 파일을 삭제하는 작업만 수행한 경우 [:fire]
+- ⏪️ **Revert:** 전 버전으로 롤백 [:rewind]
+
 ## 기술 스택
 
 - **Framework**: Next.js 15 (App Router)
@@ -121,23 +138,7 @@ privateAPI.get("/user/profile");
 internalAPI.post("/upload", formData);
 ```
 
-## 개발 워크플로우
-
-### 커밋 규칙
-
-| feat(#이슈번호)     | 일반적인 코드 추가/수정                                                               |
-| ------------------- | ------------------------------------------------------------------------------------- |
-| fix(#이슈번호)      | 코드 오류, 버그 해결                                                                  |
-| ui(#이슈번호)       | UI 작업                                                                               |
-| api(#이슈번호)      | API 연동 관련 작업                                                                    |
-| refactor(#이슈번호) | 리팩토링(같은 기능을 하지만, 코드 가독성이나 로직 측면에서 더 효율적으로 수정한 경우) |
-| chore(#이슈번호)    | 기타 패키지 설정이라든지 설정 파일 건든다던지..                                       |
-| actions(#이슈번호)  | Github Actions 건들때                                                                 |
-| add(#이슈번호)      | 파일 추가한경우                                                                       |
-| remove(#이슈번호)   | 파일 삭제한경우                                                                       |
-| hotfix(#이슈번호)   | 급하게 수정할경우                                                                     |
-
-### 개발 프로세스
+## 개발 프로세스
 
 1. **브랜치 생성**: `feature/기능명` 또는 `fix/버그명`
 2. **개발 및 커밋**: 위 커밋 규칙에 따라 커밋
