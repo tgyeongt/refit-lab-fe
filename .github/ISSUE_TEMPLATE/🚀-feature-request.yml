@@ -25,7 +25,7 @@ body:
       description: "이 기능이 왜 필요한지, 어떤 문제를 해결하는지 작성해주세요."
       placeholder: "예: 야간 사용자들이 눈의 피로를 줄일 수 있습니다."
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: solution
