@@ -1,5 +1,5 @@
-import { cn, styles } from "@/libs/styles";
-import { MockEvent } from "@/types/event";
+import { cn, styles } from "@/app/event/libs/event-styles";
+import { MockEvent } from "@/app/event/types/event";
 import Image from "next/image";
 
 interface EventCardProps {

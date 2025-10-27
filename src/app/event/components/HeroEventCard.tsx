@@ -1,7 +1,6 @@
-import { MockEvent } from "@/types/event";
 import Image from "next/image";
-import { styles, cn } from "@/libs/styles";
-
+import { cn, styles } from "@/app/event/libs/event-styles";
+import { MockEvent } from "@/app/event/types/event";
 interface HeroEventCardProps {
   event: MockEvent;
 }

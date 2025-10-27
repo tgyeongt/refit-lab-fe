@@ -133,8 +133,8 @@ export const styles = {
 
   /** Position */
   position: {
-    heroBackButton: cn("absolute", "top-[229px]", "right-[98px]", "z-10"),
-    heroContent: cn("pb-[84px]", "absolute", "bottom-0", "left-0", "right-0"),
+    heroBackButton: cn("absolute", "top-[229px]", "right-[100px]", "z-10"),
+    heroContent: cn("pb-[91px]", "absolute", "bottom-0", "left-0", "right-0"),
     cardArrow: cn("absolute", "right-5", "top-6.5"),
     cardContent: cn("absolute", "left-[166px]", "right-6", "top-6"),
   },

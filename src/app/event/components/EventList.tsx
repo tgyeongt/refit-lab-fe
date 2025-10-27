@@ -1,7 +1,6 @@
-import { MockEvent } from "@/types/event";
+import { cn, styles } from "@/app/event/libs/event-styles";
+import { MockEvent } from "@/app/event/types/event";
 import EventCard from "./EventCard";
-import { cn, styles } from "@/libs/styles";
-
 interface EventListProps {
   event: MockEvent;
   title: string;
