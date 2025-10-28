@@ -1,5 +1,8 @@
 import { cn, styles } from "@/app/event/libs/event-styles";
 import { MockEvent } from "@/app/event/types/event";
+import { ArrowRight } from "@/shared/components/icons/ArrowRight";
+import { Calendar } from "@/shared/components/icons/Calendar";
+import { Pin } from "@/shared/components/icons/Pin";
 import Image from "next/image";
 
 interface EventCardProps {
@@ -18,7 +21,7 @@ export default function EventCard({ event }: EventCardProps) {
       {/* 썸네일 이미지 */}
       <div className={styles.component.thumbnailSmall}>
         <Image
-          src="/event/mockEventImg.jpg"
+          src="/image/mockEventImg.jpg"
           alt={event.title}
           fill
           className="object-cover"
@@ -27,7 +30,7 @@ export default function EventCard({ event }: EventCardProps) {
 
       {/* 우측 상단 화살표 버튼들 */}
       <button className={styles.position.cardArrow}>
-        <Image src="/icons/arrow-right.svg" alt="상세" width={10} height={7} />
+        <ArrowRight color="#424242" />
       </button>
 
       {/* 텍스트 컨텐츠 */}
@@ -46,13 +49,8 @@ export default function EventCard({ event }: EventCardProps) {
         <div className="flex gap-4">
           {/* 날짜 정보 */}
           <div className={cn(styles.component.iconGroup, styles.layout.mb3)}>
-            <Image
-              src="/icons/calendar.svg"
-              alt="날짜"
-              width={13.3}
-              height={12.8}
-            />
-            <span className={cn(styles.text.bodyXs, styles.color.gray400)}>
+            <Calendar color="#9E9E9E" className="-translate-y-px" />
+            <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
               {event.date}
             </span>
           </div>
@@ -61,12 +59,7 @@ export default function EventCard({ event }: EventCardProps) {
           <div
             className={cn(styles.component.iconGroupSmall, styles.layout.mb3)}
           >
-            <Image
-              src="/icons/pin-gray.svg"
-              alt="위치"
-              width={17}
-              height={17}
-            />
+            <Pin color="#9E9E9E" width={17} height={17} />
             <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
               {event.location}
             </span>

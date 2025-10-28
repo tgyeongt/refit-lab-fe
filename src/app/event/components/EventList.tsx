@@ -4,14 +4,9 @@ import EventCard from "./EventCard";
 interface EventListProps {
   event: MockEvent;
   title: string;
-  showMoreLink?: boolean;
 }
 
-export default function EventList({
-  event,
-  title,
-  showMoreLink = true,
-}: EventListProps) {
+export default function EventList({ event, title }: EventListProps) {
   return (
     <section className={cn("w-full", styles.layout.mb8, "px-4")}>
       {/* 섹션 헤더 */}
@@ -19,17 +14,15 @@ export default function EventList({
         <h2 className={cn(styles.text.sectionTitle, styles.color.black)}>
           {title}
         </h2>
-        {showMoreLink && (
-          <button
-            className={cn(
-              styles.text.bodySm,
-              styles.color.gray400,
-              styles.component.button
-            )}
-          >
-            더보기
-          </button>
-        )}
+        <button
+          className={cn(
+            styles.text.bodySm,
+            styles.color.gray400,
+            styles.component.button
+          )}
+        >
+          더보기
+        </button>
       </div>
 
       {/* 이벤트 카드 리스트 */}

@@ -35,11 +35,7 @@ export default function PartyEventsPage() {
         <EventList event={scheduledEvents} title="예정된 행사" />
 
         {/* 종료된 행사 섹션 */}
-        <EventList
-          event={endedEvents}
-          title="종료된 행사"
-          showMoreLink={false}
-        />
+        <EventList event={endedEvents} title="종료된 행사" />
       </main>
     </div>
   );

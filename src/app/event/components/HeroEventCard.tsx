@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { cn, styles } from "@/app/event/libs/event-styles";
 import { MockEvent } from "@/app/event/types/event";
-import MainEvent from "@/assets/image/21party.png";
-import Pin from "@/assets/icon/pin.svg";
 import { ArrowRight } from "@/shared/components/icons/ArrowRight";
+import { Pin } from "@/shared/components/icons/Pin";
 
 interface HeroEventCardProps {
   event: MockEvent;
@@ -14,13 +13,18 @@ export default function HeroEventCard({ event }: HeroEventCardProps) {
     <div className={cn(styles.component.card, styles.color.white, "h-[420px]")}>
       {/* 배경 이미지 + 그라데이션 오버레이 */}
       <div className={styles.layout.absoluteInset}>
-        <Image src={MainEvent} alt={event.title} width={361} height={361} />
+        <Image
+          src={"/image/21party.svg"}
+          alt={event.title}
+          width={361}
+          height={361}
+        />
         <div className="absolute inset-0 bg-linear-to-b from-transparent to-black/70" />
       </div>
 
       {/* 우측 상단 자세히 버튼 */}
       <button className={styles.position.heroBackButton}>
-        <ArrowRight color={"white"} width={12} height={9} />
+        <ArrowRight color={"white"} className="w-[19px] h-full" />
       </button>
 
       {/* 컨텐츠 영역 */}
@@ -45,7 +49,7 @@ export default function HeroEventCard({ event }: HeroEventCardProps) {
 
         {/* 위치 정보 */}
         <div className={cn(styles.component.iconGroup, styles.layout.mb2)}>
-          <Image src={Pin} alt="위치" width={17.48} height={17.48} />
+          <Pin color="white" width={17.48} height={17.48} />
           <span className={styles.text.description}>{event.location}</span>
         </div>
         {/* 행사 설명 */}

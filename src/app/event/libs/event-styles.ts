@@ -10,7 +10,7 @@ export const styles = {
   text: {
     heroTitle: cn(
       "text-[32px]",
-      "font-medium",
+      "font-semibold",
       "leading-[0.625]",
       "tracking-[-0.015625em]"
     ),
@@ -115,7 +115,8 @@ export const styles = {
       "justify-center",
       "px-[12px]",
       "py-[2px]",
-      "rounded"
+      "rounded",
+      "font-medium"
     ),
     thumbnailSmall: cn(
       "absolute",
