@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { bookingStyles } from '@/app/event/booking/(util)/booking-styles';
-import { cn } from '@/app/event/(util)/event-styles';
-import { EventDetail } from '../(util)/event-detail';
+import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
+import { cn } from "@/app/event/(util)/event-styles";
+import { EventDetail } from "../(util)/event-detail";
 
 interface EventInfoCardProps {
   eventDetail: EventDetail;
@@ -14,7 +14,7 @@ export const EventInfoCard = ({ eventDetail }: EventInfoCardProps) => {
       <h2
         className={cn(
           bookingStyles.text.sectionTitle,
-          'mb-[15px]',
+          "mb-[15px]",
           bookingStyles.color.textPrimary
         )}
       >
@@ -31,9 +31,7 @@ export const EventInfoCard = ({ eventDetail }: EventInfoCardProps) => {
           label="누적 교환 의류수"
           value={eventDetail.info.totalClothesExchanged}
         />
-        {eventDetail.info.recycledItems && (
-          <InfoRow label="재활용품" value={eventDetail.info.recycledItems} />
-        )}
+        {eventDetail.info.recycledItems && <span>재활용품</span>}
       </div>
     </div>
   );
@@ -45,7 +43,7 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => {
     <div
       className={cn(bookingStyles.text.body, bookingStyles.color.textPrimary)}
     >
-      <span className="font-medium">{label}:</span> <span>{value}</span>
+      <span>{label}:</span> <span className="font-semibold">{value}</span>
     </div>
   );
 };

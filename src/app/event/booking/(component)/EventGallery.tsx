@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { bookingStyles } from '@/app/event/booking/(util)/booking-styles';
-import { cn } from '@/app/event/(util)/event-styles';
-import { EventDetail } from '../(util)/event-detail';
+import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
+import { cn } from "@/app/event/(util)/event-styles";
+import { EventDetail } from "../(util)/event-detail";
+import { GalleryItem } from "./GalleryItem";
 
 interface EventGalleryProps {
   eventDetail: EventDetail;
@@ -20,19 +20,18 @@ export const EventGallery = ({
   const remainingCount = eventDetail.totalGalleryCount - displayImages.length;
 
   return (
-    <section className="w-full">
+    <section className={bookingStyles.component.infoCard}>
       <h2
         className={cn(
           bookingStyles.text.sectionTitle,
-          'ml-[45px]',
-          'mb-[47px]',
+          "mb-[15px]",
           bookingStyles.color.textPrimary
         )}
       >
         행사 정보
       </h2>
 
-      <div className={cn(bookingStyles.component.galleryGrid, 'mx-[42px]')}>
+      <div className={cn(bookingStyles.component.galleryGrid)}>
         {displayImages.map((imageUrl, index) => (
           <GalleryItem
             key={index}
@@ -46,46 +45,5 @@ export const EventGallery = ({
         ))}
       </div>
     </section>
-  );
-};
-
-/**
- * 갤러리 아이템 컴포넌트
- */
-interface GalleryItemProps {
-  imageUrl: string;
-  index: number;
-  showMoreOverlay: boolean;
-  remainingCount: number;
-  onMoreClick?: () => void;
-}
-
-const GalleryItem = ({
-  imageUrl,
-  showMoreOverlay,
-  remainingCount,
-  onMoreClick,
-}: GalleryItemProps) => {
-  return (
-    <div className={bookingStyles.component.galleryItem}>
-      <Image
-        src={imageUrl}
-        alt={`행사 갤러리 이미지 ${imageUrl}`}
-        fill
-        className="object-cover"
-        sizes="(max-width: 640px) 155px, 155px"
-      />
-      {showMoreOverlay && (
-        <button
-          onClick={onMoreClick}
-          className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white z-10 transition-opacity hover:opacity-90"
-        >
-          <span className={bookingStyles.text.galleryMore}>
-            {remainingCount}개
-          </span>
-          <span className={bookingStyles.text.galleryMore}>더보기</span>
-        </button>
-      )}
-    </div>
   );
 };

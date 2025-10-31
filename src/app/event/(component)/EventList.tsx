@@ -1,5 +1,5 @@
 import { cn, styles } from "@/app/event/(util)/event-styles";
-import { MockEvent } from "@/app/event/(util)/event";
+import { MockEvent } from "@/app/event/types/event";
 import { EventCard } from "./EventCard";
 interface EventListProps {
   event: MockEvent;

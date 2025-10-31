@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { EventDetailHero } from '@/app/event/booking/(component)/EventDetailHero';
-import { EventInfoCard } from '@/app/event/booking/(component)/EventInfoCard';
-import { EventGallery } from '@/app/event/booking/(component)/EventGallery';
-import { BookingButton } from '@/app/event/booking/(component)/BookingButton';
-import { bookingStyles } from '@/app/event/booking/(util)/booking-styles';
-import { cn } from '@/app/event/(util)/event-styles';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import mockEventDetail from '@/app/event/booking/(util)/mock-event-detail.json';
-import { EventDetail } from './(util)/event-detail';
+import { EventDetailHero } from "@/app/event/booking/(component)/EventDetailHero";
+import { EventInfoCard } from "@/app/event/booking/(component)/EventInfoCard";
+import { EventGallery } from "@/app/event/booking/(component)/EventGallery";
+import { BookingButton } from "@/app/event/booking/(component)/BookingButton";
+import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
+import { cn } from "@/app/event/(util)/event-styles";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
+import { EventDetail } from "./(util)/event-detail";
 
 // 행사 예약 상세 페이지
 export default function BookingPage() {
@@ -42,7 +42,7 @@ export default function BookingPage() {
   };
   const router = useRouter();
   const searchParams = useSearchParams();
-  const eventId = searchParams.get('id') || '1';
+  const eventId = searchParams.get("id") || "1";
 
   // 임시 상태 관리
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -68,22 +68,19 @@ export default function BookingPage() {
   // 자세히 알아보기
   const handleDetailClick = () => {
     // 추가 정보 모달 또는 페이지
-    console.log('자세히 알아보기 클릭');
+    console.log("자세히 알아보기 클릭");
   };
 
   // 로딩 상태
   if (isLoading) {
     return (
       <main
-        className={bookingStyles.color.bgPage}
-        style={{ minHeight: '100vh' }}
+        className={cn(
+          bookingStyles.color.bgPage,
+          "min-h-screen flex items-center justify-center"
+        )}
       >
-        <div
-          className={bookingStyles.layout.flexCenter}
-          style={{ height: '100vh' }}
-        >
-          <p className={bookingStyles.text.body}>로딩 중...</p>
-        </div>
+        <p className={bookingStyles.text.body}>로딩 중...</p>
       </main>
     );
   }
@@ -92,20 +89,18 @@ export default function BookingPage() {
     <main
       className={cn(
         bookingStyles.color.bgPage,
-        'w-full',
-        'max-w-[393px]',
-        'mx-auto',
-        'pb-20'
+        "w-full",
+        "max-w-[393px]",
+        "mb-[98px]",
+        "p-[16px]"
       )}
-      style={{ minHeight: '1646px' }}
     >
       {/* 히어로 섹션 */}
       <div
-        className={bookingStyles.component.card}
-        style={{
-          margin: '16px',
-          marginTop: '122px',
-        }}
+        className={cn(
+          bookingStyles.component.card,
+          bookingStyles.layout.mb30px
+        )}
       >
         <EventDetailHero
           eventDetail={eventDetail!}
@@ -114,12 +109,12 @@ export default function BookingPage() {
       </div>
 
       {/* 행사 정보 카드 */}
-      <div style={{ margin: '16px', marginTop: '24px' }}>
+      <div className={bookingStyles.layout.mb6}>
         <EventInfoCard eventDetail={eventDetail!} />
       </div>
 
       {/* 갤러리 섹션 */}
-      <div style={{ marginTop: '48px' }}>
+      <div className={bookingStyles.layout.mb7}>
         <EventGallery
           eventDetail={eventDetail!}
           onMoreClick={handleGalleryMore}

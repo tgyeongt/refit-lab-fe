@@ -13,11 +13,11 @@
     "recycledItems": "재활용품"
   },
   "galleryImages": [
-    "/image/mockEventImg.jpg",
-    "/image/mockEventImg.jpg",
-    "/image/mockEventImg.jpg",
+    "/image/mockClothesImg1.jpg",
+    "/image/mockClothesImg2.jpg",
+    "/image/mockClothesImg3.jpg",
     "/image/mockEventImg.jpg"
   ],
-  "totalGalleryCount": 22,
+  "totalGalleryCount": 26,
   "isReservable": true
 }

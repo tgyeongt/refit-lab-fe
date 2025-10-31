@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { bookingStyles } from '@/app/event/booking/(util)/booking-styles';
+import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 
 interface BookingButtonProps {
   isReservable: boolean;
@@ -15,14 +15,14 @@ export const BookingButton = ({
   onClick,
 }: BookingButtonProps) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-5 bg-white border-t border-[#E0E0E0] z-50">
+    <div className={bookingStyles.component.bookingButton}>
       <button
         onClick={onClick}
         disabled={!isReservable || isLoading}
         className={bookingStyles.component.buttonCTA}
         type="button"
       >
-        {isLoading ? '예약 중...' : '예약하기'}
+        {isLoading ? "예약 중..." : "예약하기"}
       </button>
     </div>
   );
