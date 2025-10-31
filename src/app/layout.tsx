@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/shared/providers";
 import Head from "next/head";
+import Header from "@/shared/components/Header";
+import Logo from "@/assets/icon/Logo.svg";
 
 export const metadata: Metadata = {
   title: "다시입다연구소",
   description: "당신이 다시 입을 때까지 연구합니다",
+  openGraph: {
+    images: [Logo],
+  },
 };
 
 export default function RootLayout({
@@ -16,9 +21,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="../assets/icon/Logo.svg" sizes="any" />
       </Head>
       <body>
+        <Header />
         <Providers>{children}</Providers>
       </body>
     </html>
