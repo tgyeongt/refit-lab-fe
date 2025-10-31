@@ -9,7 +9,7 @@ interface EventCardProps {
   event: MockEvent;
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export const EventCard = ({ event }: EventCardProps) => {
   return (
     <div
       className={cn(
@@ -63,7 +63,7 @@ export default function EventCard({ event }: EventCardProps) {
               color="#9E9E9E"
               width={17}
               height={17}
-              className="translate-y-[1.5px]"
+              className="translate-y-[2px]"
             />
             <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
               {event.location}
@@ -84,4 +84,4 @@ export default function EventCard({ event }: EventCardProps) {
       </div>
     </div>
   );
-}
+};
