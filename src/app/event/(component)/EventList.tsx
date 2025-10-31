@@ -1,6 +1,6 @@
-import { cn, styles } from "@/app/event/libs/event-styles";
-import { MockEvent } from "@/app/event/types/event";
-import EventCard from "./EventCard";
+import { cn, styles } from '@/app/event/(util)/event-styles';
+import { MockEvent } from '@/app/event/types/event';
+import EventCard from './EventCard';
 interface EventListProps {
   event: MockEvent;
   title: string;
@@ -8,7 +8,7 @@ interface EventListProps {
 
 export default function EventList({ event, title }: EventListProps) {
   return (
-    <section className={cn("w-full", styles.layout.mb8, "px-4")}>
+    <section className={cn('w-full', styles.layout.mb8, 'px-4')}>
       {/* 섹션 헤더 */}
       <div className={cn(styles.layout.flexBetween, styles.layout.mb5)}>
         <h2 className={cn(styles.text.sectionTitle, styles.color.black)}>

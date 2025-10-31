@@ -1,13 +1,13 @@
-import events from "@/app/event/mocks/events.json";
-import HeroEventCard from "@/app/event/components/HeroEventCard";
-import EventList from "@/app/event/components/EventList";
-import { cn, styles } from "@/app/event/libs/event-styles";
+import events from '@/app/event/(util)/events.json';
+import HeroEventCard from '@/app/event/(component)/HeroEventCard';
+import EventList from '@/app/event/(component)/EventList';
+import { cn, styles } from '@/app/event/(util)/event-styles';
 
 export default function PartyEventsPage() {
   const { upcomingEvent, scheduledEvents, endedEvents } = events;
 
   return (
-    <div className={cn("w-[393px]", "min-h-screen", styles.color.bgWhite)}>
+    <div className={cn('w-[393px]', 'min-h-screen', styles.color.bgWhite)}>
       {/* 메인 컨텐츠 */}
       <main className="pt-[61px]">
         {/* 다가오는 행사 섹션 */}
