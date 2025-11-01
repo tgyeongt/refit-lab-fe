@@ -25,6 +25,7 @@ export const BookingButton = ({
   };
   return (
     <div className={bookingStyles.component.bookingButton}>
+      {/* 임시 설정: 이미 예약한 행사인 경우 */}
       {!isReserved ? (
         <button
           className={cn(bookingStyles.component.buttonCTADisabled)}
