@@ -7,7 +7,14 @@ export default function PartyEventsPage() {
   const { upcomingEvent, scheduledEvents, endedEvents } = events;
 
   return (
-    <main className={cn("w-[393px]", "min-h-screen", styles.color.bgWhite, "pt-[61px]")}>
+    <main
+      className={cn(
+        "w-[393px]",
+        "min-h-screen",
+        styles.color.bgWhite,
+        "pt-[10px]"
+      )}
+    >
       {/* 다가오는 행사 섹션 */}
       <section className={styles.layout.px4}>
         <div className={cn(styles.layout.flexBetween, styles.layout.mb5)}>

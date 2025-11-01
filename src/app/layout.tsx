@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/shared/providers";
 import Head from "next/head";
-import Header from "@/shared/components/Header";
 import Logo from "@/assets/icon/Logo.svg";
 
 export const metadata: Metadata = {
@@ -24,7 +23,6 @@ export default function RootLayout({
         <link rel="icon" href="../assets/icon/Logo.svg" sizes="any" />
       </Head>
       <body>
-        <Header />
         <Providers>{children}</Providers>
       </body>
     </html>

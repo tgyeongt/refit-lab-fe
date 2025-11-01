@@ -130,6 +130,17 @@ export const bookingStyles = {
       "disabled:opacity-50",
       "disabled:cursor-not-allowed"
     ),
+    buttonCTADisabled: cn(
+      "w-full",
+      "h-[60px]",
+      "rounded-lg",
+      "text-white",
+      "font-semibold",
+      "items-center",
+      "justify-center",
+      "flex",
+      "bg-[#08B0B7]"
+    ),
     // 작은 버튼 (자세히 알아보기)
     buttonSmall: cn(
       "px-[15px]",
