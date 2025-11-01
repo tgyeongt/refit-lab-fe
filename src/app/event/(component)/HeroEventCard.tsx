@@ -25,8 +25,9 @@ export const HeroEventCard = ({ event }: HeroEventCardProps) => {
         <Image
           src={"/image/21party.svg"}
           alt={event.title}
-          width={361}
-          height={361}
+          fill
+          priority
+          className="pb-14.5"
         />
         <div className={styles.color.gradientOverlay} />
       </div>
