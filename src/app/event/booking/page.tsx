@@ -46,15 +46,15 @@ export default function BookingPage() {
 
   // 임시 상태 관리
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isBookingPending, setisBookingPending] = useState<boolean>(false);
+  const [isBookingPending, setIsBookingPending] = useState<boolean>(false);
 
   // 예약 처리
   const handleBooking = () => {
     if (!eventDetail) return;
 
-    setisBookingPending(true);
+    setIsBookingPending(true);
     setTimeout(() => {
-      setisBookingPending(false);
+      setIsBookingPending(false);
       setIsLoading(false);
     }, 1000);
   };

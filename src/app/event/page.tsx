@@ -9,9 +9,9 @@ export default function PartyEventsPage() {
   return (
     <main
       className={cn(
-        "w-[393px]",
-        "min-h-screen",
         styles.color.bgWhite,
+        "w-full",
+        "min-h-screen",
         "pt-[10px]"
       )}
     >

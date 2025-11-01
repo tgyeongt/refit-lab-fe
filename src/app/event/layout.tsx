@@ -1,10 +1,11 @@
 import Header from "@/shared/components/Header";
+import { ReactNode } from "react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="man-h-screen">{children}</main>
+      <main className="min-h-screen">{children}</main>
     </>
   );
 }
