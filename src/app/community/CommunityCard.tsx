@@ -32,11 +32,11 @@ export default function CommunityCard({ post }: CommunityCardProps) {
 
       <div className="flex justify-between items-center text-[13px] mt-[10px]">
         <span className="text-[#757575]">{post.time}</span>
-        <div className="flex gap-[10px] text-[#BDBDBD]">
+        <div className="flex gap-[10px] text-[#9E9E9E]">
           <span className="flex gap-[3px]">
             <LikeIcon /> {post.likes}
           </span>
-          <span className="flex gap-[5px]">
+          <span className="flex gap-[4px]">
             <CommentIcon />
             {post.comments}
           </span>

@@ -1,11 +1,25 @@
+import ProfileImg from "@/assets/image/Profile.png";
+
+export interface Comment {
+  id: number;
+  userName: string;
+  userProfile: string;
+  content: string;
+  time: string;
+  replies?: Comment[];
+}
+
 export interface CommunityPost {
   id: number;
+  tag: string;
   title: string;
   description: string;
   time: string;
   likes: number;
   comments: number;
-  tag: string;
+  userName: string;
+  userProfile: string;
+  commentList?: Comment[];
 }
 
 export const dataMap: Record<string, CommunityPost[]> = {
@@ -14,19 +28,38 @@ export const dataMap: Record<string, CommunityPost[]> = {
       id: 1,
       tag: "자유 질문",
       title: "수선 어떻게 시작하셨나요?",
-      description: "수선이 너무 어렵네요",
+      description:
+        "처음엔 재봉틀 돌리는 게 어렵더라고요. 다들 어떻게 시작하셨나요?",
       time: "11:15",
       likes: 5,
       comments: 2,
-    },
-    {
-      id: 2,
-      tag: "자유 질문",
-      title: "21파티 관련 질문드립니다.",
-      description: "사람들 많나요?",
-      time: "10:40",
-      likes: 8,
-      comments: 1,
+      userName: "김민지",
+      userProfile: ProfileImg.src,
+      commentList: [
+        {
+          id: 1,
+          userName: "이준호",
+          userProfile: ProfileImg.src,
+          content: "저는 엄마한테 배웠어요 ㅎㅎ",
+          time: "11:30",
+          replies: [
+            {
+              id: 2,
+              userName: "김민지",
+              userProfile: ProfileImg.src,
+              content: "우와 부럽네요!",
+              time: "11:40",
+            },
+          ],
+        },
+        {
+          id: 3,
+          userName: "박수연",
+          userProfile: ProfileImg.src,
+          content: "저도 독학했어요. 유튜브 영상 추천드려요!",
+          time: "11:45",
+        },
+      ],
     },
   ],
   "수선 꿀팁": [
@@ -38,15 +71,8 @@ export const dataMap: Record<string, CommunityPost[]> = {
       time: "14:20",
       likes: 10,
       comments: 4,
-    },
-    {
-      id: 4,
-      tag: "수선 꿀팁",
-      title: "패딩 지퍼 교체 비용 절약법",
-      description: "부품만 구매하면 훨씬 저렴해요.",
-      time: "15:10",
-      likes: 7,
-      comments: 0,
+      userName: "홍길동",
+      userProfile: ProfileImg.src,
     },
   ],
   "정보 공유": [
@@ -58,15 +84,8 @@ export const dataMap: Record<string, CommunityPost[]> = {
       time: "13:45",
       likes: 11,
       comments: 2,
-    },
-    {
-      id: 6,
-      tag: "정보 공유",
-      title: "원단별 세탁 방법",
-      description: "울, 린넨, 면 각각 다르게 관리해야 해요.",
-      time: "12:30",
-      likes: 9,
-      comments: 1,
+      userName: "이서연",
+      userProfile: ProfileImg.src,
     },
   ],
 };
