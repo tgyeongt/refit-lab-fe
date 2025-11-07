@@ -1,13 +1,16 @@
 "use client";
 
-import useHeader from "@/shared/hooks/useHeader";
+import { useState } from "react";
+import Content from "./Content";
+import FilterBar from "./FilterBar";
 
 export default function CommunityPage() {
-  // useHeader({ title: "제목1" });
-  useHeader({ showBack: true });
+  const [activeTab, setActiveTab] = useState<string>("전체");
+
   return (
-    <>
-      <p>Community</p>
-    </>
+    <div className="px-[20px]">
+      <FilterBar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Content activeTab={activeTab} />
+    </div>
   );
 }
