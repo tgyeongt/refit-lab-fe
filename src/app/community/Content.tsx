@@ -15,8 +15,8 @@ export default function Content({ activeTab }: ContentProps) {
 
   return (
     <div>
-      {contentList.map((post, index) => (
-        <CommunityCard key={index} post={post} />
+      {contentList.map((post) => (
+        <CommunityCard key={post.id} post={post} />
       ))}
 
       {contentList.length === 0 && (

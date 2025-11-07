@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import { CommunityPost } from "./dummyData";
 import LikeIcon from "@/assets/icon/Like.svg";
@@ -9,8 +10,16 @@ interface CommunityCardProps {
 }
 
 export default function CommunityCard({ post }: CommunityCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/community/${post.id}`);
+  };
   return (
-    <div className="p-[20px] border-t border-[#EEEEEE]">
+    <div
+      className="p-[20px] border-t border-[#EEEEEE]"
+      onClick={handleCardClick}
+    >
       <div className="inline-block bg-[#F5F5F5] text-[#642C8D] text-[12px] font-medium px-[10px] py-[4px] rounded-[5px] mb-[8px]">
         {post.tag}
       </div>
