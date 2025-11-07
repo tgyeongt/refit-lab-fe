@@ -3,9 +3,15 @@
 import { useState } from "react";
 import Content from "./Content";
 import FilterBar from "./FilterBar";
+import useHeader from "@/shared/hooks/useHeader";
 
 export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState<string>("전체");
+
+  useHeader({
+    showBack: false,
+    showMenu: true,
+  });
 
   return (
     <div className="px-[20px]">
