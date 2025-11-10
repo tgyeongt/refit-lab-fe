@@ -57,6 +57,7 @@ export default function BookingPage() {
       setIsBookingPending(false);
       setIsLoading(false);
     }, 1000);
+    router.push(`/event/booking/reservation`);
   };
 
   // 갤러리 더보기
