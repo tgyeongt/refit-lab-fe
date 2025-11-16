@@ -7,12 +7,12 @@ import { BookingButton } from "@/app/event/booking/(component)/BookingButton";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
 import { EventDetail } from "./(util)/event-detail";
 
-// 행사 예약 상세 페이지
-export default function BookingPage() {
+// useSearchParams를 사용하는 컴포넌트
+function BookingPageContent() {
   // mock 데이터 추출
   const {
     id,
@@ -128,5 +128,25 @@ export default function BookingPage() {
         onClick={handleBooking}
       />
     </main>
+  );
+}
+
+// 행사 예약 상세 페이지
+export default function BookingPage() {
+  return (
+    <Suspense
+      fallback={
+        <main
+          className={cn(
+            bookingStyles.color.bgPage,
+            "min-h-screen flex items-center justify-center"
+          )}
+        >
+          <p className={bookingStyles.text.body}>로딩 중...</p>
+        </main>
+      }
+    >
+      <BookingPageContent />
+    </Suspense>
   );
 }
