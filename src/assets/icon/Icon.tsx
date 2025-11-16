@@ -5,7 +5,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 // 아이콘 컴포넌트
-export const Icon = ({
+const Icon = ({
   size,
   width,
   height,
@@ -24,3 +24,5 @@ export const Icon = ({
     />
   );
 };
+
+export default Icon;

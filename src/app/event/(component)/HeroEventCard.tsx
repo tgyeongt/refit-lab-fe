@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { cn, styles } from "@/app/event/(util)/event-styles";
 import { MockEvent } from "@/app/event/types/event";
-import { ArrowRight } from "@/shared/components/icons/ArrowRight";
-import { Pin } from "@/shared/components/icons/Pin";
+import Icon from "@/assets/icon/Icon";
+import ArrowRight from "@/assets/icon/arrow-right.svg";
+import Pin from "@/assets/icon/pin.svg";
 import { useRouter } from "next/navigation";
 
 interface HeroEventCardProps {
@@ -34,7 +35,7 @@ export const HeroEventCard = ({ event }: HeroEventCardProps) => {
 
       {/* 우측 상단 자세히 버튼 */}
       <button className={styles.position.heroDetailButton}>
-        <ArrowRight color={"white"} className="w-[19px] h-full" />
+        <Icon icon={ArrowRight} color="white" size={21} />
       </button>
 
       {/* 컨텐츠 영역 */}
@@ -59,12 +60,7 @@ export const HeroEventCard = ({ event }: HeroEventCardProps) => {
 
         {/* 위치 정보 */}
         <div className={cn(styles.component.iconGroup, styles.layout.mb2)}>
-          <Pin
-            color="white"
-            width={17.48}
-            height={17.48}
-            className="translate-y-px"
-          />
+          <Icon icon={Pin} color="white" size={17.48} />
           <span className={styles.text.description}>{event.location}</span>
         </div>
         {/* 행사 설명 */}
