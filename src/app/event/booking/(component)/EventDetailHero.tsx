@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
-import { ArrowRight } from "@/shared/components/icons/ArrowRight";
+import { Icon } from "@/assets/icon/Icon";
+import ArrowRight from "@/assets/icon/arrow-right.svg";
 import { EventDetail } from "../(util)/event-detail";
 
 interface EventDetailHeroProps {

@@ -6,6 +6,7 @@ import { useHeaderStore } from "@/shared/stores/headerStore";
 import LogoIcon from "@/assets/icon/Logo.svg";
 import BackIcon from "@/assets/icon/ArrowLeft.svg";
 import MenuIcon from "@/assets/icon/Menu.svg";
+import { Icon } from "@/assets/icon/Icon";
 
 export default function Header() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Header() {
       <div className="flex items-center space-x-2 w-1/3">
         {showBack ? (
           <button onClick={() => router.back()}>
-            <BackIcon width={24} height={24} />
+            <Icon icon={BackIcon} color="#9E9E9E" size={24} />
           </button>
         ) : (
           <LogoIcon height={29} />
@@ -33,7 +34,7 @@ export default function Header() {
       <div className="flex justify-end w-1/3">
         {showMenu && (
           <button>
-            <MenuIcon width={24} height={24} />
+            <MenuIcon width={18.4} height={14} />
           </button>
         )}
       </div>
