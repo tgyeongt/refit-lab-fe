@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useHeaderStore } from "@/shared/stores/headerStore";
 
-import LogoIcon from "@/assets/icon/Logo.svg";
-import BackIcon from "@/assets/icon/ArrowLeft.svg";
-import MenuIcon from "@/assets/icon/Menu.svg";
+import LogoIcon from "@/assets/icon/logo.svg";
+import BackIcon from "@/assets/icon/arrow-left.svg";
+import MenuIcon from "@/assets/icon/menu.svg";
 
 export default function Header() {
   const router = useRouter();
