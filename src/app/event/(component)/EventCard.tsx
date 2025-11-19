@@ -1,10 +1,10 @@
 import { cn, styles } from "@/app/event/(util)/event-styles";
 import { MockEvent } from "@/app/event/types/event";
-import { Icon } from "@/assets/icon/Icon";
-import Image from "next/image";
+import Icon from "@/assets/icon/Icon";
 import ArrowRight from "@/assets/icon/arrow-right.svg";
 import Calendar from "@/assets/icon/calendar.svg";
 import Pin from "@/assets/icon/pin.svg";
+import Image from "next/image";
 interface EventCardProps {
   event: MockEvent;
 }
@@ -49,12 +49,7 @@ export const EventCard = ({ event }: EventCardProps) => {
         <div className="flex gap-4">
           {/* 날짜 정보 */}
           <div className={cn(styles.component.iconGroup, styles.layout.mb3)}>
-            <Icon
-              icon={Calendar}
-              color="#9E9E9E"
-              size={17}
-              className="translate-y-px"
-            />
+            <Icon icon={Calendar} color="#9E9E9E" size={17} />
             <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
               {event.date}
             </span>
