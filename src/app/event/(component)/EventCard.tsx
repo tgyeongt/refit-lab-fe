@@ -23,7 +23,8 @@ export const EventCard = ({ event }: EventCardProps) => {
         <Image
           src="/image/mockEventImg.jpg"
           alt={event.title}
-          fill
+          width={155}
+          height={155}
           className="object-cover"
         />
       </div>

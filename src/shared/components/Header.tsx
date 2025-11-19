@@ -6,7 +6,7 @@ import { useHeaderStore } from "@/shared/stores/headerStore";
 import LogoIcon from "@/assets/icon/Logo.svg";
 import BackIcon from "@/assets/icon/ArrowLeft.svg";
 import MenuIcon from "@/assets/icon/Menu.svg";
-import { Icon } from "@/assets/icon/Icon";
+import Icon from "@/assets/icon/Icon";
 
 export default function Header() {
   const router = useRouter();

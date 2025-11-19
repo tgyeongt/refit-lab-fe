@@ -7,8 +7,8 @@ import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
 import useHeader from "@/shared/hooks/useHeader";
 
 import { EventDetail } from "../(util)/event-detail";
-import { Icon } from "@/assets/icon/Icon";
-import Camera from "@/assets/icon/camera.svg";
+import Icon from "@/assets/icon/Icon";
+import CameraIcon from "@/assets/icon/camera.svg";
 
 interface ReservationPageProps {
   eventDetail?: EventDetail;
@@ -145,13 +145,7 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
             파티에 가져갈 옷을 골라주세요.
           </p>
           <div className="flex h-[200px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-[#EEE] bg-[#EEE]">
-            <Icon
-              icon={Camera}
-              color="#757575"
-              strokeWidth={3}
-              width={36}
-              height={35}
-            />
+            <Icon icon={CameraIcon} color="#757575" width={33} height={33} />
             <span className="text-[14px] font-medium leading-[1.193] tracking-[-0.036em] text-[#757575]">
               {clothesCount}/{MAX_CLOTHES_COUNT}
             </span>

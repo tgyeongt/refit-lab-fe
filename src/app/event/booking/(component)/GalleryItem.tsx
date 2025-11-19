@@ -9,6 +9,7 @@ interface GalleryItemProps {
   showMoreOverlay: boolean;
   remainingCount: number;
   onMoreClick?: () => void;
+  onImageClick?: () => void;
 }
 
 export const GalleryItem = ({
@@ -16,9 +17,18 @@ export const GalleryItem = ({
   showMoreOverlay,
   remainingCount,
   onMoreClick,
+  onImageClick,
 }: GalleryItemProps) => {
+  const handleClick = () => {
+    if (showMoreOverlay && onMoreClick) {
+      onMoreClick();
+    } else if (onImageClick) {
+      onImageClick();
+    }
+  };
+
   return (
-    <div className="relative">
+    <div className="relative cursor-pointer" onClick={handleClick}>
       <Image
         src={imageUrl}
         alt={`행사 갤러리 이미지 ${imageUrl}`}
@@ -28,7 +38,10 @@ export const GalleryItem = ({
       />
       {showMoreOverlay && (
         <button
-          onClick={onMoreClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            onMoreClick?.();
+          }}
           className={bookingStyles.component.galleryOverlay}
         >
           <span className={bookingStyles.text.galleryMore}>

@@ -1,13 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { EventDetail } from "../(util)/event-detail";
 import { GalleryItem } from "./GalleryItem";
+import { GalleryModal } from "./GalleryModal";
 
 interface EventGalleryProps {
   eventDetail: EventDetail;
-  onMoreClick: () => void;
+  onMoreClick?: () => void;
 }
 
 // 행사 갤러리 컴포넌트
@@ -15,35 +17,73 @@ export const EventGallery = ({
   eventDetail,
   onMoreClick,
 }: EventGalleryProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [initialImageIndex, setInitialImageIndex] = useState(0);
+
   // 최대 4개만 표시 (2x2 그리드)
   const displayImages = eventDetail.galleryImages.slice(0, 4);
   const remainingCount = eventDetail.totalGalleryCount - displayImages.length;
 
-  return (
-    <section className={bookingStyles.component.infoCard}>
-      <h2
-        className={cn(
-          bookingStyles.text.sectionTitle,
-          "mb-[15px]",
-          bookingStyles.color.textPrimary
-        )}
-      >
-        행사 정보
-      </h2>
+  // 더보기 버튼 클릭 핸들러
+  const handleMoreClick = () => {
+    // 더보기 버튼을 눌렀을 때는 5번째 이미지부터 시작 (인덱스 4)
+    // 만약 이미지가 4개 이하라면 마지막 이미지부터 시작
+    const startIndex = Math.min(4, eventDetail.galleryImages.length - 1);
+    setInitialImageIndex(startIndex);
+    setIsModalOpen(true);
+  };
 
-      <div className={cn(bookingStyles.component.galleryGrid)}>
-        {displayImages.map((imageUrl, index) => (
-          <GalleryItem
-            key={index}
-            imageUrl={imageUrl}
-            index={index}
-            // 마지막 아이템에 더보기 오버레이 표시
-            showMoreOverlay={index === 3 && remainingCount > 0}
-            remainingCount={remainingCount}
-            onMoreClick={onMoreClick}
-          />
-        ))}
-      </div>
-    </section>
+  // 이미지 클릭 핸들러
+  const handleImageClick = (index: number) => {
+    setInitialImageIndex(index);
+    setIsModalOpen(true);
+  };
+
+  // 모달 닫기 핸들러
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    // onMoreClick이 있으면 호출 (기존 동작 유지)
+    if (onMoreClick) {
+      onMoreClick();
+    }
+  };
+
+  return (
+    <>
+      <section className={bookingStyles.component.infoCard}>
+        <h2
+          className={cn(
+            bookingStyles.text.sectionTitle,
+            "mb-[15px]",
+            bookingStyles.color.textPrimary
+          )}
+        >
+          행사 정보
+        </h2>
+
+        <div className={cn(bookingStyles.component.galleryGrid)}>
+          {displayImages.map((imageUrl, index) => (
+            <GalleryItem
+              key={index}
+              imageUrl={imageUrl}
+              index={index}
+              // 마지막 아이템에 더보기 오버레이 표시
+              showMoreOverlay={index === 3 && remainingCount > 0}
+              remainingCount={remainingCount}
+              onMoreClick={handleMoreClick}
+              onImageClick={() => handleImageClick(index)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 갤러리 모달 */}
+      <GalleryModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        images={eventDetail.galleryImages}
+        initialIndex={initialImageIndex}
+      />
+    </>
   );
 };
