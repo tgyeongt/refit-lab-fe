@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/shared/providers";
 import Head from "next/head";
-import Logo from "@/assets/icon/Logo.svg";
+import Logo from "@/assets/icon/logo.svg";
 
 export const metadata: Metadata = {
   title: "다시입다연구소",
