@@ -1,5 +1,7 @@
-// src/app/(home)/LoginScreen.tsx
 "use client";
+
+import { useMutation } from "@tanstack/react-query";
+import { testLogin } from "./(api)/testLogin";
 
 import Icon from "@/assets/icon/Icon";
 import Logo from "@/assets/icon/logo.svg";
@@ -11,10 +13,19 @@ interface LoginScreenProps {
 }
 
 export default function LoginScreen({ onLogin }: LoginScreenProps) {
-  const handleLogin = () => {
-    localStorage.setItem("accessToken", "test-token");
-    onLogin(); // Layout에 로그인 상태 전달
-  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: testLogin,
+    onSuccess: (res) => {
+      const token = res.data;
+      if (token) {
+        localStorage.setItem("accessToken", token);
+        onLogin();
+      }
+    },
+    onError: (err) => {
+      console.error("로그인 실패:", err);
+    },
+  });
 
   return (
     <div className="flex flex-col items-center justify-center mx-auto min-h-screen max-w-3xl">
@@ -32,7 +43,8 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         </button>
 
         <button
-          onClick={handleLogin}
+          onClick={() => mutate()}
+          disabled={isPending}
           className="flex items-center justify-center gap-[30px] bg-[#F6F6F6] text-[#9E9E9E] py-3 rounded-[5px] font-semibold"
         >
           테스트 로그인
