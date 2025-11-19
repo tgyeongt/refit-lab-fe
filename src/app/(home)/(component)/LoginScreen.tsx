@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { testLogin } from "./(api)/testLogin";
+import { testLogin } from "../(api)/testLogin";
 
 import Icon from "@/assets/icon/Icon";
 import Logo from "@/assets/icon/logo.svg";
