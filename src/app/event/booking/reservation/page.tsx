@@ -44,7 +44,7 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
     if (isSubmitDisabled) return;
 
     setIsSubmitting(true);
-    // TODO: 예약 API 연동 시 여기에서 실제 요청을 호출하세요.
+
     window.setTimeout(() => {
       setIsSubmitting(false);
     }, 600);
@@ -59,6 +59,7 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
       >
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-3">
+            {/* 이름 */}
             <label
               htmlFor="reservation-name"
               className="text-[18px] font-semibold leading-[1.111] tracking-[-0.027em] text-[#141414]"

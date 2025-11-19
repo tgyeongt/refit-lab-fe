@@ -9,14 +9,10 @@ import { GalleryModal } from "./GalleryModal";
 
 interface EventGalleryProps {
   eventDetail: EventDetail;
-  onMoreClick?: () => void;
 }
 
 // 행사 갤러리 컴포넌트
-export const EventGallery = ({
-  eventDetail,
-  onMoreClick,
-}: EventGalleryProps) => {
+export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialImageIndex, setInitialImageIndex] = useState(0);
 
@@ -26,9 +22,7 @@ export const EventGallery = ({
 
   // 더보기 버튼 클릭 핸들러
   const handleMoreClick = () => {
-    // 더보기 버튼을 눌렀을 때는 5번째 이미지부터 시작 (인덱스 4)
-    // 만약 이미지가 4개 이하라면 마지막 이미지부터 시작
-    const startIndex = Math.min(4, eventDetail.galleryImages.length - 1);
+    const startIndex = Math.min(3, eventDetail.galleryImages.length - 1);
     setInitialImageIndex(startIndex);
     setIsModalOpen(true);
   };
@@ -42,10 +36,6 @@ export const EventGallery = ({
   // 모달 닫기 핸들러
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    // onMoreClick이 있으면 호출 (기존 동작 유지)
-    if (onMoreClick) {
-      onMoreClick();
-    }
   };
 
   return (

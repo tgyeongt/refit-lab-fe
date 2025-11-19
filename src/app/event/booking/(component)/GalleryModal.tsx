@@ -121,8 +121,8 @@ export const GalleryModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <Swiper
-          modules={[Navigation, Thumbs]}
-          thumbs={{ swiper: thumbsSwiper }}
+          modules={[Thumbs]}
+          thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
           onSwiper={setMainSwiper}
           onSlideChange={handleSlideChange}
           initialSlide={initialIndex}
@@ -134,18 +134,19 @@ export const GalleryModal = ({
             <SwiperSlide key={index}>
               <div
                 className={cn(
+                  "relative",
                   "w-full",
                   "h-full",
                   "flex",
                   "items-center",
-                  "justify-center"
+                  "justify-end"
                 )}
               >
                 <Image
                   src={imageUrl}
                   alt={`갤러리 이미지 ${index + 1}`}
                   fill
-                  className={cn("object-contain", "w-auto", "h-full")}
+                  className={cn("object-contain")}
                   priority={index === initialIndex}
                 />
               </div>
@@ -156,17 +157,30 @@ export const GalleryModal = ({
 
       {/* 하단 썸네일 및 카운터 */}
       <div
-        className={cn("w-full", "bg-black", "pt-[23px]", "pb-[14px]", "px-0")}
+        className={cn(
+          "flex",
+          "flex-col",
+          "justify-center",
+          "w-full",
+          "pt-[23px]"
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         {/* 썸네일 슬라이더 */}
-        <div className={cn("mb-[15px]", "px-[16px]")}>
+        <div className={cn("mb-2.5", "px-3")}>
           <Swiper
             modules={[Thumbs]}
-            onSwiper={setThumbsSwiper}
+            onSwiper={(swiper) => {
+              if (!swiper.destroyed) {
+                console.log("swiper", swiper);
+                setThumbsSwiper(swiper);
+              }
+            }}
             watchSlidesProgress
             spaceBetween={10}
             slidesPerView="auto"
+            centeredSlides
+            // centeredSlidesBounds
             className={cn("w-full")}
           >
             {images.map((imageUrl, index) => (
@@ -180,52 +194,67 @@ export const GalleryModal = ({
                     "w-full",
                     "h-full",
                     "rounded-[4px]",
-                    "overflow-hidden",
                     currentIndex === index
-                      ? "ring-2 ring-[#08B0B7] ring-offset-0"
-                      : ""
+                      ? "border-[1.5px]! border-[#08B0B7]"
+                      : "border-[1.5px]! border-transparent"
                   )}
                   onClick={() => {
                     mainSwiper?.slideTo(index);
                   }}
                 >
-                  <Image
-                    src={imageUrl}
-                    alt={`썸네일 ${index + 1}`}
-                    width={44}
-                    height={60}
+                  <div
                     className={cn(
-                      "object-cover",
+                      "relative",
                       "w-full",
                       "h-full",
-                      currentIndex === index ? "opacity-100" : "opacity-60"
+                      "overflow-hidden",
+                      "rounded-[2.5px]"
                     )}
-                  />
+                  >
+                    <Image
+                      src={imageUrl}
+                      alt={`썸네일 ${index + 1}`}
+                      width={66}
+                      height={84}
+                      className={cn(
+                        "object-cover",
+                        "w-full",
+                        "h-full",
+                        currentIndex === index ? "opacity-100" : "opacity-60"
+                      )}
+                    />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
+      </div>
 
-        {/* 카운터 */}
-        <div
-          className={cn("flex", "items-center", "justify-center", "gap-[10px]")}
-        >
-          <div className={cn("w-[24px]", "h-[24px]", "relative")}>
-            <Icon icon={gallery} className="w-[24px] h-[24px]" />
-          </div>
-          <span
-            className={cn(
-              "text-white",
-              "text-[14px]",
-              "font-medium",
-              "leading-[1.193]",
-              "tracking-[-0.035em]"
-            )}
-          >
-            {currentIndex + 1}/{images.length}
-          </span>
+      {/* 카운터 */}
+      <div
+        className={cn(
+          "flex",
+          "items-center",
+          "justify-center",
+          "gap-[10px]",
+          "pb-6"
+        )}
+      >
+        <div className={cn("w-[24px]", "h-[24px]", "relative")}>
+          <Icon icon={gallery} className="w-[24px] h-[24px]" />
         </div>
+        <span
+          className={cn(
+            "text-white",
+            "text-[14px]",
+            "font-medium",
+            "leading-[1.193]",
+            "tracking-[-0.035em]"
+          )}
+        >
+          {currentIndex + 1}/{images.length}
+        </span>
       </div>
     </div>
   );

@@ -60,12 +60,6 @@ function BookingPageContent() {
     router.push(`/event/booking/reservation`);
   };
 
-  // 갤러리 더보기
-  const handleGalleryMore = () => {
-    // 갤러리 전체 보기 페이지로 이동
-    router.push(`/event/booking/gallery?id=${eventId}`);
-  };
-
   // 자세히 알아보기
   const handleDetailClick = () => {
     // 추가 정보 모달 또는 페이지
@@ -116,10 +110,7 @@ function BookingPageContent() {
 
       {/* 갤러리 섹션 */}
       <div className={bookingStyles.layout.mb7}>
-        <EventGallery
-          eventDetail={eventDetail!}
-          onMoreClick={handleGalleryMore}
-        />
+        <EventGallery eventDetail={eventDetail!} />
       </div>
 
       {/* 예약하기 버튼 (하단 고정) */}
