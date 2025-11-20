@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Content from "./Content";
-import FilterBar from "./FilterBar";
+import Content from "./(component)/Content";
+import FilterBar from "./(component)/FilterBar";
 import useHeader from "@/shared/hooks/useHeader";
 
 export default function CommunityPage() {

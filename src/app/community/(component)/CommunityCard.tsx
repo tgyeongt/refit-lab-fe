@@ -1,9 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import { CommunityPost } from "./dummyData";
-import LikeIcon from "@/assets/icon/Like.svg";
-import CommentIcon from "@/assets/icon/Comment.svg";
+import { CommunityPost } from "../dummyData";
+import LikeIcon from "@/assets/icon/like.svg";
+import CommentIcon from "@/assets/icon/comment.svg";
 
 interface CommunityCardProps {
   post: CommunityPost;

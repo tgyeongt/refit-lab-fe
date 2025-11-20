@@ -1,7 +1,7 @@
 "use client";
 
 import CommunityCard from "./CommunityCard";
-import { dataMap } from "./dummyData";
+import { dataMap } from "../dummyData";
 
 interface ContentProps {
   activeTab: string;
