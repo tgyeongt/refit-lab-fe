@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs } from "swiper/modules";
+import { Thumbs } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -48,21 +48,51 @@ export const GalleryModal = ({
   useEffect(() => {
     if (!isOpen) return;
     if (!mainSwiper) return;
+    if (mainSwiper.destroyed) return;
 
-    mainSwiper.slideTo(initialIndex);
+    try {
+      mainSwiper.slideTo(initialIndex);
+    } catch (error) {
+      console.error("Swiper slideTo error:", error);
+    }
   }, [isOpen, initialIndex, mainSwiper]);
+
+  // 컴포넌트 언마운트 시 Swiper 인스턴스 정리
+  useEffect(() => {
+    return () => {
+      if (mainSwiper && !mainSwiper.destroyed) {
+        try {
+          mainSwiper.destroy(true, true);
+        } catch (error) {
+          console.error("Main Swiper 정리 오류:", error);
+        }
+      }
+      if (thumbsSwiper && !thumbsSwiper.destroyed) {
+        try {
+          thumbsSwiper.destroy(true, true);
+        } catch (error) {
+          console.error("Thumbs Swiper 정리 오류:", error);
+        }
+      }
+    };
+  }, [mainSwiper, thumbsSwiper]);
 
   if (!isOpen) return null;
 
+  // 모달 닫기
   const handleClose = () => {
     onClose();
   };
 
   const handleSlideChange = (swiper: SwiperType) => {
     setCurrentIndex(swiper.activeIndex);
-    // 썸네일 슬라이더가 현재 슬라이드로 스크롤되도록
-    if (thumbsSwiper) {
-      thumbsSwiper.slideTo(swiper.activeIndex);
+
+    if (thumbsSwiper && !thumbsSwiper.destroyed) {
+      try {
+        thumbsSwiper.slideTo(swiper.activeIndex);
+      } catch (error) {
+        console.error("Thumbs Swiper slideTo error:", error);
+      }
     }
   };
 
@@ -122,8 +152,16 @@ export const GalleryModal = ({
       >
         <Swiper
           modules={[Thumbs]}
-          thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
-          onSwiper={setMainSwiper}
+          thumbs={
+            thumbsSwiper && !thumbsSwiper.destroyed
+              ? { swiper: thumbsSwiper }
+              : undefined
+          }
+          onSwiper={(swiper) => {
+            if (swiper && !swiper.destroyed) {
+              setMainSwiper(swiper);
+            }
+          }}
           onSlideChange={handleSlideChange}
           initialSlide={initialIndex}
           className={cn("w-full", "h-full")}
@@ -171,8 +209,7 @@ export const GalleryModal = ({
           <Swiper
             modules={[Thumbs]}
             onSwiper={(swiper) => {
-              if (!swiper.destroyed) {
-                console.log("swiper", swiper);
+              if (swiper && !swiper.destroyed) {
                 setThumbsSwiper(swiper);
               }
             }}
@@ -180,7 +217,6 @@ export const GalleryModal = ({
             spaceBetween={10}
             slidesPerView="auto"
             centeredSlides
-            // centeredSlidesBounds
             className={cn("w-full")}
           >
             {images.map((imageUrl, index) => (
@@ -199,7 +235,13 @@ export const GalleryModal = ({
                       : "border-[1.5px]! border-transparent"
                   )}
                   onClick={() => {
-                    mainSwiper?.slideTo(index);
+                    if (mainSwiper && !mainSwiper.destroyed) {
+                      try {
+                        mainSwiper.slideTo(index);
+                      } catch (error) {
+                        console.error("Main Swiper slideTo error:", error);
+                      }
+                    }
                   }}
                 >
                   <div

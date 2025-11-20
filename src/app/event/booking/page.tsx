@@ -42,6 +42,7 @@ function BookingPageContent() {
   };
   const router = useRouter();
   const searchParams = useSearchParams();
+  // 이벤트 ID 추출 (현재는 1로 고정)
   const eventId = searchParams.get("id") || "1";
 
   // 임시 상태 관리
