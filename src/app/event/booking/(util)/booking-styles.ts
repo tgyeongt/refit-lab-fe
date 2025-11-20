@@ -189,5 +189,16 @@ export const bookingStyles = {
       "bg-white",
       "z-20"
     ),
+    // 참가자 배너
+    participantBanner: cn(
+      "w-full",
+      "h-[39px]",
+      "bg-[#EDD5F2]",
+      "flex",
+      "items-center",
+      "justify-center",
+      "px-[40px]",
+      "py-[10px]"
+    ),
   },
 } as const;

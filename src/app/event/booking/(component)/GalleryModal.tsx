@@ -134,7 +134,13 @@ export const GalleryModal = ({
             "cursor-pointer"
           )}
         >
-          <Icon icon={ArrowLeft} className="w-[28px] h-[28px] text-white" />
+          <Icon
+            icon={ArrowLeft}
+            color="#929292"
+            width={28}
+            height={28}
+            className="w-[28px] h-[28px]"
+          />
         </button>
       </div>
 

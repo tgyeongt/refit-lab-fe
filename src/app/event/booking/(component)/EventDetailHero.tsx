@@ -26,6 +26,25 @@ export const EventDetailHero = ({
           className="w-full h-[361px] object-cover"
           priority
         />
+        <div
+          className={cn(
+            bookingStyles.component.participantBanner,
+            "absolute",
+            "bottom-0",
+            "left-0",
+            "z-10"
+          )}
+        >
+          <span
+            className={cn(
+              bookingStyles.text.buttonText,
+              bookingStyles.color.textPurple
+            )}
+          >
+            🔥현재까지 {eventDetail.info.participantCapacity || "0명"}이
+            참가했어요!
+          </span>
+        </div>
       </div>
       {/* 콘텐츠 영역 */}
       <div
