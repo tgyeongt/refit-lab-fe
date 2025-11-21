@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { CommunityPost } from "../dummyData";
-import LikeIcon from "@/assets/icon/Like.svg";
-import CommentIcon from "@/assets/icon/Comment.svg";
+import LikeIcon from "@/assets/icon/like.svg";
+import CommentIcon from "@/assets/icon/comment.svg";
 
 interface QuestionSectionProps {
   post: CommunityPost;
