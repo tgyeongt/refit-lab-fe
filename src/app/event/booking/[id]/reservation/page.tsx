@@ -1,14 +1,16 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
 
 import { cn } from "@/app/event/(util)/event-styles";
 import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
 import useHeader from "@/shared/hooks/useHeader";
 
-import { EventDetail } from "../(util)/event-detail";
+import { EventDetail } from "../../(util)/event-detail";
 import Icon from "@/shared/components/Icon";
 import CameraIcon from "@/assets/icon/camera.svg";
+import { ReservationCompleteModal } from "./(component)/reservation-complete-modal";
 
 interface ReservationPageProps {
   eventDetail?: EventDetail;
@@ -17,6 +19,8 @@ interface ReservationPageProps {
 const MAX_CLOTHES_COUNT = 10;
 
 export default function ReservationPage({ eventDetail }: ReservationPageProps) {
+  const params = useParams();
+  const eventId = params.id as string;
   useHeader({ title: "행사 예약", showBack: true, showMenu: false });
 
   const detail: EventDetail = useMemo(() => {
@@ -30,6 +34,7 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
   const [clothesCount, setClothesCount] = useState(0);
   const [isEmailConsent, setIsEmailConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isSubmitDisabled =
     !name.trim() || !contact.trim() || !email.trim() || isSubmitting;
@@ -45,8 +50,10 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
 
     setIsSubmitting(true);
 
+    // 예약 처리 후 모달 열기
     window.setTimeout(() => {
       setIsSubmitting(false);
+      setIsModalOpen(true);
     }, 600);
   };
   console.log(isSubmitting);
@@ -206,6 +213,13 @@ export default function ReservationPage({ eventDetail }: ReservationPageProps) {
           {isSubmitting ? "예약 중..." : "예약하기"}
         </button>
       </form>
+
+      {/* 예약 완료 모달 */}
+      <ReservationCompleteModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        eventId={eventId}
+      />
     </main>
   );
 }

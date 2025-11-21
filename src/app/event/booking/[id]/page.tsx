@@ -6,14 +6,16 @@ import { EventGallery } from "@/app/event/booking/(component)/EventGallery";
 import { BookingButton } from "@/app/event/booking/(component)/BookingButton";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState, Suspense } from "react";
 import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
-import { EventDetail } from "./(util)/event-detail";
+import { EventDetail } from "../(util)/event-detail";
 
 // useSearchParams를 사용하는 컴포넌트
 function BookingPageContent() {
-  // mock 데이터 추출
+  const params = useParams();
+  const eventId = params.id as string;
+  // mock 데이터 추출 (실제로는 eventId로 API 호출)
   const {
     id,
     title,
@@ -41,9 +43,6 @@ function BookingPageContent() {
     isReservable,
   };
   const router = useRouter();
-  const searchParams = useSearchParams();
-  // 이벤트 ID 추출 (현재는 1로 고정)
-  const eventId = searchParams.get("id") || "1";
 
   // 임시 상태 관리
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -58,7 +57,7 @@ function BookingPageContent() {
       setIsBookingPending(false);
       setIsLoading(false);
     }, 1000);
-    router.push(`/event/booking/reservation`);
+    router.push(`/event/booking/${eventId}/reservation`);
   };
 
   // 자세히 알아보기

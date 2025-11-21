@@ -200,5 +200,52 @@ export const bookingStyles = {
       "px-[40px]",
       "py-[10px]"
     ),
+    // 모달 오버레이
+    modalOverlay: cn(
+      "fixed",
+      "inset-0",
+      "z-50",
+      "flex",
+      "items-center",
+      "justify-center",
+      "bg-black/50"
+    ),
+    // 모달 컨테이너
+    modalContainer: cn(
+      "w-[320px]",
+      "h-[180px]",
+      "bg-white",
+      "rounded-lg",
+      "flex",
+      "flex-col",
+      "items-center",
+      "justify-center",
+      "px-5",
+      "relative"
+    ),
+    // 모달 제목
+    modalTitle: cn(
+      "text-[18px]",
+      "font-semibold",
+      "leading-[1.111]",
+      "tracking-[-0.027em]",
+      "text-[#141414]",
+      "text-center",
+      "mb-8"
+    ),
+    // 모달 닫기 버튼
+    modalCloseButton: cn(
+      "w-[282px]",
+      "h-[45px]",
+      "rounded-lg",
+      "text-[18px]",
+      "font-semibold",
+      "leading-[1.111]",
+      "tracking-[-0.027em]",
+      "text-white",
+      "bg-[#642C8D]",
+      "transition-colors",
+      "hover:bg-[#54257D]"
+    ),
   },
 } as const;

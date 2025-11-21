@@ -16,7 +16,7 @@ export const HeroEventCard = ({ event }: HeroEventCardProps) => {
   const router = useRouter();
 
   const handleDetailClick = () => {
-    router.push(`/event/booking`);
+    router.push(`/event/booking/${event.id}`);
   };
 
   return (
