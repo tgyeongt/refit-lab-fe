@@ -26,7 +26,7 @@ export const BookingButton = ({
   return (
     <div className={bookingStyles.component.bookingButton}>
       {/* 임시 설정: 이미 예약한 행사인 경우 */}
-      {!isReserved ? (
+      {isReserved ? (
         <button
           className={cn(bookingStyles.component.buttonCTADisabled)}
           disabled={true}
@@ -41,7 +41,7 @@ export const BookingButton = ({
           className={bookingStyles.component.buttonCTA}
           type="button"
         >
-          {isLoading ? "예약 중..." : "예약하기"}
+          {isLoading ? "이동 중..." : "예약하기"}
         </button>
       )}
     </div>

@@ -1,16 +1,25 @@
+"use client";
+
 import { cn, styles } from "@/app/event/(util)/event-styles";
 import { MockEvent } from "@/app/event/types/event";
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import ArrowRight from "@/assets/icon/arrow-right.svg";
 import Calendar from "@/assets/icon/calendar.svg";
 import Pin from "@/assets/icon/pin.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface EventCardProps {
   event: MockEvent;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/event/booking/${event.id}`);
+  };
+
   return (
     <div
       className={cn(
@@ -24,13 +33,14 @@ export const EventCard = ({ event }: EventCardProps) => {
         <Image
           src="/image/mockEventImg.jpg"
           alt={event.title}
-          fill
+          width={155}
+          height={155}
           className="object-cover"
         />
       </div>
 
       {/* 우측 상단 화살표 버튼들 */}
-      <button className={styles.position.cardArrow}>
+      <button className={styles.position.cardArrow} onClick={handleCardClick}>
         <Icon icon={ArrowRight} color="#424242" size={16} />
       </button>
 

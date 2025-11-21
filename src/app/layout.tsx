@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head>
-        <link rel="icon" href="../assets/icon/Logo.svg" sizes="any" />
+        <link rel="icon" href="/assets/icon/logo.svg" sizes="any" />
       </Head>
       <body>
         <Providers>{children}</Providers>

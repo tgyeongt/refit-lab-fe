@@ -136,7 +136,7 @@ export const styles = {
       "rounded-xl",
       "overflow-hidden"
     ),
-    iconGroup: cn("flex", "items-center", "gap-1.5"),
+    iconGroup: cn("flex", "items-center", "gap-1"),
     iconGroupSmall: cn("flex", "items-center", "gap-1"),
     lineClamp2: cn("line-clamp-2"),
   },
