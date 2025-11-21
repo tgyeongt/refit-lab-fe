@@ -3,7 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { testLogin } from "../(api)/testLogin";
 
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import Logo from "@/assets/icon/logo.svg";
 import Kakao from "@/assets/icon/kakao.svg";
 import Naver from "@/assets/icon/naver.svg";

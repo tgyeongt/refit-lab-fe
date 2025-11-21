@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useHeaderStore } from "@/shared/stores/headerStore";
 
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import LogoIcon from "@/assets/icon/logo.svg";
 import BackIcon from "@/assets/icon/arrow-left.svg";
 import MenuIcon from "@/assets/icon/menu.svg";

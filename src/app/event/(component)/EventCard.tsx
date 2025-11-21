@@ -1,6 +1,6 @@
 import { cn, styles } from "@/app/event/(util)/event-styles";
 import { MockEvent } from "@/app/event/types/event";
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import ArrowRight from "@/assets/icon/arrow-right.svg";
 import Calendar from "@/assets/icon/calendar.svg";
 import Pin from "@/assets/icon/pin.svg";

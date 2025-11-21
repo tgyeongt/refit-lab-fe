@@ -1,5 +1,5 @@
 "use client";
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import LogoWhite from "@/assets/icon/logo-white.svg";
 
 export default function SplashScreen() {

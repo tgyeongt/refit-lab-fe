@@ -7,7 +7,7 @@ import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
 import useHeader from "@/shared/hooks/useHeader";
 
 import { EventDetail } from "../(util)/event-detail";
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import CameraIcon from "@/assets/icon/camera.svg";
 
 interface ReservationPageProps {

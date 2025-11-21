@@ -10,7 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import ArrowLeft from "@/assets/icon/arrow-left.svg";
 import gallery from "@/assets/icon/gallery.svg";
-import Icon from "@/assets/icon/Icon";
+import Icon from "@/shared/components/Icon";
 import { cn } from "@/app/event/(util)/event-styles";
 
 interface GalleryModalProps {
