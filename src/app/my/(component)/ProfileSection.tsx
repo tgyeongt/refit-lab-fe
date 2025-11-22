@@ -4,6 +4,7 @@ import Image from "next/image";
 import Icon from "@/shared/components/Icon";
 import PencilIcon from "@/assets/icon/pencil.svg";
 import { mypageStyles, cn } from "../(util)/mypage-styles";
+import ProfileImgUploader from "@/shared/components/ProfileImgUploader";
 
 interface ProfileSectionProps {
   userName: string;
@@ -19,8 +20,25 @@ export const ProfileSection = ({
       {/* 프로필 컨텐츠 */}
       <div className={mypageStyles.profile.content}>
         {/* 프로필 이미지 */}
-        <div className={cn("relative", "flex", "items-center", "gap-4", "rounded-full", "overflow-hidden")}>
-          <div className={cn("w-[81px]", "h-[81px]", "rounded-full", "overflow-hidden", "relative")}>
+        <div
+          className={cn(
+            "relative",
+            "flex",
+            "items-center",
+            "gap-4",
+            "rounded-full",
+            "overflow-hidden"
+          )}
+        >
+          <div
+            className={cn(
+              "w-[81px]",
+              "h-[81px]",
+              "rounded-full",
+              "overflow-hidden",
+              "relative"
+            )}
+          >
             <Image
               src={userProfile}
               alt={userName}
@@ -34,9 +52,7 @@ export const ProfileSection = ({
 
         {/* 사용자 이름 및 편집 버튼 */}
         <div className={mypageStyles.profile.userNameContainer}>
-          <button className={mypageStyles.profile.editButton}>
-            <Icon icon={PencilIcon} color="#642C8D" width={30} height={30} />
-          </button>
+          <ProfileImgUploader userName={userName} currentIgmUrl={userProfile} />
         </div>
       </div>
     </div>
