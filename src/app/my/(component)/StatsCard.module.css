@@ -1,0 +1,11 @@
+/* Recharts 포커스 스타일 제거 */
+.statsCardContainer svg:focus,
+.statsCardContainer svg:focus-visible,
+.statsCardContainer svg:active,
+.statsCardContainer svg *:focus,
+.statsCardContainer svg *:focus-visible,
+.statsCardContainer svg *:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
