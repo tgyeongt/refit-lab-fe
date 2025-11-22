@@ -4,12 +4,7 @@
   --background: #ffffff;
   --foreground: #141414;
   /* 그래프 카드 배경 */
-  --stats-card-bg: linear-gradient(
-    to bottom,
-    #ffffff 0%,
-    #ffffff 40%,
-    #a772cd 100%
-  );
+  --stats-card-bg: linear-gradient(to bottom, #ffffff 0%, #a772cd33 100%);
 }
 
 @font-face {

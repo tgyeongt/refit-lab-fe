@@ -118,7 +118,7 @@ export const mypageStyles = {
       "w-full",
       "max-w-[360px]",
       "h-[186px]",
-      "bg-[var(--stats-card-bg)]",
+      "[background:var(--stats-card-bg)]",
       "rounded-lg",
       "shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1)]",
       "py-[19px]",
@@ -133,7 +133,7 @@ export const mypageStyles = {
       "top-[26px]",
       "left-[13px]",
       "right-[13px]",
-      "bottom-[40px]",
+      "bottom-[44px]",
       "outline-none",
       "focus:outline-none"
     ),
