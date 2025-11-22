@@ -1,7 +1,7 @@
 "use client";
 
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { mypageStyles } from "../(util)/mypage-styles";
+import { mypageStyles, cn } from "../(util)/mypage-styles";
 import styles from "./StatsCard.module.css";
 
 interface StatsCardProps {
@@ -34,7 +34,7 @@ export const StatsCard = ({
   const chartData = generateChartData();
 
   return (
-    <div className={`${mypageStyles.stats.card} ${styles.statsCardContainer}`}>
+    <div className={cn(mypageStyles.stats.card, styles.statsCardContainer)}>
       {/* 탄소량 그래프 */}
       <div className={mypageStyles.stats.chart}>
         <ResponsiveContainer width="100%" height="100%">
@@ -67,9 +67,25 @@ export const StatsCard = ({
         <h3 className={mypageStyles.stats.title}>
           지금까지
           <br />
-          <span className="flex items-center gap-1 leading-[1.1em] tracking-[-0.02em]">
+          <span
+            className={cn(
+              "flex",
+              "items-center",
+              "gap-1",
+              "leading-[1.1em]",
+              "tracking-[-0.02em]"
+            )}
+          >
             내가 줄인
-            <span className="bg-[#E7F1F1] text-[#642C8D] px-1 py-0.5 rounded-sm">
+            <span
+              className={cn(
+                "bg-[#E7F1F1]",
+                "text-[#642C8D]",
+                "px-1",
+                "py-0.5",
+                "rounded-sm"
+              )}
+            >
               탄소량
             </span>
           </span>

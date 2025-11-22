@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Icon from "@/shared/components/Icon";
 import PencilIcon from "@/assets/icon/pencil.svg";
-import { mypageStyles } from "../(util)/mypage-styles";
+import { mypageStyles, cn } from "../(util)/mypage-styles";
 
 interface ProfileSectionProps {
   userName: string;
@@ -19,13 +19,13 @@ export const ProfileSection = ({
       {/* 프로필 컨텐츠 */}
       <div className={mypageStyles.profile.content}>
         {/* 프로필 이미지 */}
-        <div className="relative flex items-center gap-4 rounded-full overflow-hidden">
-          <div className="w-[81px] h-[81px] rounded-full overflow-hidden relative">
+        <div className={cn("relative", "flex", "items-center", "gap-4", "rounded-full", "overflow-hidden")}>
+          <div className={cn("w-[81px]", "h-[81px]", "rounded-full", "overflow-hidden", "relative")}>
             <Image
               src={userProfile}
               alt={userName}
               fill
-              className="object-contain"
+              className={cn("object-contain")}
             />
           </div>
 

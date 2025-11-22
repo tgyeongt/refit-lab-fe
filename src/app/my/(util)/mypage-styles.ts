@@ -11,12 +11,10 @@ export const mypageStyles = {
     container: cn(
       "w-full",
       "max-w-[393px]",
-      "min-h-screen",
       "bg-[#FCFCFC]",
       "flex",
       "flex-col",
-      "items-center",
-      "pb-20"
+      "items-center"
     ),
   },
 
@@ -40,21 +38,6 @@ export const mypageStyles = {
       "h-20",
       "pt-4"
     ),
-    imageBorder: cn(
-      "absolute",
-      "inset-0",
-      "rounded-full",
-      "bg-[#F5F5F7]",
-      "border-2",
-      "border-[#9E9E9E]"
-    ),
-    imageInner: cn(
-      "absolute",
-      "inset-[13.51px]",
-      "rounded-full",
-      "bg-[#E0E0E0]"
-    ),
-    image: cn("relative", "z-10", "rounded-full", "object-cover"),
     userNameContainer: cn("flex", "items-center", "gap-2", "relative"),
     userName: cn(
       "text-[20px]",
