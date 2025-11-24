@@ -1,6 +1,7 @@
 import Community from "./(component)/Community";
 import Exchange from "./(component)/Exchange";
 import Section from "./(component)/Section";
+import Sponser from "./(component)/Sponser";
 
 export default function HomePage() {
   return (
@@ -16,6 +17,7 @@ export default function HomePage() {
         content={<Community />}
         detailUrl="community"
       />
+      <Sponser />
     </main>
   );
 }
