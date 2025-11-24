@@ -4,7 +4,7 @@ import { dataMap } from "@/app/community/dummyData";
 export default function Community() {
   const allPosts = Object.values(dataMap).flat();
 
-  const topPosts = allPosts.sort((a, b) => b.likes - a.likes).slice(0, 2);
+  const topPosts = allPosts.sort((a, b) => b.likes - a.likes).slice(0, 3);
 
   return (
     <div className="px-[15px]">
