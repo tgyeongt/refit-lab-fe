@@ -21,7 +21,9 @@ export default function Header() {
             <Icon icon={BackIcon} color="#9E9E9E" size={24} />
           </button>
         ) : (
-          <LogoIcon height={29} />
+          <button onClick={() => router.push("/")}>
+            <LogoIcon height={29} />
+          </button>
         )}
       </div>
 
