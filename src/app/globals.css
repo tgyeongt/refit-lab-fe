@@ -30,3 +30,11 @@ body {
   color: #141414;
   min-height: 100vh;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
