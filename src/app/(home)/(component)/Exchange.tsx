@@ -6,8 +6,8 @@ export default function Exchange() {
     <div className="px-4 py-6">
       <div
         className="
-          flex gap-4 overflow-x-auto 
-          scrollbar-hide 
+          flex gap-4 overflow-x-auto h-[270px]
+          scrollbar-hide
           snap-x snap-mandatory
         "
       >

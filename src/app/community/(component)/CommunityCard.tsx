@@ -17,7 +17,7 @@ export default function CommunityCard({ post }: CommunityCardProps) {
   };
   return (
     <div
-      className="p-[20px] border-t border-[#EEEEEE]"
+      className="p-[20px] border-b border-[#EEEEEE]"
       onClick={handleCardClick}
     >
       <div className="inline-block bg-[#F5F5F5] text-[#642C8D] text-[12px] font-medium px-[10px] py-[4px] rounded-[5px] mb-[8px]">

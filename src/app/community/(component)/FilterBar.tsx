@@ -9,7 +9,7 @@ interface FilterBarProps {
 
 export default function FilterBar({ activeTab, setActiveTab }: FilterBarProps) {
   return (
-    <div className="flex justify-center py-4">
+    <div className="flex justify-center py-4 border-b border-[#EEEEEE]">
       <div className="flex gap-[10px]">
         {tabs.map((tab) => (
           <div key={tab} className="relative">
