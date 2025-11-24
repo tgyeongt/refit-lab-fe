@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import DummyImg from "@/assets/image/Profile.png";
+import Location from "@/assets/icon/pin.svg";
 
 interface ExchangeCardProps {
   id: number;
@@ -34,7 +35,10 @@ export default function ExchangeCard({
 
         <div className="px-[20px] py-[20px]">
           <h2 className="text-[18px] font-semibold">{title}</h2>
-          <p className="text-[12px] text-[#424242]">{location}</p>
+          <div className="flex gap-[5px] mt-[7px]">
+            <Location />
+            <span className="text-[12px] text-[#424242]">{location}</span>
+          </div>
         </div>
       </div>
     </Link>
