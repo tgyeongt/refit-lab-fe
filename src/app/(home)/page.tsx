@@ -1,3 +1,5 @@
+"use client";
+
 import Community from "./(component)/Community";
 import Exchange from "./(component)/Exchange";
 import Section from "./(component)/Section";
@@ -6,8 +8,14 @@ import Event from "./(component)/Event";
 import Footer from "./(component)/Footer";
 import MainSection from "./(component)/MainSection";
 import Navigation from "./(component)/Navigation";
+import useHeader from "@/shared/hooks/useHeader";
 
 export default function HomePage() {
+  useHeader({
+    showBack: false,
+    showMenu: true,
+  });
+
   return (
     <main>
       <MainSection />
