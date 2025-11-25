@@ -11,17 +11,23 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    setTimeout(() => setHasToken(!!token), 0);
 
-    const timer = setTimeout(() => setFadeOut(true), 2000);
-    return () => clearTimeout(timer);
+    if (token) {
+      queueMicrotask(() => {
+        setHasToken(true);
+        setShowSplash(false);
+      });
+    } else {
+      queueMicrotask(() => setHasToken(false));
+
+      const timer = setTimeout(() => setFadeOut(true), 2000);
+      return () => clearTimeout(timer);
+    }
   }, []);
-
-  if (hasToken === null) return null;
 
   return (
     <div className="relative w-full min-h-screen">
-      {showSplash && (
+      {showSplash && !hasToken && (
         <div
           className={`absolute inset-0 transition-opacity duration-200 ${
             fadeOut ? "opacity-0" : "opacity-100"
