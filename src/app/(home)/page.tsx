@@ -3,6 +3,7 @@ import Exchange from "./(component)/Exchange";
 import Section from "./(component)/Section";
 import Sponser from "./(component)/Sponser";
 import Event from "./(component)/Event";
+import Footer from "./(component)/Footer";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         detailUrl="community"
       />
       <Sponser />
+      <Footer />
     </main>
   );
 }
