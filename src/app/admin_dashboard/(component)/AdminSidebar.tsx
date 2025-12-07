@@ -5,7 +5,7 @@ import { clsx } from "clsx";
 import Icon from "@/shared/components/Icon";
 import HomeIcon from "@/assets/icon/home.svg";
 import ChartIcon from "@/assets/icon/chart.svg";
-import CommunityIcon from "@/assets/icon/community.svg";
+import CommunityIcon from "@/assets/icon/people.svg";
 import TagIcon from "@/assets/icon/ticket.svg";
 import QRCodeIcon from "@/assets/icon/QR.svg";
 import PartyReservIcon from "@/assets/icon/party-reserv.svg";

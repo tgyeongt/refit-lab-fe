@@ -1,17 +1,27 @@
-"use client";
-
 import { create } from "zustand";
 
-interface HeaderState {
+interface HeaderStore {
   title: string;
   showBack: boolean;
   showMenu: boolean;
-  setHeader: (state: Partial<HeaderState>) => void;
+
+  isSidebarOpen: boolean;
+
+  setHeader: (config: Partial<HeaderStore>) => void;
+  setSidebarOpen: (open: boolean) => void;
 }
 
-export const useHeaderStore = create<HeaderState>((set) => ({
+export const useHeaderStore = create<HeaderStore>((set) => ({
   title: "",
   showBack: false,
   showMenu: true,
-  setHeader: (state) => set((prev) => ({ ...prev, ...state })),
+  isSidebarOpen: false,
+
+  setHeader: (config) =>
+    set((state) => ({
+      ...state,
+      ...config,
+    })),
+
+  setSidebarOpen: (open) => set({ isSidebarOpen: open }),
 }));
