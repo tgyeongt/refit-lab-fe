@@ -7,6 +7,19 @@
   --stats-card-bg: linear-gradient(to bottom, #ffffff 0%, #a772cd33 100%);
 }
 
+@theme {
+  /* 관리자 페이지 커스텀 색상 */
+  --color-purple: #642C8D;
+  --color-purple2: #EDD5F2;
+  --color-gray-1: #F5F5F7;
+  --color-gray-5: #BDBDBD;
+  --color-gray-5A: #424242;
+  --color-gray-6: #9E9E9E;
+  --color-gray-7: #757575;
+  --color-black: #141414;
+  --color-white: #FFFFFF;
+}
+
 @font-face {
   font-family: "Pretendard Variable";
   src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Variable.woff2")

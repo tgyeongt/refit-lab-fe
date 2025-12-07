@@ -73,7 +73,7 @@ export const mypageStyles = {
       "px-9",
       "py-2"
     ),
-    membership: cn("flex", "items-center", "gap-2"),
+    membership: cn("flex", "items-center", "gap-3"),
     membershipText: cn(
       "text-[15px]",
       "font-semibold",
@@ -83,7 +83,7 @@ export const mypageStyles = {
       "text-center"
     ),
     divider: cn("w-0", "h-[11px]", "border-l", "border-[#642C8D]"),
-    ticket: cn("flex", "items-center", "gap-2", "translate-x-[-8px]"),
+    ticket: cn("flex", "items-center", "gap-3", "translate-x-[-8px]"),
     ticketText: cn(
       "text-[15px]",
       "font-semibold",
