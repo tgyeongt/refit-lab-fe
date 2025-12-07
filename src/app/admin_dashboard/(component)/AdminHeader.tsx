@@ -4,9 +4,15 @@ import ArrowLeftIcon from "@/assets/icon/arrow-left.svg";
 import LogoIcon from "@/assets/icon/logo.svg";
 import ProfileImg from "@/assets/image/Profile.png";
 import Image from "next/image";
+import { ProfileModal } from "./ProfileModal";
+import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
+import ModalPortal from "@/shared/components/ModalPortal";
 
 // 관리자 페이지 헤더
 export const AdminHeader = () => {
+  const { isOpen } = useModalInfo();
+  const { openModal, closeModal } = useModalActions();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-20 bg-white border-b border-gray-5">
       <div className="flex h-full items-center justify-between px-14">
@@ -27,16 +33,21 @@ export const AdminHeader = () => {
             />
           </div>
 
-          {/* 뒤로가기 버튼 */}
           <button
             type="button"
-            className="w-7 h-7 flex items-center justify-center"
-            aria-label="뒤로가기"
+            onClick={() => openModal("profile")}
+            className="w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="프로필 메뉴"
           >
             <ArrowLeftIcon className="w-7 h-7 rotate-270" />
           </button>
         </div>
       </div>
+
+      {/* 프로필 모달 */}
+      <ModalPortal>
+        <ProfileModal isOpen={isOpen} onClose={() => closeModal()} />
+      </ModalPortal>
     </header>
   );
 };
