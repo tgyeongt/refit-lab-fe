@@ -7,6 +7,8 @@ import Image from "next/image";
 import { ProfileModal } from "./ProfileModal";
 import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 import ModalPortal from "@/shared/components/ModalPortal";
+import { clsx } from "clsx";
+import Icon from "@/shared/components/Icon";
 
 // 관리자 페이지 헤더
 export const AdminHeader = () => {
@@ -35,11 +37,19 @@ export const AdminHeader = () => {
 
           <button
             type="button"
-            onClick={() => openModal("profile")}
-            className="w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
+            onClick={() => (isOpen ? closeModal() : openModal("profile"))}
+            className={clsx({
+              "w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded-md cursor-pointer transition-transform duration-300":
+                true,
+              "rotate-180": isOpen,
+            })}
             aria-label="프로필 메뉴"
           >
-            <ArrowLeftIcon className="w-7 h-7 rotate-270" />
+            <Icon
+              icon={ArrowLeftIcon}
+              className="w-7 h-7 rotate-270"
+              color="#9E9E9E"
+            />
           </button>
         </div>
       </div>
