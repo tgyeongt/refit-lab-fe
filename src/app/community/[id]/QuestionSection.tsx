@@ -21,7 +21,9 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
           height={35}
           className="rounded-full object-cover aspect-square"
         />
-        <p className="text-[16px] ml-[5px] mr-[10px]">{post.userName}</p>
+        <p className="text-[16px] font-medium ml-[8px] mr-[10px]">
+          {post.userName}
+        </p>
         <p className="text-[14px] text-[#757575]">{post.time}</p>
       </div>
 
@@ -34,10 +36,10 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
       {/* 좋아요 & 댓글 수 */}
       <div className="flex justify-center gap-[100px] text-sm text-[#9E9E9E]">
         <span className="flex items-center gap-[3px]">
-          <LikeIcon /> 좋아요 {post.likes}
+          <LikeIcon width={20} height={20} /> 좋아요 {post.likes}
         </span>
         <span className="flex items-center gap-[4px]">
-          <CommentIcon /> 댓글 {post.comments}
+          <CommentIcon width={20} height={20} /> 댓글 {post.comments}
         </span>
       </div>
     </section>
