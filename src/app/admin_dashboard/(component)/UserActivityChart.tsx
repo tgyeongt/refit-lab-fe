@@ -39,7 +39,7 @@ export const UserActivityChart = ({
 
   return (
     <div className="bg-white rounded-lg shadow-md">
-      <div className="border-b-2 border-gray-1 pt-11 pb-4 px-11">
+      <div className="border-b-2 border-gray-1 pt-8 pb-4 px-11">
         {/* 헤더 */}
         <div className="flex items-center justify-between mb-9">
           {/* 통계 정보 */}
@@ -156,9 +156,7 @@ export const UserActivityChart = ({
         </div>
 
         {/* 하단 월 표시 */}
-        <div className="pb-4">
-          <span className="text-[13px] text-gray-6">12월</span>
-        </div>
+        <span className="text-[13px] text-gray-6">12월</span>
       </div>
       {/* 기간 선택 드롭다운 */}
       <div className="flex items-center gap-2.5 px-8 py-3.5">

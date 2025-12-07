@@ -15,7 +15,7 @@ export const StatsCard = ({
   popularPages,
 }: StatsCardProps) => {
   return (
-    <div className="bg-purple rounded-lg p-11 shadow-md">
+    <div className="flex flex-col justify-between bg-purple rounded-lg p-6 shadow-md">
       {/* 타이틀 & 메인 숫자 */}
       <div className="mb-9">
         <h3 className="text-xl font-medium text-white mb-4">

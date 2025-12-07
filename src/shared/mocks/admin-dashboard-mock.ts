@@ -18,10 +18,10 @@ export const CHART_DATA_MOCK: ChartDataPoint[] = [
 
 // 인기 페이지 데이터
 export const POPULAR_PAGES_MOCK: PopularPage[] = [
-  { path: "/", activeUsers: 11 },
-  { path: "/", activeUsers: 11 },
-  { path: "/", activeUsers: 11 },
-  { path: "/", activeUsers: 11 },
+  { path: "/event/4", activeUsers: 11 },
+  { path: "/event/1", activeUsers: 11 },
+  { path: "/event/2", activeUsers: 11 },
+  { path: "/event/3", activeUsers: 11 },
 ];
 
 // 빠른 접근 카드 데이터

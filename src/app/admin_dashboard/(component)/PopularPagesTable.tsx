@@ -2,21 +2,17 @@
 
 import type { PopularPage } from "@/shared/types/admin";
 
-/**
- * 인기 페이지 테이블 Props
- */
+// 인기 페이지 테이블 Props
 interface PopularPagesTableProps {
   pages: PopularPage[];
 }
 
-/**
- * 인기 페이지 테이블 컴포넌트
- */
+// 인기 페이지 테이블 컴포넌트
 export const PopularPagesTable = ({ pages }: PopularPagesTableProps) => {
   return (
-    <div className="bg-purple2 rounded-lg px-6 py-5">
+    <div className="rounded-lg pb-5.5">
       {/* 헤더 */}
-      <div className="flex items-center justify-between mb-1 pb-[1px] border-b border-[#A772CD]">
+      <div className="flex items-center justify-between mb-1 border-b border-[#A772CD] w-full">
         <span className="text-[13px] text-purple2 font-normal">
           사용 중인 인기 페이지
         </span>
@@ -44,4 +40,3 @@ export const PopularPagesTable = ({ pages }: PopularPagesTableProps) => {
     </div>
   );
 };
-
