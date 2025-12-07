@@ -1,7 +1,3 @@
-/**
- * 관리자 대시보드 타입 정의
- */
-
 // 통계 카드 데이터
 export interface AdminStat {
   label: string;
@@ -27,9 +23,9 @@ export interface QuickAccessCard {
   id: string;
   title: string;
   description: string;
-  status: string; // "12개 진행중", "8개 활성화" etc.
-  icon: string; // 아이콘 이름
-  link: string; // 이동할 경로
+  status: string;
+  icon: string;
+  link: string;
 }
 
 // 대시보드 전체 데이터

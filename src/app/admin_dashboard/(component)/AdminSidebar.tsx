@@ -10,7 +10,6 @@ import TagIcon from "@/assets/icon/ticket.svg";
 import QRCodeIcon from "@/assets/icon/QR.svg";
 import PartyReservIcon from "@/assets/icon/party-reserv.svg";
 import { useState } from "react";
-import { constants } from "buffer";
 
 // 네비게이션 아이콘 목록
 type NavIconName = "home" | "party" | "chart" | "tag" | "qr" | "community";

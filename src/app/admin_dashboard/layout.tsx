@@ -16,7 +16,7 @@ export default function AdminLayout({
       <AdminSidebar />
 
       {/* 메인 콘텐츠 */}
-      <main className="ml-[219px] mt-20 p-14">{children}</main>
+      <main className="ml-[219px] mt-20 px-30 pt-9 pb-19">{children}</main>
     </div>
   );
 }

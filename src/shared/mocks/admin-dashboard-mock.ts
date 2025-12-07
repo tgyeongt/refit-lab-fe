@@ -27,11 +27,11 @@ export const POPULAR_PAGES_MOCK: PopularPage[] = [
 // 빠른 접근 카드 데이터
 export const QUICK_ACCESS_CARDS_MOCK: QuickAccessCard[] = [
   {
-    id: "event-management",
-    title: "행사 등록 및 예약 관리",
+    id: "party-management",
+    title: "행사 등록 및\n 예약 관리",
     description: "새로운 행사를 등록하고 \n참가자 예약을 관리합니다",
     status: "12개 진행중",
-    icon: "event",
+    icon: "party",
     link: "#",
   },
   {
