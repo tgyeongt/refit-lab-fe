@@ -6,9 +6,7 @@ import { UserActivityChart } from "./(component)/UserActivityChart";
 import { PopularPagesTable } from "./(component)/PopularPagesTable";
 import { QuickAccessCards } from "./(component)/QuickAccessCards";
 
-/**
- * 관리자 대시보드 홈 페이지
- */
+// 관리자 대시보드 홈 페이지
 export default function AdminDashboardPage() {
   const { data, isLoading, isError } = useAdminDashboardQuery();
 

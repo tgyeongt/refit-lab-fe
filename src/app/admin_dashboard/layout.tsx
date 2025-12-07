@@ -1,9 +1,7 @@
 import { AdminHeader } from "./(component)/AdminHeader";
 import { AdminSidebar } from "./(component)/AdminSidebar";
 
-/**
- * 관리자 페이지 레이아웃
- */
+// 관리자 페이지 레이아웃
 export default function AdminLayout({
   children,
 }: {

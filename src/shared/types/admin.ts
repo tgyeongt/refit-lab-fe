@@ -43,13 +43,3 @@ export interface AdminDashboardData {
   popularPages: PopularPage[];
   quickAccessCards: QuickAccessCard[];
 }
-
-// 네비게이션 메뉴 아이템
-export interface NavMenuItem {
-  id: string;
-  label: string;
-  icon: string;
-  path: string;
-  isActive?: boolean;
-}
-

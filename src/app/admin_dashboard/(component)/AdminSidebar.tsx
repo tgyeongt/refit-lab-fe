@@ -1,7 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { NAV_MENU_ITEMS_MOCK } from "@/shared/mocks/admin-dashboard-mock";
+// import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import Icon from "@/shared/components/Icon";
 import HomeIcon from "@/assets/icon/home.svg";
@@ -9,74 +8,124 @@ import ChartIcon from "@/assets/icon/chart.svg";
 import CommunityIcon from "@/assets/icon/community.svg";
 import TagIcon from "@/assets/icon/ticket.svg";
 import QRCodeIcon from "@/assets/icon/QR.svg";
-import CalendarIcon from "@/assets/icon/calendar.svg";
+import PartyReservIcon from "@/assets/icon/party-reserv.svg";
+import { useState } from "react";
+import { constants } from "buffer";
 
 // 네비게이션 아이콘 목록
-const IconComponent = [
+type NavIconName = "home" | "party" | "chart" | "tag" | "qr" | "community";
+
+// 네비게이션 메뉴 아이템
+interface NavMenuItem {
+  id: string;
+  label: string;
+  icon: string;
+  path: string;
+}
+
+// 네비게이션 메뉴 아이템
+const NAV_MENU_ITEMS_MOCK: NavMenuItem[] = [
   {
-    name: "home",
-    icon: HomeIcon,
+    id: "home",
+    label: "홈",
+    icon: "home",
+    path: "#",
   },
   {
-    name: "Calendar",
-    icon: CalendarIcon,
+    id: "party-registration",
+    label: "행사 등록",
+    icon: "party",
+    path: "#",
   },
   {
-    name: "chart",
-    icon: ChartIcon,
+    id: "exchange",
+    label: "교환 현황",
+    icon: "tag",
+    path: "#",
   },
   {
-    name: "tag",
-    icon: TagIcon,
+    id: "community",
+    label: "커뮤니티 관리",
+    icon: "community",
+    path: "#",
   },
   {
-    name: "qr",
-    icon: QRCodeIcon,
+    id: "checkin",
+    label: "체크인 현황",
+    icon: "qr",
+    path: "#",
   },
   {
-    name: "community",
-    icon: CommunityIcon,
+    id: "impact",
+    label: "임팩트 리포트",
+    icon: "chart",
+    path: "#",
   },
 ];
 
+const NAV_ICON_COMPONENTS: Record<NavIconName, typeof HomeIcon> = {
+  home: HomeIcon,
+  party: PartyReservIcon,
+  tag: TagIcon,
+  qr: QRCodeIcon,
+  community: CommunityIcon,
+  chart: ChartIcon,
+};
+
+interface NavIconProps {
+  name: NavIconName;
+  isActive: boolean;
+}
+
 // 네비게이션 아이콘
-const NavIcon = ({ icon, isActive }: { icon: string; isActive: boolean }) => {
-  const iconClass = clsx("w-5 h-5 text-gray-5A", isActive && "text-purple");
-  const iconComponent = IconComponent.find((item) => item.name === icon);
+const NavIcon = ({ name, isActive }: NavIconProps) => {
+  const iconComponent = NAV_ICON_COMPONENTS[name];
 
   if (!iconComponent) return null;
   return (
-    <Icon icon={iconComponent.icon} className={iconClass} strokeWidth={2} />
+    <Icon
+      icon={iconComponent}
+      className={clsx("w-5 h-5 text-gray-5A", isActive && "text-purple")}
+      strokeWidth={2}
+    />
   );
 };
 
 export const AdminSidebar = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
+  const [isActive, setIsActive] = useState<NavIconName>("home");
+
+  const handleClickNavItem = (id: NavIconName) => {
+    setIsActive(id);
+  };
 
   return (
     <aside className="fixed left-0 top-20 bottom-0 w-[219px] bg-white border-r border-gray-5">
       <nav className="flex flex-col">
         {/* 네비게이션 메뉴 */}
         {NAV_MENU_ITEMS_MOCK.map((item) => {
-          const isActive = pathname === item.path;
-
           return (
             <button
               key={item.id}
               type="button"
               className={clsx(
-                "h-20 flex items-center gap-4 px-8 border-b border-gray-5 transition-colors",
-                isActive ? "bg-white" : "hover:bg-gray-1"
+                "h-20 flex items-center gap-4 px-8  transition-colors cursor-pointer",
+                isActive === (item.icon as NavIconName)
+                  ? "bg-[#F4E4FF]"
+                  : "hover:bg-gray-1"
               )}
-              onClick={() => isActive}
+              onClick={() => handleClickNavItem(item.icon as NavIconName)}
             >
-              <NavIcon icon={item.icon} isActive={isActive} />
+              <NavIcon
+                name={item.icon as NavIconName}
+                isActive={isActive === (item.icon as NavIconName)}
+              />
               <span
                 className={clsx(
                   "text-xl",
-                  isActive
-                    ? "font-semibold text-purple"
-                    : "font-medium text-gray-5A"
+                  isActive === (item.icon as NavIconName)
+                    ? "text-purple"
+                    : "text-gray-5A"
                 )}
               >
                 {item.label}

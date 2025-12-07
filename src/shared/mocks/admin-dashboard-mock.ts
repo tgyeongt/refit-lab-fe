@@ -3,7 +3,6 @@ import type {
   ChartDataPoint,
   PopularPage,
   QuickAccessCard,
-  NavMenuItem,
 } from "@/shared/types/admin";
 
 // 차트 데이터
@@ -58,52 +57,6 @@ export const QUICK_ACCESS_CARDS_MOCK: QuickAccessCard[] = [
     status: "12개 리포트",
     icon: "community",
     link: "#",
-  },
-];
-
-// 네비게이션 메뉴 아이템
-export const NAV_MENU_ITEMS_MOCK: NavMenuItem[] = [
-  {
-    id: "home",
-    label: "홈",
-    icon: "home",
-    path: "#",
-    isActive: true,
-  },
-  {
-    id: "party-registration",
-    label: "행사 등록",
-    icon: "party",
-    path: "#",
-    isActive: false,
-  },
-  {
-    id: "exchange",
-    label: "교환 현황",
-    icon: "tag",
-    path: "#",
-    isActive: false,
-  },
-  {
-    id: "community",
-    label: "커뮤니티 관리",
-    icon: "community",
-    path: "#",
-    isActive: false,
-  },
-  {
-    id: "checkin",
-    label: "체크인 현황",
-    icon: "qr",
-    path: "#",
-    isActive: false,
-  },
-  {
-    id: "impact",
-    label: "임팩트 리포트",
-    icon: "chart",
-    path: "#",
-    isActive: false,
   },
 ];
 
