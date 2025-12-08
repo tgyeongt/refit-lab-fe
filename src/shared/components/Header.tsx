@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { useHeaderStore } from "@/shared/stores/headerStore";
 
 import Icon from "@/shared/components/Icon";
@@ -12,8 +13,28 @@ import Sidebar from "./SideBar";
 
 export default function Header() {
   const router = useRouter();
-  const { title, showBack, showMenu, rightElement, setSidebarOpen } =
-    useHeaderStore();
+  const pathname = usePathname();
+
+  const {
+    title,
+    showBack,
+    showMenu,
+    rightElement,
+    setHeader,
+    setRightElement,
+    setSidebarOpen,
+  } = useHeaderStore();
+
+  useEffect(() => {
+    setHeader({
+      title: "",
+      showBack: false,
+      showMenu: true,
+    });
+
+    setRightElement(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <>
@@ -33,7 +54,7 @@ export default function Header() {
 
         {/* 중앙: title */}
         <div className="flex justify-center w-1/3">
-          {title && <span className="text-lg font-medium">{title}</span>}
+          {title && <span className="text-[16px] font-medium">{title}</span>}
         </div>
 
         {/* 오른쪽: 메뉴 or 커스텀 요소 */}

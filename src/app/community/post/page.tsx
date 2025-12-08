@@ -1,13 +1,32 @@
 "use client";
 
-import useHeader from "@/shared/hooks/useHeader";
+import { useEffect } from "react";
+import { useHeaderStore } from "@/shared/stores/headerStore";
 
 export default function PostPage() {
-  useHeader({ showBack: true, showMenu: true });
+  const { setHeader, setRightElement } = useHeaderStore();
 
-  return (
-    <div className="px-[20px]">
-      <p>글쓰기 페이지</p>
-    </div>
-  );
+  useEffect(() => {
+    // 헤더 기본값
+    setHeader({
+      title: "글쓰기",
+      showBack: true,
+      showMenu: false,
+    });
+
+    // 오른쪽에 등록 버튼 추가
+    setRightElement(
+      <button
+        onClick={() => console.log("게시물 등록")}
+        className="text-blue-500 font-semibold text-[16px]"
+      >
+        등록
+      </button>
+    );
+
+    // 페이지를 떠날 때 오른쪽 버튼 초기화
+    return () => setRightElement(null);
+  }, [setHeader, setRightElement]);
+
+  return <div>여기가 글쓰기 페이지</div>;
 }
