@@ -12,7 +12,8 @@ import Sidebar from "./SideBar";
 
 export default function Header() {
   const router = useRouter();
-  const { title, showBack, showMenu, setSidebarOpen } = useHeaderStore();
+  const { title, showBack, showMenu, rightElement, setSidebarOpen } =
+    useHeaderStore();
 
   return (
     <>
@@ -35,13 +36,15 @@ export default function Header() {
           {title && <span className="text-lg font-medium">{title}</span>}
         </div>
 
-        {/* 오른쪽: menu */}
+        {/* 오른쪽: 메뉴 or 커스텀 요소 */}
         <div className="flex justify-end w-1/3">
-          {showMenu && (
-            <button onClick={() => setSidebarOpen(true)}>
-              <MenuIcon width={28} height={28} />
-            </button>
-          )}
+          {rightElement
+            ? rightElement
+            : showMenu && (
+                <button onClick={() => setSidebarOpen(true)}>
+                  <MenuIcon width={28} height={28} />
+                </button>
+              )}
         </div>
       </header>
 
