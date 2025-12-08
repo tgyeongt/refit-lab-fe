@@ -44,6 +44,9 @@ export default function CommentInputBar({
         p-3 flex items-center gap-3
         z-50
       "
+      style={{
+        boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.08)",
+      }}
     >
       <input
         className="
