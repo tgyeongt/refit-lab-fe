@@ -19,12 +19,13 @@ export default function Header() {
     title,
     showBack,
     showMenu,
-    rightElement,
+    rightButton,
     setHeader,
-    setRightElement,
+    setRightHeader,
     setSidebarOpen,
   } = useHeaderStore();
 
+  // 페이지 이동 시 기본 헤더 초기화
   useEffect(() => {
     setHeader({
       title: "",
@@ -32,9 +33,11 @@ export default function Header() {
       showMenu: true,
     });
 
-    setRightElement(null);
+    // 오른쪽 버튼 초기화 (null)
+    setRightHeader(null);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname]); // pathname 기준 헤더 초기화
 
   return (
     <>
@@ -52,20 +55,30 @@ export default function Header() {
           )}
         </div>
 
-        {/* 중앙: title */}
+        {/* 중앙 title */}
         <div className="flex justify-center w-1/3">
           {title && <span className="text-[16px] font-medium">{title}</span>}
         </div>
 
-        {/* 오른쪽: 메뉴 or 커스텀 요소 */}
+        {/* 오른쪽: 메뉴 or 커스텀 버튼 */}
         <div className="flex justify-end w-1/3">
-          {rightElement
-            ? rightElement
-            : showMenu && (
-                <button onClick={() => setSidebarOpen(true)}>
-                  <MenuIcon width={28} height={28} />
-                </button>
-              )}
+          {rightButton ? (
+            <button
+              onClick={rightButton.onClick || (() => {})}
+              disabled={rightButton.active}
+              className={`text-[16px] font-medium transition
+                ${rightButton.active ? "text-[#642C8D]" : "text-[#BDBDBD]"}
+              `}
+            >
+              {rightButton.text}
+            </button>
+          ) : (
+            showMenu && (
+              <button onClick={() => setSidebarOpen(true)}>
+                <MenuIcon width={28} height={28} />
+              </button>
+            )
+          )}
         </div>
       </header>
 

@@ -1,38 +1,37 @@
 import { create } from "zustand";
-import { ReactNode } from "react";
+
+interface RightButtonConfig {
+  text: string | null;
+  onClick: (() => void) | null;
+  active?: boolean;
+}
 
 interface HeaderStore {
   title: string;
   showBack: boolean;
   showMenu: boolean;
 
+  rightButton: RightButtonConfig | null;
+
   isSidebarOpen: boolean;
 
-  // ⭐ 오른쪽 커스텀 버튼 영역
-  rightElement: ReactNode | null;
-
   setHeader: (config: Partial<HeaderStore>) => void;
+  setRightHeader: (config: RightButtonConfig | null) => void;
   setSidebarOpen: (open: boolean) => void;
-
-  // ⭐ 오른쪽 영역 설정
-  setRightElement: (element: ReactNode | null) => void;
 }
 
 export const useHeaderStore = create<HeaderStore>((set) => ({
   title: "",
   showBack: false,
   showMenu: true,
+
+  rightButton: null,
+
   isSidebarOpen: false,
 
-  rightElement: null,
+  setHeader: (config) => set((state) => ({ ...state, ...config })),
 
-  setHeader: (config) =>
-    set((state) => ({
-      ...state,
-      ...config,
-    })),
+  setRightHeader: (config) => set({ rightButton: config }),
 
   setSidebarOpen: (open) => set({ isSidebarOpen: open }),
-
-  setRightElement: (element) => set({ rightElement: element }),
 }));
