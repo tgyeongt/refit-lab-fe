@@ -6,13 +6,19 @@ import CommentBlock from "./CommentBlock";
 
 interface CommentItemProps {
   comment: Comment;
+  onReplyClick: (id: number) => void;
 }
 
-export default function CommentItem({ comment }: CommentItemProps) {
+export default function CommentItem({
+  comment,
+  onReplyClick,
+}: CommentItemProps) {
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
+  const [likeCounts, setLikeCounts] = useState<Record<number, number>>({});
+
   const handleToggleMenu = (id: number) => {
-    setOpenMenuId(openMenuId === id ? null : id);
+    setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
   const handleReport = (id: number) => {
@@ -20,21 +26,32 @@ export default function CommentItem({ comment }: CommentItemProps) {
     setOpenMenuId(null);
   };
 
+  const handleLike = (id: number) => {
+    setLikeCounts((prev) => ({
+      ...prev,
+      [id]: (prev[id] ?? 0) + 1,
+    }));
+  };
+
   return (
     <div>
-      {/* 원 댓글 */}
+      {/* 원댓글 */}
       <CommentBlock
         id={comment.id}
         userProfile={comment.userProfile}
         userName={comment.userName}
         time={comment.time}
         content={comment.content}
+        isReply={false}
+        likeCount={likeCounts[comment.id] ?? 0}
+        onLike={handleLike}
+        onReplyClick={onReplyClick}
         openMenuId={openMenuId}
         handleToggleMenu={handleToggleMenu}
         handleReport={handleReport}
       />
 
-      {/* 대댓글 */}
+      {/* 대댓글 (있을 때만 렌더) */}
       {comment.replies && comment.replies.length > 0 && (
         <div className="ml-10 mt-3 space-y-3 bg-[#F5F5F7] p-[8px] rounded-[4px]">
           {comment.replies.map((reply) => (
@@ -45,7 +62,10 @@ export default function CommentItem({ comment }: CommentItemProps) {
               userName={reply.userName}
               time={reply.time}
               content={reply.content}
-              isReply
+              isReply={true}
+              likeCount={likeCounts[reply.id] ?? 0}
+              onLike={handleLike}
+              onReplyClick={onReplyClick}
               openMenuId={openMenuId}
               handleToggleMenu={handleToggleMenu}
               handleReport={handleReport}
