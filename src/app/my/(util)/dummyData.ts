@@ -31,7 +31,7 @@ export const myPageUser: MyPageUser = {
   id: 1,
   userName: "김재생",
   userProfile: ProfileImg.src,
-  membershipLevel: "맴버쉽 등급",
+  membershipLevel: "나의 뱃지",
   ticketCount: 0,
   exchangeCount: 5,
   carbonReduction: 750,

@@ -6,6 +6,7 @@ import { cn } from "@/app/event/(util)/event-styles";
 import { EventDetail } from "../(util)/event-detail";
 import { GalleryItem } from "./GalleryItem";
 import { GalleryModal } from "./GalleryModal";
+import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 
 interface EventGalleryProps {
   eventDetail: EventDetail;
@@ -13,7 +14,8 @@ interface EventGalleryProps {
 
 // 행사 갤러리 컴포넌트
 export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen: isModalOpen } = useModalInfo();
+  const { openModal, closeModal } = useModalActions();
   const [initialImageIndex, setInitialImageIndex] = useState(0);
 
   // 최대 4개만 표시 (2x2 그리드)
@@ -24,18 +26,18 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
   const handleMoreClick = () => {
     const startIndex = Math.min(3, eventDetail.galleryImages.length - 1);
     setInitialImageIndex(startIndex);
-    setIsModalOpen(true);
+    openModal("party-gallery");
   };
 
   // 이미지 클릭 핸들러
   const handleImageClick = (index: number) => {
     setInitialImageIndex(index);
-    setIsModalOpen(true);
+    openModal("party-gallery");
   };
 
   // 모달 닫기 핸들러
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    closeModal();
   };
 
   return (
