@@ -2,8 +2,8 @@
 
 import useHeader from "@/shared/hooks/useHeader";
 import { useParams } from "next/navigation";
-import QuestionSection from "./QuestionSection";
-import AnswerSection from "./AnswerSection";
+import QuestionSection from "./(component)/QuestionSection";
+import AnswerSection from "./(component)/AnswerSection";
 import { dataMap } from "../dummyData";
 
 export default function CommunityDetailPage() {

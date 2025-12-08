@@ -59,7 +59,7 @@ export default function Sidebar() {
             </div>
 
             <button onClick={() => setSidebarOpen(false)}>
-              <CloseIcon />
+              <CloseIcon width={13} height={13} />
             </button>
           </div>
 

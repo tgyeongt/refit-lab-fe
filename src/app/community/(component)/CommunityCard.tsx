@@ -34,10 +34,10 @@ export default function CommunityCard({ post }: CommunityCardProps) {
         <span className="text-[#757575]">{post.time}</span>
         <div className="flex gap-[10px] text-[#9E9E9E]">
           <span className="flex gap-[3px]">
-            <LikeIcon /> {post.likes}
+            <LikeIcon width={20} height={20} /> {post.likes}
           </span>
           <span className="flex gap-[4px]">
-            <CommentIcon />
+            <CommentIcon width={20} height={20} />
             {post.comments}
           </span>
         </div>
