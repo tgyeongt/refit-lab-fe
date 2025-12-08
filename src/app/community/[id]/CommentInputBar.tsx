@@ -3,15 +3,15 @@
 import { useState, useEffect, useRef } from "react";
 import SendIcon from "@/assets/icon/send.svg";
 
-interface ReplyInputBarProps {
+interface CommentInputBarProps {
   onSubmit: (text: string) => void;
   onClose: () => void;
 }
 
-export default function ReplyInputBar({
+export default function CommentInputBar({
   onSubmit,
   onClose,
-}: ReplyInputBarProps) {
+}: CommentInputBarProps) {
   const [value, setValue] = useState("");
   const barRef = useRef<HTMLDivElement | null>(null);
 

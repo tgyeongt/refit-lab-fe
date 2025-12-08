@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Comment } from "../dummyData";
 import CommentItem from "./CommentItem";
-import ReplyInputBar from "./ReplyInputBar";
+import CommentInputBar from "./CommentInputBar";
 
 interface AnswerSectionProps {
   comments: Comment[];
@@ -18,7 +18,7 @@ export default function AnswerSection({ comments }: AnswerSectionProps) {
 
   const handleSubmitReply = (text: string) => {
     console.log(`답글 대상: ${replyTargetId}, 내용: ${text}`);
-    setReplyTargetId(null); // 입력창 닫기
+    setReplyTargetId(null);
   };
 
   return (
@@ -35,9 +35,9 @@ export default function AnswerSection({ comments }: AnswerSectionProps) {
         ))}
       </div>
 
-      {/* 하단 고정 답글 입력창 (모바일용) */}
+      {/* 입력창 */}
       {replyTargetId !== null && (
-        <ReplyInputBar
+        <CommentInputBar
           onSubmit={(text) => handleSubmitReply(text)}
           onClose={() => setReplyTargetId(null)}
         />
