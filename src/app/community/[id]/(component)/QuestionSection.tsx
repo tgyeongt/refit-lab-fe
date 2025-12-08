@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { CommunityPost } from "../dummyData";
+import { CommunityPost } from "../../dummyData";
 import LikeIcon from "@/assets/icon/like.svg";
 import CommentIcon from "@/assets/icon/comment.svg";
 import CommentInputBar from "./CommentInputBar";

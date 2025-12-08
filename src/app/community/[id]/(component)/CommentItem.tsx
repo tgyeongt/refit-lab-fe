@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Comment } from "../dummyData";
+import { Comment } from "../../dummyData";
 import CommentBlock from "./CommentBlock";
 
 interface CommentItemProps {
