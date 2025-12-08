@@ -23,7 +23,10 @@ export default function RootLayout({
         <link rel="icon" href="/assets/icon/logo.svg" sizes="any" />
       </Head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <div id="modal-root"></div>
+        </Providers>
       </body>
     </html>
   );

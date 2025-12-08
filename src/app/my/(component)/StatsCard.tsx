@@ -80,7 +80,7 @@ export const StatsCard = ({
             <span
               className={cn(
                 "bg-[#E7F1F1]",
-                "text-[#642C8D]",
+                "text-purple",
                 "px-1",
                 "py-0.5",
                 "rounded-sm"

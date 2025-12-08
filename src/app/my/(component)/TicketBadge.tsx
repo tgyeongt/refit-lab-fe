@@ -14,9 +14,10 @@ export const TicketBadge = ({ count }: TicketBadgeProps) => {
       <Icon
         icon={TicketIcon}
         color="#642C8D"
-        width={24}
-        height={24}
-        className="translate-y-[2px]"
+        width={20}
+        height={20}
+        strokeWidth={1.5}
+        className="translate-y-[px]"
       />
       <span className={mypageStyles.badges.ticketText}>보유 티켓</span>
     </div>

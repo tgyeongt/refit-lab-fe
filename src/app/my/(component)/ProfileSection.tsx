@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Icon from "@/shared/components/Icon";
-import PencilIcon from "@/assets/icon/pencil.svg";
 import { mypageStyles, cn } from "../(util)/mypage-styles";
 import ProfileImgUploader from "@/shared/components/ProfileImgUploader";
 
