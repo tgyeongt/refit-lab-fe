@@ -39,7 +39,7 @@ export default function Header() {
         <div className="flex justify-end w-1/3">
           {showMenu && (
             <button onClick={() => setSidebarOpen(true)}>
-              <MenuIcon width={18.4} height={14} />
+              <MenuIcon width={28} height={28} />
             </button>
           )}
         </div>
