@@ -9,7 +9,7 @@ export default function RecommendCard({ item }: { item: CardItem }) {
   const router = useRouter();
 
   const goToDetail = () => {
-    router.push(`/exchange/item/${item.id}`);
+    router.push(`/exchange/${item.id}`);
   };
 
   return (

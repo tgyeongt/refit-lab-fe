@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PinIcon from "@/assets/icon/pin.svg";
-import ClothesImage from "@/assets/image/clothes.png";
+import ClothesImg from "@/assets/image/clothes.png";
 import Image from "next/image";
 import useLocationFetch from "../(hook)/useLocationFetch";
 import useLocationStore from "@/shared/stores/locationStore";
@@ -64,7 +64,7 @@ export default function ExchangeSection() {
         </div>
 
         <Image
-          src={ClothesImage}
+          src={ClothesImg}
           alt="exchange"
           width={110}
           height={110}
