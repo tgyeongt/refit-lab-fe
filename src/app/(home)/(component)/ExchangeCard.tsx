@@ -35,7 +35,7 @@ export default function ExchangeCard({
 
         <div className="px-[20px] py-[20px]">
           <h2 className="text-[18px] font-semibold">{title}</h2>
-          <div className="flex gap-[5px] mt-[7px] items-center">
+          <div className="flex gap-[3px] mt-[7px] items-center">
             <Location width={17} height={17} />
             <span className="text-[12px] text-[#424242]">{location}</span>
           </div>
