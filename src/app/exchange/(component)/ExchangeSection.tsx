@@ -6,10 +6,23 @@ import PinIcon from "@/assets/icon/pin.svg";
 import ClothesImage from "@/assets/image/clothes.png";
 import Image from "next/image";
 import useLocationFetch from "../(hook)/useLocationFetch";
+import useLocationStore from "@/shared/stores/locationStore";
 
 export default function ExchangeSection() {
   const router = useRouter();
   const { location, loading, fetchLocation } = useLocationFetch();
+
+  const { setLocation, setLoading } = useLocationStore();
+
+  useEffect(() => {
+    setLoading(loading);
+  }, [loading, setLoading]);
+
+  useEffect(() => {
+    if (location) {
+      setLocation(location);
+    }
+  }, [location, setLocation]);
 
   useEffect(() => {
     fetchLocation();
@@ -23,7 +36,6 @@ export default function ExchangeSection() {
     <div className="my-[15px] px-[20px]">
       <p className="font-semibold text-[20px]">의류 교환</p>
 
-      {/* 위치 영역 */}
       <div className="flex gap-[4px] items-center mt-[10px]">
         <PinIcon width={20} height={20} color="#424242" />
         <span className="text-[16px] text-[#424242] mr-[20px]">
@@ -37,7 +49,7 @@ export default function ExchangeSection() {
 
       {/* 교환 배너 */}
       <div className="flex bg-[#F6E9FF] py-[25px] pl-[25px] pr-[10px] rounded-[8px] mt-[15px] justify-between items-center">
-        <div className="flex flex-col">
+        <div>
           <p className="text-[20px] font-semibold my-[5px]">
             의류 교환하러 가기
           </p>

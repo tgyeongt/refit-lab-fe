@@ -5,7 +5,7 @@ import ExchangeSection from "./(component)/ExchangeSection";
 import RecommendSection from "./(component)/RecommendSection";
 import RecentSection from "./(component)/RecentSection";
 
-export default function CommunityPage() {
+export default function ExchangePage() {
   useHeader({
     showBack: false,
     showMenu: true,
