@@ -18,7 +18,7 @@ export default function RecommendSection() {
 
       <FilterBar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="overflow-x-auto bg-[#642C8D] px-[20px]">
+      <div className="overflow-x-auto bg-[#642C8D] px-[20px] scrollbar-hide">
         <div className="flex gap-[15px] py-[20px] min-w-max">
           {items.map((item) => (
             <RecommendCard key={item.id} item={item} />
