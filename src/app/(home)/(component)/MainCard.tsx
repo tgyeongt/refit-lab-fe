@@ -26,8 +26,8 @@ export default function MainCard({
 
         <span className="text-[20px] font-semibold mb-1">{title}</span>
 
-        <div className="flex items-center gap-[5px]">
-          <Location color="white" />
+        <div className="flex items-center gap-[4px]">
+          <Location width={18.25} height={18.25} color="white" />
           <span className="text-[14px] font-medium">{location}</span>
         </div>
       </div>
