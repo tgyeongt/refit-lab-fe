@@ -3,7 +3,7 @@
 import useHeader from "@/shared/hooks/useHeader";
 import ExchangeSection from "./(component)/ExchangeSection";
 import RecommendSection from "./(component)/RecommendSection";
-import RecentSection from "./(component)/RecentSection";
+import LocalSection from "./(component)/LocalSection";
 
 export default function ExchangePage() {
   useHeader({
@@ -15,7 +15,7 @@ export default function ExchangePage() {
     <div>
       <ExchangeSection />
       <RecommendSection />
-      <RecentSection />
+      <LocalSection />
     </div>
   );
 }
