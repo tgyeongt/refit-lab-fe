@@ -20,7 +20,7 @@ export default function ExchangeSection() {
   };
 
   return (
-    <div className="my-[15px]">
+    <div className="my-[15px] px-[20px]">
       <p className="font-semibold text-[20px]">의류 교환</p>
 
       {/* 위치 영역 */}
