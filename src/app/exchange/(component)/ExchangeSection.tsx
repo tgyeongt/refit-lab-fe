@@ -1,35 +1,33 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import PinIcon from "@/assets/icon/pin.svg";
 import ClothesImage from "@/assets/image/clothes.png";
 import Image from "next/image";
 import useLocationFetch from "../(hook)/useLocationFetch";
 import useLocationStore from "@/shared/stores/locationStore";
+import ExchangeBottomSheet from "./ExchangeBottomSheet";
 
 export default function ExchangeSection() {
-  const router = useRouter();
   const { location, loading, fetchLocation } = useLocationFetch();
-
   const { setLocation, setLoading } = useLocationStore();
+
+  const [openSheet, setOpenSheet] = useState(false);
 
   useEffect(() => {
     setLoading(loading);
   }, [loading, setLoading]);
 
   useEffect(() => {
-    if (location) {
-      setLocation(location);
-    }
+    if (location) setLocation(location);
   }, [location, setLocation]);
 
   useEffect(() => {
     fetchLocation();
   }, [fetchLocation]);
 
-  const goToExchange = () => {
-    router.push("/exchange/post");
+  const openBottomSheet = () => {
+    setOpenSheet(true);
   };
 
   return (
@@ -47,7 +45,6 @@ export default function ExchangeSection() {
         </button>
       </div>
 
-      {/* 교환 배너 */}
       <div className="flex bg-[#F6E9FF] py-[25px] pl-[25px] pr-[10px] rounded-[8px] mt-[15px] justify-between items-center">
         <div>
           <p className="text-[20px] font-semibold my-[5px]">
@@ -59,9 +56,8 @@ export default function ExchangeSection() {
           </p>
 
           <button
-            onClick={goToExchange}
-            className="bg-[#642C8D] text-white px-[15px] py-[7px] text-[14px]
-              w-fit rounded-[30px] mt-[30px] font-medium"
+            onClick={openBottomSheet}
+            className="bg-[#642C8D] text-white px-[15px] py-[7px] text-[14px] w-fit rounded-[30px] mt-[30px] font-medium"
           >
             지금 시작하기
           </button>
@@ -75,6 +71,11 @@ export default function ExchangeSection() {
           className="object-contain"
         />
       </div>
+
+      <ExchangeBottomSheet
+        open={openSheet}
+        onClose={() => setOpenSheet(false)}
+      />
     </div>
   );
 }
