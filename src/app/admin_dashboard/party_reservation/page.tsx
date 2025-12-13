@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { SearchSection } from "./(component)/SearchSection";
-import { StatusFilter } from "./(component)/StatusFilter";
 import { NewPartyButton } from "./(component)/NewPartyButton";
 import { PartyRegistrationTable } from "./(component)/PartyRegistrationTable";
-import { Pagination } from "./(component)/Pagination";
 import { PARTY_MOCK_DATA } from "./(dummy)/partyData";
 import { PartyStatus } from "./(types)/party";
 
@@ -14,28 +12,27 @@ export default function PartyReservationPage() {
   const [activeStatus, setActiveStatus] = useState<"all" | PartyStatus>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 5;
 
   // 필터링된 데이터
-  const filteredParties = useMemo(() => {
-    let filtered = PARTY_MOCK_DATA;
+  let filteredParties = PARTY_MOCK_DATA;
 
-    // 상태 필터
-    if (activeStatus !== "all") {
-      filtered = filtered.filter((party) => party.status === activeStatus);
-    }
+  // 상태 필터
+  if (activeStatus !== "all") {
+    filteredParties = filteredParties.filter(
+      (party) => party.status === activeStatus
+    );
+  }
 
-    // 검색어 필터
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (party) =>
-          party.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          party.location.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    return filtered;
-  }, [activeStatus, searchTerm]);
+  // 검색어 필터
+  if (searchTerm) {
+    filteredParties = filteredParties.filter(
+      (party) =>
+        party.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        party.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
   // 페이지네이션
   const totalPages = Math.ceil(filteredParties.length / itemsPerPage);
@@ -45,14 +42,12 @@ export default function PartyReservationPage() {
   );
 
   // 상태별 카운트
-  const counts = useMemo(() => {
-    return {
-      all: PARTY_MOCK_DATA.length,
-      scheduled: PARTY_MOCK_DATA.filter((p) => p.status === "scheduled").length,
-      ongoing: PARTY_MOCK_DATA.filter((p) => p.status === "ongoing").length,
-      completed: PARTY_MOCK_DATA.filter((p) => p.status === "completed").length,
-    };
-  }, []);
+  const counts = {
+    all: PARTY_MOCK_DATA.length,
+    scheduled: PARTY_MOCK_DATA.filter((p) => p.status === "scheduled").length,
+    ongoing: PARTY_MOCK_DATA.filter((p) => p.status === "ongoing").length,
+    completed: PARTY_MOCK_DATA.filter((p) => p.status === "completed").length,
+  };
 
   // 핸들러
   const handleNewParty = () => {
@@ -83,25 +78,20 @@ export default function PartyReservationPage() {
   return (
     <div className="w-full">
       {/* 페이지 제목 */}
-      <h1 className="text-2xl font-medium text-purple mb-8">행사등록</h1>
+      <h1 className="text-2xl font-medium text-purple mb-2.5">행사등록</h1>
 
       {/* 검색 섹션 */}
-      <SearchSection onSearch={handleSearch} />
+      <SearchSection
+        onSearch={handleSearch}
+        activeStatus={activeStatus}
+        onStatusChange={handleStatusChange}
+        counts={counts}
+      />
 
-      {/* 구분선 */}
-      <div className="border-t border-gray-6 mb-4" />
-
-      {/* 필터 & 버튼 섹션 */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="text-base font-medium text-black">
-            전체 <span className="text-purple">{counts.all}건</span>
-          </div>
-          <StatusFilter
-            activeStatus={activeStatus}
-            onStatusChange={handleStatusChange}
-            counts={counts}
-          />
+      {/* 버튼 섹션 */}
+      <div className="flex items-end justify-between mt-14 mb-4">
+        <div className="flex gap-4.5 text-base font-medium text-gray-5A">
+          전체 <span className="text-purple">{counts.all}건</span>
         </div>
         <NewPartyButton onClick={handleNewParty} />
       </div>
@@ -111,17 +101,10 @@ export default function PartyReservationPage() {
         parties={paginatedParties}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
       />
-
-      {/* 페이지네이션 */}
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      )}
     </div>
   );
 }
-

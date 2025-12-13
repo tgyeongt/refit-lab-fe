@@ -1,6 +1,10 @@
 "use client";
 
-import { Party, PARTY_STATUS_LABEL, PARTY_STATUS_STYLES } from "../(types)/party";
+import {
+  Party,
+  PARTY_STATUS_LABEL,
+  PARTY_STATUS_STYLES,
+} from "../(types)/party";
 
 interface PartyTableRowProps {
   party: Party;
@@ -9,7 +13,11 @@ interface PartyTableRowProps {
 }
 
 // 행사 테이블 행 컴포넌트
-export const PartyTableRow = ({ party, onEdit, onDelete }: PartyTableRowProps) => {
+export const PartyTableRow = ({
+  party,
+  onEdit,
+  onDelete,
+}: PartyTableRowProps) => {
   const statusStyle = PARTY_STATUS_STYLES[party.status];
 
   return (
@@ -55,7 +63,14 @@ export const PartyTableRow = ({ party, onEdit, onDelete }: PartyTableRowProps) =
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="8" cy="6" r="2" stroke="currentColor" strokeWidth="1" fill="none" />
+              <circle
+                cx="8"
+                cy="6"
+                r="2"
+                stroke="currentColor"
+                strokeWidth="1"
+                fill="none"
+              />
               <path
                 d="M2.67 6.33c0-2.95 2.39-5.33 5.33-5.33s5.33 2.39 5.33 5.33c0 4-5.33 8.67-5.33 8.67S2.67 10.33 2.67 6.33z"
                 stroke="currentColor"
@@ -166,4 +181,3 @@ export const PartyTableRow = ({ party, onEdit, onDelete }: PartyTableRowProps) =
     </tr>
   );
 };
-

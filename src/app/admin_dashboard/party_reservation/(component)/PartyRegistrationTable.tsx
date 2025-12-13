@@ -2,11 +2,15 @@
 
 import { Party } from "../(types)/party";
 import { PartyTableRow } from "./PartyTableRow";
+import { Pagination } from "./Pagination";
 
 interface PartyRegistrationTableProps {
   parties: Party[];
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 // 행사 등록 테이블 컴포넌트
@@ -14,11 +18,14 @@ export const PartyRegistrationTable = ({
   parties,
   onEdit,
   onDelete,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: PartyRegistrationTableProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden px-6 py-4">
       {/* 테이블 헤더 */}
-      <div className="px-6 py-4">
+      <div className="mb-7">
         <h2 className="text-base font-medium text-[#0A0A0A]">행사 관리</h2>
         <p className="text-base text-[#717182] mt-0.5">
           행사 목록을 확인하고 새로운 행사를 등록하세요
@@ -60,7 +67,15 @@ export const PartyRegistrationTable = ({
           </tbody>
         </table>
       </div>
+
+      {/* 페이지네이션 */}
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 };
-

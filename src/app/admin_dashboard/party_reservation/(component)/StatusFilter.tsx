@@ -37,8 +37,14 @@ export const StatusFilter = ({
         <button
           key={filter.key}
           onClick={() => onStatusChange(filter.key)}
-          className="flex flex-col items-start gap-1 cursor-pointer"
+          className="flex items-center gap-2.5 cursor-pointer"
         >
+          <div
+            className={clsx(
+              "w-[14px] h-[14px] rounded-sm",
+              activeStatus === filter.key ? "bg-purple" : "bg-[#D9D9D9]"
+            )}
+          />
           <span
             className={clsx(
               "text-base",
@@ -47,15 +53,8 @@ export const StatusFilter = ({
           >
             {filter.label}
           </span>
-          <div
-            className={clsx(
-              "w-[14px] h-[14px] rounded-sm",
-              activeStatus === filter.key ? "bg-purple" : "bg-[#D9D9D9]"
-            )}
-          />
         </button>
       ))}
     </div>
   );
 };
-

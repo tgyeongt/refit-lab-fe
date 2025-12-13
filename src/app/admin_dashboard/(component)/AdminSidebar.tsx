@@ -28,7 +28,7 @@ const NAV_MENU_ITEMS_MOCK: NavMenuItem[] = [
     id: "home",
     label: "홈",
     icon: "home",
-    path: "#",
+    path: "/admin_dashboard",
   },
   {
     id: "party-registration",
