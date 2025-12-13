@@ -13,7 +13,7 @@ export default function FloatingExchangeButton({
 
   const handleClick = () => {
     if (onClick) onClick();
-    router.push("/exchange/local"); // 이동
+    router.push("/exchange/local");
   };
 
   return (
@@ -30,7 +30,7 @@ export default function FloatingExchangeButton({
         className="
           w-full bg-[#8F53BB] text-white font-[14px]
           flex items-center justify-center 
-          px-[20px] py-[15px] rounded-[8px]
+          px-[20px] py-[13px] rounded-[8px]
           pointer-events-auto
         "
       >

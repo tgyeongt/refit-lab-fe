@@ -37,19 +37,37 @@ export default function ExchangeDetailPage() {
             스판 여성용 빈티지 청바지
           </p>
 
-          <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
-            <span className="text-[#5D5D5D] min-w-[60px]">사이즈</span>
-            <span>M</span>
+          <div className="border-b border-[#9E9E9E]">
+            <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
+              <span className="text-[#5D5D5D] min-w-[80px]">사이즈</span>
+              <span>M</span>
+            </div>
+
+            <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
+              <span className="text-[#5D5D5D] min-w-[80px]">상태</span>
+              <span>상</span>
+            </div>
+            <p className="text-[14px] text-[#9E9E9E] p-[15px]">6시간 전</p>
           </div>
 
-          <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
-            <span className="text-[#5D5D5D] min-w-[60px]">상태</span>
-            <span>상</span>
+          <div className="border-b border-[#9E9E9E] py-[25px]">
+            <div className="bg-[#F5F5F7] text-[16px] px-[15px] py-[20px] flex min-h-[100px]">
+              <p>
+                두번 밖에 안 입어본 새 청바지입니다~ 상태 좋아요 일자로 떨어지는
+                핏이 예쁩니다.
+              </p>
+            </div>
           </div>
+          <div className="pt-[25px] pb-[10px]">
+            <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
+              <span className="text-[#5D5D5D] min-w-[80px]">교환 희망</span>
+              <span>아우터</span>
+            </div>
 
-          <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
-            <span className="text-[#5D5D5D] min-w-[60px]">수량</span>
-            <span>1벌</span>
+            <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
+              <span className="text-[#5D5D5D] min-w-[80px]">사이즈</span>
+              <span>M</span>
+            </div>
           </div>
         </div>
 

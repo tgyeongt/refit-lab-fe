@@ -7,13 +7,11 @@ import { CardItem } from "../(dummy)/localData";
 export default function LocalCard({ item }: { item: CardItem }) {
   const router = useRouter();
 
-  const goToDetail = () => {
-    router.push(`/exchange/local/${item.id}`);
-  };
-
   return (
     <div
-      onClick={goToDetail}
+      onClick={() => {
+        router.push(`/exchange/local/${item.id}`);
+      }}
       className="flex flex-col gap-[10px] bg-white cursor-pointer flex-shrink-0 rounded-[10px]"
     >
       <div className="w-[150px] h-[150px] overflow-hidden rounded-[8px]">
