@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { SearchSection } from "./(component)/SearchSection";
 import { NewPartyButton } from "./(component)/NewPartyButton";
 import { PartyRegistrationTable } from "./(component)/PartyRegistrationTable";
@@ -9,6 +10,7 @@ import { PartyStatus } from "./(types)/party";
 
 // 행사 등록 페이지
 export default function PartyReservationPage() {
+  const router = useRouter();
   const [activeStatus, setActiveStatus] = useState<"all" | PartyStatus>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,8 +53,7 @@ export default function PartyReservationPage() {
 
   // 핸들러
   const handleNewParty = () => {
-    console.log("신규 행사 등록");
-    // TODO: 신규 행사 등록 모달/페이지 열기
+    router.push("/admin_dashboard/party_reservation/new_post");
   };
 
   const handleEdit = (id: string) => {
