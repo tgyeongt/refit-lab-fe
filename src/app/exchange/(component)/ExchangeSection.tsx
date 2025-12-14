@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import PinIcon from "@/assets/icon/pin.svg";
 import ClothesImg from "@/assets/image/clothes.png";
 import Image from "next/image";
@@ -11,6 +12,7 @@ import ExchangeBottomSheet from "./ExchangeBottomSheet";
 export default function ExchangeSection() {
   const { location, loading, fetchLocation } = useLocationFetch();
   const { setLocation, setLoading } = useLocationStore();
+  const router = useRouter();
 
   const [openSheet, setOpenSheet] = useState(false);
 
@@ -56,7 +58,7 @@ export default function ExchangeSection() {
           </p>
 
           <button
-            onClick={openBottomSheet}
+            onClick={() => router.push("/exchange/post")}
             className="bg-[#642C8D] text-white px-[15px] py-[7px] text-[14px] w-fit rounded-[30px] mt-[30px] font-medium"
           >
             지금 시작하기

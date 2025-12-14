@@ -1,6 +1,6 @@
 "use client";
 
-const tabs = ["아우터", "티셔츠", "치마", "바지", "모자"] as const;
+const tabs = ["아우터", "상의", "하의", "신발", "액세서리"] as const;
 
 interface FilterBarProps {
   activeTab: string;
