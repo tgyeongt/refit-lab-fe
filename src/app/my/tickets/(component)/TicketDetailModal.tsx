@@ -74,12 +74,7 @@ export const TicketDetailModal = () => {
                 className="p-[17.6px] bg-white border border-gray-6 rounded-[14px] mb-4"
                 style={{ boxShadow: "0px 1px 2px -1px rgba(0, 0, 0, 0.1)" }}
               >
-                <QRCodeSVG
-                  value={ticket.qrCode}
-                  size={192}
-                  level="H"
-                  includeMargin={false}
-                />
+                <QRCodeSVG value={ticket.qrCode} size={192} level="H" />
               </div>
             </div>
 

@@ -29,7 +29,7 @@ export default function MyPage() {
         console.log("환경영수증 발급 내역 클릭");
         break;
       case "party-history":
-        console.log("참가한 21% 파티 클릭");
+        router.push("/my/party-history");
         break;
       case "experience-posts":
         console.log("내 경험 공유 글 클릭");

@@ -11,3 +11,9 @@ export const QUERY_KEY = {
   movieSearch: "movie-search",
 };
 
+// Storage Key (localStorage, sessionStorage)
+export const STORAGE_KEY = {
+  partyHistory: "party-history-storage",
+  // 추가 storage key는 여기에 추가
+};
+
