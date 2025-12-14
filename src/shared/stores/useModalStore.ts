@@ -3,11 +3,11 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 
 // 모달 타입
-type ModalType = "profile" | "party-gallery" | null;
+type ModalType = "profile" | "party-gallery" | "ticket-detail" | null;
 
 // 모달 액션
 interface ModalAction {
-  openModal: (type: ModalType) => void;
+  openModal: (type: ModalType, data?: any) => void;
   closeModal: () => void;
 }
 
@@ -15,6 +15,7 @@ interface ModalAction {
 interface ModalState {
   isOpen: boolean;
   type: ModalType;
+  modalData: any;
   actions: ModalAction;
 }
 
@@ -24,17 +25,20 @@ export const useModalStore = create<ModalState>()(
     return {
       isOpen: false,
       type: null,
+      modalData: null,
       actions: {
-        openModal: (type) => {
+        openModal: (type, data) => {
           set((state) => {
             state.isOpen = true;
             state.type = type;
+            state.modalData = data;
           });
         },
         closeModal: () => {
           set((state) => {
             state.isOpen = false;
             state.type = null;
+            state.modalData = null;
           });
         },
       },
@@ -48,6 +52,7 @@ export const useModalInfo = () => {
     useShallow((state) => ({
       isOpen: state.isOpen,
       type: state.type,
+      modalData: state.modalData,
     }))
   );
 };

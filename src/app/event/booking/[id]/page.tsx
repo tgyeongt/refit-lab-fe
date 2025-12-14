@@ -42,6 +42,17 @@ function BookingPageContent() {
     totalGalleryCount,
     isReservable,
   };
+
+  // Event 타입으로 변환 (Store 저장용)
+  const eventData = {
+    eventId: Number(id),
+    name: title,
+    location,
+    date,
+    thumbnailUrl,
+    description,
+  };
+
   const router = useRouter();
 
   // 임시 상태 관리
@@ -117,6 +128,7 @@ function BookingPageContent() {
       <BookingButton
         isReservable={eventDetail?.isReservable || false}
         isLoading={isBookingPending}
+        eventData={eventData}
         onClick={handleBooking}
       />
     </main>

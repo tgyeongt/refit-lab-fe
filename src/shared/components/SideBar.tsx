@@ -27,7 +27,7 @@ export default function Sidebar() {
     { label: "의류 교환", path: "/exchange", icon: ExchangeIcon },
     { label: "행사 예약", path: "/event", icon: EventIcon },
     { label: "커뮤니티", path: "/community", icon: CommunityIcon },
-    { label: "마이페이지", path: "/mypage", icon: MyPageIcon },
+    { label: "마이페이지", path: "/my", icon: MyPageIcon },
   ];
 
   return (
