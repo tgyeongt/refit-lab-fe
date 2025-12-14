@@ -31,7 +31,6 @@ export const EventInfoCard = ({ eventDetail }: EventInfoCardProps) => {
           label="누적 교환 의류수"
           value={eventDetail.info.totalClothesExchanged}
         />
-        {eventDetail.info.recycledItems && <span>재활용품</span>}
       </div>
     </div>
   );

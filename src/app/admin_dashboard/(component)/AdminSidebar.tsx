@@ -1,6 +1,6 @@
 "use client";
 
-// import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { clsx } from "clsx";
 import Icon from "@/shared/components/Icon";
 import HomeIcon from "@/assets/icon/home.svg";
@@ -9,7 +9,7 @@ import CommunityIcon from "@/assets/icon/people.svg";
 import TagIcon from "@/assets/icon/ticket.svg";
 import QRCodeIcon from "@/assets/icon/QR.svg";
 import PartyReservIcon from "@/assets/icon/party-reserv.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // 네비게이션 아이콘 목록
 type NavIconName = "home" | "party" | "chart" | "tag" | "qr" | "community";
@@ -28,13 +28,13 @@ const NAV_MENU_ITEMS_MOCK: NavMenuItem[] = [
     id: "home",
     label: "홈",
     icon: "home",
-    path: "#",
+    path: "/admin_dashboard",
   },
   {
     id: "party-registration",
     label: "행사 등록",
     icon: "party",
-    path: "#",
+    path: "/admin_dashboard/party_reservation",
   },
   {
     id: "exchange",
@@ -91,11 +91,22 @@ const NavIcon = ({ name, isActive }: NavIconProps) => {
 };
 
 export const AdminSidebar = () => {
-  // const pathname = usePathname();
+  const pathname = usePathname();
+  const router = useRouter();
   const [isActive, setIsActive] = useState<NavIconName>("home");
 
-  const handleClickNavItem = (id: NavIconName) => {
-    setIsActive(id);
+  // 경로에 따라 활성 메뉴 설정
+  useEffect(() => {
+    if (pathname.includes("party_reservation")) {
+      setIsActive("party");
+    } else if (pathname === "/admin_dashboard") {
+      setIsActive("home");
+    }
+  }, [pathname]);
+
+  const handleClickNavItem = (item: NavMenuItem) => {
+    setIsActive(item.icon as NavIconName);
+    router.push(item.path);
   };
 
   return (
@@ -113,7 +124,7 @@ export const AdminSidebar = () => {
                   ? "bg-[#F4E4FF]"
                   : "hover:bg-gray-1"
               )}
-              onClick={() => handleClickNavItem(item.icon as NavIconName)}
+              onClick={() => handleClickNavItem(item)}
             >
               <NavIcon
                 name={item.icon as NavIconName}

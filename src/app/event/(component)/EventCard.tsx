@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, styles } from "@/app/event/(util)/event-styles";
-import { MockEvent } from "@/app/event/types/event";
+import { Event } from "@/app/event/types/event";
 import Icon from "@/shared/components/Icon";
 import ArrowRight from "@/assets/icon/arrow-right.svg";
 import Calendar from "@/assets/icon/calendar.svg";
@@ -10,14 +10,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface EventCardProps {
-  event: MockEvent;
+  event: Event;
 }
 
 export const EventCard = ({ event }: EventCardProps) => {
   const router = useRouter();
 
   const handleCardClick = () => {
-    router.push(`/event/booking/${event.id}`);
+    router.push(`/event/booking/${event.eventId}`);
   };
 
   return (
@@ -31,8 +31,8 @@ export const EventCard = ({ event }: EventCardProps) => {
       {/* 썸네일 이미지 */}
       <div className={styles.component.thumbnailSmall}>
         <Image
-          src="/image/mockEventImg.jpg"
-          alt={event.title}
+          src={event.thumbnailUrl || "/image/mockEventImg.jpg"}
+          alt={event.name}
           width={155}
           height={155}
           className="object-cover"
@@ -54,7 +54,7 @@ export const EventCard = ({ event }: EventCardProps) => {
             styles.layout.mb2
           )}
         >
-          {event.title}
+          {event.name}
         </h3>
 
         <div className="flex gap-4">

@@ -6,11 +6,17 @@ import { mypageStyles } from "../(util)/mypage-styles";
 
 interface TicketBadgeProps {
   count?: number;
+  onClick?: () => void;
 }
 
-export const TicketBadge = ({ count }: TicketBadgeProps) => {
+export const TicketBadge = ({ count, onClick }: TicketBadgeProps) => {
   return (
-    <div className={mypageStyles.badges.ticket}>
+    <div
+      className={`${mypageStyles.badges.ticket} ${
+        onClick ? "cursor-pointer hover:opacity-80 transition-opacity" : ""
+      }`}
+      onClick={onClick}
+    >
       <Icon
         icon={TicketIcon}
         color="#642C8D"
