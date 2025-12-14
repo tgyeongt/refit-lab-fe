@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import useHeader from "@/shared/hooks/useHeader";
 import { ProfileSection } from "./(component)/ProfileSection";
 import { MembershipBadge } from "./(component)/MembershipBadge";
@@ -10,7 +11,13 @@ import { mypageStyles } from "./(util)/mypage-styles";
 import { myPageUser, myPageMenu } from "./(util)/dummyData";
 
 export default function MyPage() {
+  const router = useRouter();
   useHeader({ title: "", showBack: true, showMenu: true });
+
+  // 보유 티켓 클릭 핸들러
+  const handleTicketClick = () => {
+    router.push("/my/tickets");
+  };
 
   // 메뉴 아이템 클릭 핸들러
   const handleMenuClick = (id: string) => {
@@ -49,7 +56,10 @@ export default function MyPage() {
             <MembershipBadge level={myPageUser.membershipLevel} />
           </div>
           <div className={mypageStyles.badges.divider} />
-          <TicketBadge count={myPageUser.ticketCount} />
+          <TicketBadge
+            count={myPageUser.ticketCount}
+            onClick={handleTicketClick}
+          />
         </div>
       </div>
 

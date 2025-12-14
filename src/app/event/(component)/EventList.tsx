@@ -1,12 +1,18 @@
 import { cn, styles } from "@/app/event/(util)/event-styles";
-import { MockEvent } from "@/app/event/types/event";
+import { Event, ScheduledEvent, EndedEvent } from "@/app/event/types/event";
 import { EventCard } from "./EventCard";
+
 interface EventListProps {
-  event: MockEvent;
+  event: ScheduledEvent | EndedEvent;
   title: string;
 }
 
 export const EventList = ({ event, title }: EventListProps) => {
+  if (!event) return null;
+
+  // EventCard에 바로 전달 (Event 타입 호환)
+  const convertedEvent: Event = event;
+
   return (
     <section className={cn("w-full", styles.layout.mb8, "px-4")}>
       {/* 섹션 헤더 */}
@@ -25,9 +31,9 @@ export const EventList = ({ event, title }: EventListProps) => {
         </button>
       </div>
 
-      {/* 이벤트 카드 리스트 */}
-      <div className="flex flex-col">
-        <EventCard event={event} />
+      {/* 이벤트 카드 */}
+      <div className="flex flex-col gap-4">
+        <EventCard event={convertedEvent} />
       </div>
     </section>
   );
