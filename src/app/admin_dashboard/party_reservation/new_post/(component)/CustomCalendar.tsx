@@ -8,7 +8,7 @@ interface CustomCalendarProps {
   onClose?: () => void;
 }
 
-// Figma 디자인 기반 커스텀 달력
+// 커스텀 달력
 export const CustomCalendar = ({
   value,
   onChange,
@@ -124,109 +124,113 @@ export const CustomCalendar = ({
   return (
     <div className="w-[280px] bg-white rounded-lg shadow-lg overflow-hidden">
       {/* 헤더 */}
-      <div className="relative h-10 bg-white flex items-center justify-between px-6">
-        {/* 이전 연도 버튼 */}
-        <button
-          type="button"
-          onClick={handlePrevYear}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-        >
-          <svg
-            width="16"
-            height="12"
-            viewBox="0 0 16 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+      <div className="relative h-10 bg-white flex items-center justify-between px-2">
+        <div>
+          {/* 이전 연도 버튼 */}
+          <button
+            type="button"
+            onClick={handlePrevYear}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
           >
-            <path
-              d="M4 2L8 6L4 10M8 2L12 6L8 10"
-              stroke="#9E9E9E"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              transform="rotate(180 8 6)"
-            />
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="12"
+              viewBox="0 0 16 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 2L8 6L4 10M8 2L12 6L8 10"
+                stroke="#9E9E9E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                transform="rotate(180 8 6)"
+              />
+            </svg>
+          </button>
 
-        {/* 이전 달 버튼 */}
-        <button
-          type="button"
-          onClick={handlePrevMonth}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/* 이전 달 버튼 */}
+          <button
+            type="button"
+            onClick={handlePrevMonth}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
           >
-            <path
-              d="M4 2L8 6L4 10"
-              stroke="#9E9E9E"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              transform="rotate(180 6 6)"
-            />
-          </svg>
-        </button>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 2L8 6L4 10"
+                stroke="#9E9E9E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                transform="rotate(180 6 6)"
+              />
+            </svg>
+          </button>
+        </div>
 
         {/* 년월 표시 */}
         <span className="text-sm font-semibold text-black">
           {year}년 {month + 1}월
         </span>
 
-        {/* 다음 달 버튼 */}
-        <button
-          type="button"
-          onClick={handleNextMonth}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        <div>
+          {/* 다음 달 버튼 */}
+          <button
+            type="button"
+            onClick={handleNextMonth}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
           >
-            <path
-              d="M4 2L8 6L4 10"
-              stroke="#9E9E9E"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 2L8 6L4 10"
+                stroke="#9E9E9E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
 
-        {/* 다음 연도 버튼 */}
-        <button
-          type="button"
-          onClick={handleNextYear}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-        >
-          <svg
-            width="16"
-            height="12"
-            viewBox="0 0 16 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          {/* 다음 연도 버튼 */}
+          <button
+            type="button"
+            onClick={handleNextYear}
+            className="p-1 hover:bg-gray-100 rounded transition-colors"
           >
-            <path
-              d="M4 2L8 6L4 10M8 2L12 6L8 10"
-              stroke="#9E9E9E"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+            <svg
+              width="16"
+              height="12"
+              viewBox="0 0 16 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 2L8 6L4 10M8 2L12 6L8 10"
+                stroke="#9E9E9E"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* 구분선 */}
-      <div className="border-t border-gray-4" />
+      <div className="border-t border-[#E0E0E0]" />
 
       {/* 달력 본문 */}
       <div className="p-2.5">
@@ -254,7 +258,7 @@ export const CustomCalendar = ({
                 type="button"
                 onClick={() => handleDateClick(day.date)}
                 disabled={!day.isCurrentMonth}
-                className="w-8 h-6 flex items-center justify-center text-xs rounded cursor-pointer transition-colors hover:bg-gray-100"
+                className="w-8 h-6 flex items-center justify-center text-xs cursor-pointer transition-colors hover:bg-gray-100"
                 style={{
                   backgroundColor: day.isSelected ? "#A772CD" : "transparent",
                   color: day.isSelected
@@ -274,7 +278,7 @@ export const CustomCalendar = ({
       </div>
 
       {/* 하단 구분선 */}
-      <div className="border-t border-gray-4" />
+      <div className="border-t border-[#E0E0E0]" />
 
       {/* 오늘 버튼 */}
       <div className="h-10 bg-white flex items-center justify-center">

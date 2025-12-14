@@ -118,7 +118,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="예시) 21% 파티 수원"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors",
+                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.name,
                       "border-gray-6 focus:border-purple": !errors.name,
@@ -138,7 +138,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="예시) 경기도 수원시"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors",
+                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.location,
                       "border-gray-6 focus:border-purple": !errors.location,
@@ -214,7 +214,7 @@ export default function NewPostPage() {
                             shouldValidate: true,
                           })
                         }
-                        className="w-3.5 h-3.5 accent-purple"
+                        className="appearance-none w-3.5 h-3.5 border border-gray-6 checked:bg-purple checked:border-purple cursor-pointer"
                       />
                       <span className="text-base">표기</span>
                     </label>
@@ -228,7 +228,7 @@ export default function NewPostPage() {
                             shouldValidate: true,
                           })
                         }
-                        className="w-3.5 h-3.5"
+                        className="appearance-none w-3.5 h-3.5 border border-gray-6 checked:bg-purple checked:border-purple cursor-pointer"
                       />
                       <span className="text-base">미표기</span>
                     </label>
@@ -246,7 +246,7 @@ export default function NewPostPage() {
                     type="number"
                     placeholder="111"
                     className={clsx(
-                      "w-[153px] h-[45px] px-5 border rounded text-base transition-colors",
+                      "w-[153px] h-[45px] px-5 border rounded text-base transition-colors bg-white",
                       {
                         "border-red focus:border-red": errors.capacity,
                         "border-gray-6 focus:border-purple": !errors.capacity,
@@ -272,7 +272,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="urllink"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors",
+                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.url,
                       "border-gray-6 focus:border-purple": !errors.url,
@@ -291,7 +291,7 @@ export default function NewPostPage() {
                   {...register("description")}
                   placeholder="간단한 설명이 이렇게 들어갑니다."
                   className={clsx(
-                    "w-full h-[147px] px-6 py-4 border rounded text-base resize-none transition-colors",
+                    "w-full h-[147px] px-6 py-4 border rounded text-base resize-none transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.description,
                       "border-gray-6 focus:border-purple": !errors.description,
