@@ -32,7 +32,7 @@ export default function MyPage() {
         router.push("/my/party-history");
         break;
       case "experience-posts":
-        console.log("내 경험 공유 글 클릭");
+        router.push("/my/experience-posts");
         break;
       default:
         break;
