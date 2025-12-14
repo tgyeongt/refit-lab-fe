@@ -7,6 +7,7 @@ import ImageUploader from "./ImageUploader";
 import TextField from "./TextField";
 import BottomSheet from "./BottomSheet";
 import { useRouter } from "next/navigation";
+import useLocationStore from "@/shared/stores/locationStore";
 
 interface ExchangePostFormProps {
   onClose?: () => void;
@@ -19,6 +20,7 @@ export default function ExchangePostForm({
 }: ExchangePostFormProps) {
   const router = useRouter();
   const { form, update, submit } = usePostForm(onSubmit);
+  const { location } = useLocationStore();
 
   const { openSheet, open, tempValue, setTempValue, confirm, close, disabled } =
     useSheetSelect((sheet, value) => {
@@ -35,7 +37,7 @@ export default function ExchangePostForm({
     form.condition !== "" &&
     form.size !== "" &&
     form.wantCategory !== "" &&
-    form.spot !== "";
+    location !== null;
 
   return (
     <div className="bg-white py-[20px]">
@@ -131,7 +133,7 @@ export default function ExchangePostForm({
         <TextField
           label="교환 스팟"
           required
-          value={form.spot}
+          value={location?.placeName ?? ""}
           placeholder="선택해주세요"
           readOnly
           onClick={() => router.push("/exchange/map")}

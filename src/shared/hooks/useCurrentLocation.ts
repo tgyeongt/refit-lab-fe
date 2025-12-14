@@ -5,7 +5,15 @@ export function useCurrentLocation() {
   const { setLocation, setLoading } = useLocationStore();
 
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (location) return;
+    if (!navigator.geolocation) {
+      setLocation({
+        lat: 37.5665,
+        lng: 126.978,
+        placeName: "서울 시청",
+      });
+      return;
+    }
 
     setLoading(true);
 
@@ -14,20 +22,23 @@ export function useCurrentLocation() {
         setLocation({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
+          placeName: "현재 위치",
         });
         setLoading(false);
       },
       () => {
-        // 실패 시 서울 시청 fallback
+        // 권한 거부 or 오류
         setLocation({
           lat: 37.5665,
           lng: 126.978,
+          placeName: "서울 시청",
         });
         setLoading(false);
       },
       {
         enableHighAccuracy: true,
+        timeout: 10000,
       }
     );
-  }, []);
+  }, [setLocation, setLoading]);
 }

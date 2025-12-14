@@ -1,27 +1,23 @@
 import { create } from "zustand";
 
-interface Location {
+export interface LatLng {
   lat: number;
   lng: number;
-  address?: string;
+  placeName?: string;
 }
 
 interface LocationStore {
-  location: Location | null;
+  location: LatLng | null;
   loading: boolean;
-
-  setLocation: (loc: Location) => void;
+  setLocation: (loc: LatLng) => void;
   setLoading: (state: boolean) => void;
-  clearLocation: () => void;
 }
 
 const useLocationStore = create<LocationStore>((set) => ({
   location: null,
   loading: false,
-
   setLocation: (loc) => set({ location: loc }),
   setLoading: (state) => set({ loading: state }),
-  clearLocation: () => set({ location: null }),
 }));
 
 export default useLocationStore;
