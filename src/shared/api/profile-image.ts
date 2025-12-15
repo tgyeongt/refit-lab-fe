@@ -10,12 +10,7 @@ export const uploadProfileImage = async (
 
   const { data } = await privateAPI.put<BaseResponse<string>>(
     "/users/profile-image",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    formData
   );
 
   return data;

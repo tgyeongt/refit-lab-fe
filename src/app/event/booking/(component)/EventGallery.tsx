@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { GalleryItem } from "./GalleryItem";
@@ -16,7 +17,8 @@ interface EventGalleryProps {
 export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
   const { isOpen: isModalOpen } = useModalInfo();
   const { openModal, closeModal } = useModalActions();
-  const [initialImageIndex, setInitialImageIndex] = useState(0);
+  const [initialIndex, setInitialIndex] = useState(0);
+  const router = useRouter();
 
   // recentImageUrlList를 사용
   const galleryImages = eventDetail.recentImageUrlList || [];
@@ -50,16 +52,15 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
   // clothCountExceptRecent4를 사용하여 나머지 개수 계산
   const remainingCount = eventDetail.clothCountExceptRecent4 || 0;
 
-  // 더보기 버튼 클릭 핸들러
+  // 더보기 버튼 클릭 -> 갤러리 전체 페이지로 이동
   const handleMoreClick = () => {
-    const startIndex = Math.min(3, galleryImages.length - 1);
-    setInitialImageIndex(startIndex);
-    openModal("party-gallery");
+    if (!eventDetail?.eventId) return;
+    router.push(`/event/booking/${eventDetail.eventId}/gallery`);
   };
 
-  // 이미지 클릭 핸들러
+  // 이미지 클릭 핶ન → 기존 모달 유지
   const handleImageClick = (index: number) => {
-    setInitialImageIndex(index);
+    setInitialIndex(index);
     openModal("party-gallery");
   };
 
@@ -97,12 +98,12 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
         </div>
       </section>
 
-      {/* 갤러리 모달 */}
+      {/* 갤러리 모달 (최근 이미지 4장용, 기존 동작 유지) */}
       <GalleryModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         images={galleryImages}
-        initialIndex={initialImageIndex}
+        initialIndex={initialIndex}
       />
     </>
   );

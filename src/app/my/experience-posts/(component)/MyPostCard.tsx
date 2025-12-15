@@ -1,15 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { CommunityPost } from "@/app/community/dummyData";
 import Image from "next/image";
 import LikeIcon from "@/assets/icon/like.svg";
 import CommentIcon from "@/assets/icon/comment.svg";
 import Icon from "@/shared/components/Icon";
+import type { MyExperiencePostCard } from "../(types)/myPosts";
 
-// CommunityPost 타입 확장 (썸네일 추가)
 interface MyPostCardProps {
-  post: CommunityPost & { thumbnailUrl?: string };
+  post: MyExperiencePostCard;
 }
 
 // 내 경험 공유글 카드 컴포넌트 (Figma 디자인 기반)
