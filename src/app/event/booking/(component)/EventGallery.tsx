@@ -4,7 +4,7 @@ import { useState } from "react";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { GalleryItem } from "./GalleryItem";
-import { GalleryModal } from "./GalleryModal";
+import GalleryModal from "./GalleryModal";
 import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 import { EventDetail } from "../../types/event";
 
@@ -32,7 +32,7 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
             bookingStyles.color.textPrimary
           )}
         >
-          행사 갤러리
+          행사 정보
         </h2>
         <div className="flex items-center justify-center h-[320px] bg-gray-100 rounded-lg">
           <p className="text-gray-500 text-base">행사 이미지가 없습니다.</p>
@@ -74,7 +74,7 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
             bookingStyles.color.textPrimary
           )}
         >
-          행사 갤러리
+          행사 정보
         </h2>
 
         <div className={cn(bookingStyles.component.galleryGrid)}>
@@ -95,7 +95,7 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
 
       {/* 갤러리 모달 */}
       <GalleryModal
-        isOpen={isModalOpen}
+        open={isModalOpen}
         onClose={handleCloseModal}
         images={galleryImages}
         initialIndex={initialImageIndex}

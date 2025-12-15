@@ -3,6 +3,9 @@ import "./globals.css";
 import Providers from "@/shared/providers";
 import Head from "next/head";
 import Logo from "@/assets/icon/logo.svg";
+import "swiper/css";
+import "swiper/css/thumbs";
+import "swiper/css/thumbs";
 
 export const metadata: Metadata = {
   title: "다시입다연구소",

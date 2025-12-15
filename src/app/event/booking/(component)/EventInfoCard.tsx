@@ -27,10 +27,12 @@ export const EventInfoCard = ({ eventDetail }: EventInfoCardProps) => {
           value={formatDateRange(eventDetail.startDate, eventDetail.endDate)}
         />
         <InfoRow label="장소" value={eventDetail.location} />
-        <InfoRow
-          label="참여 정원"
-          value={`${eventDetail.totalReservedCount}/${eventDetail.capacity}명`}
-        />
+        {eventDetail.capacity != null && (
+          <InfoRow
+            label="참여 정원"
+            value={`${eventDetail.totalReservedCount}/${eventDetail.capacity}명`}
+          />
+        )}
         <InfoRow
           label="누적 교환 의류수"
           value={`${eventDetail.totalReservedCount}벌`}

@@ -26,8 +26,10 @@ export const EventCard = ({ event }: EventCardProps) => {
       className={cn(
         styles.component.cardSmall,
         styles.color.bgCard,
-        styles.layout.shadowMd
+        styles.layout.shadowMd,
+        "cursor-pointer"
       )}
+      onClick={handleCardClick}
     >
       {/* 썸네일 이미지 */}
       <div className={styles.component.thumbnailSmall}>
