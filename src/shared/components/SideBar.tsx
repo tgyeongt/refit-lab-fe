@@ -14,13 +14,18 @@ import CommunityIcon from "@/assets/icon/community.svg";
 import MyPageIcon from "@/assets/icon/mypage.svg";
 
 import DummyImg from "@/assets/image/Profile.png";
+import { useAuth } from "@/shared/stores/useAuthStore";
 
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isSidebarOpen, setSidebarOpen } = useHeaderStore();
+  const { user, isLoggedIn } = useAuth();
 
   if (!isSidebarOpen) return null;
+
+  const userName = user?.nickname ?? "님";
+  const profileImage = user?.profileImageUrl ?? DummyImg;
 
   const menuItems = [
     { label: "홈", path: "/", icon: HomeIcon },
@@ -45,17 +50,16 @@ export default function Sidebar() {
         `}
       >
         <div className="flex flex-col h-full p-[15px] pt-0 text-[14px]">
-          <div className="flex items-center justify-between pt-6 pb-[20px] border-b-1 border-[#9E9E9E]">
+          <div className="flex items-center justify-between pt-6 pb-[20px] border-b border-[#9E9E9E]">
             <div className="flex items-center space-x-3">
               <Image
-                src={DummyImg}
+                src={profileImage}
                 alt="profile"
                 width={40}
                 height={40}
                 className="rounded-full object-cover aspect-square"
               />
-              <span className="font-semibold mr-[3px]">김다입</span>
-              <span>님</span>
+              <span className="font-semibold mr-[3px]">{userName}</span>
             </div>
 
             <button onClick={() => setSidebarOpen(false)}>
