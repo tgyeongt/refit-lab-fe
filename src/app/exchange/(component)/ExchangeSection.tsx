@@ -21,7 +21,7 @@ export default function ExchangeSection() {
   }, [loading, setLoading]);
 
   useEffect(() => {
-    if (location) setLocation(location);
+    if (location) setLocation({ lat: 0, lng: 0, placeName: location });
   }, [location, setLocation]);
 
   useEffect(() => {
