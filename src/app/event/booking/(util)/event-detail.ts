@@ -1,5 +1,5 @@
-// 행사 상세 정보
-export interface EventDetail {
+// 행사 상세 정보 (Mock 전용)
+export interface EventDetailMock {
   id: string;
   title: string;
   description: string;

@@ -9,7 +9,7 @@ import {
   type PartyFormData,
 } from "./(schema)/partyFormSchema";
 import { DatePicker } from "./(component)/DatePicker";
-import { FileUploader } from "./(component)/FileUploader";
+import { FileUploader } from "@/shared/components/FileUploader";
 
 // 신규 행사 등록 페이지 (CSR)
 export default function NewPostPage() {

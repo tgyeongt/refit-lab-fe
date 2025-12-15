@@ -7,6 +7,7 @@ import Calendar from "@/assets/icon/calendar.svg";
 import Pin from "@/assets/icon/pin.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/shared/util/formatDate";
 
 interface PartyHistoryCardProps {
   event: Event;
@@ -45,7 +46,7 @@ export const PartyHistoryCard = ({ event }: PartyHistoryCardProps) => {
             <div className="flex items-center gap-[4px]">
               <Icon icon={Calendar} width={17} height={17} color="#9E9E9E" />
               <span className="text-xs text-gray-6 leading-5">
-                {event.date}
+                {formatDate(event.date || event.startDate || "")}
               </span>
             </div>
             <div className="flex items-center gap-[4px]">

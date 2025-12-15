@@ -2,6 +2,7 @@
 export const QUERY_KEY = {
   events: "events",
   eventsGroup: "events-group",
+  eventDetail: "event-detail",
   users: "users",
   lps: "lps",
   lpReview: "lp-review",
@@ -16,4 +17,3 @@ export const STORAGE_KEY = {
   partyHistory: "party-history-storage",
   // 추가 storage key는 여기에 추가
 };
-

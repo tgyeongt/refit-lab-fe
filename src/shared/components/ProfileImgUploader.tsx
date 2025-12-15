@@ -7,11 +7,13 @@ import PencilIcon from "@/assets/icon/pencil.svg";
 interface ProfileImgUploaderProps {
   userName: string;
   currentIgmUrl?: string | null;
+  onUploadSuccess?: (imageUrl: string) => void;
 }
 
 export default function ProfileImgUploader({
   userName,
   currentIgmUrl,
+  onUploadSuccess,
 }: ProfileImgUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadProfileImage, isUpdating, error, profileImage } =
@@ -20,18 +22,28 @@ export default function ProfileImgUploader({
   // 파일 선택 클릭 시 파일 선택 창 열기
   const handleClickButton = () => fileInputRef.current?.click();
 
-  // 파일 선택 시 파일 업로드
+  // 파일 선택 시 파일 업로드 (PUT /api/users/profile-image)
   const handleUploadProfileImage = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // 이미지 파일만 허용
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 파일만 업로드 가능합니다.");
+      return;
+    }
+
     try {
-      await uploadProfileImage(file);
+      const imageUrl = await uploadProfileImage(file);
+      onUploadSuccess?.(imageUrl);
     } catch (error) {
-      console.error(error);
+      console.error("프로필 이미지 업로드 실패:", error);
     } finally {
-      e.target.value = "";
+      if (e.target) {
+        e.target.value = "";
+      }
     }
   };
 
@@ -59,6 +71,9 @@ export default function ProfileImgUploader({
         />
 
         {error && <span className="text-xs text-red-500">{error}</span>}
+        {isUpdating && (
+          <span className="text-xs text-gray-500">업로드 중...</span>
+        )}
       </div>
     </div>
   );

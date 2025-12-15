@@ -8,6 +8,7 @@ import Calendar from "@/assets/icon/calendar.svg";
 import Pin from "@/assets/icon/pin.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { formatDate } from "@/shared/util/formatDate";
 
 interface EventCardProps {
   event: Event;
@@ -32,7 +33,7 @@ export const EventCard = ({ event }: EventCardProps) => {
       <div className={styles.component.thumbnailSmall}>
         <Image
           src={event.thumbnailUrl || "/image/mockEventImg.jpg"}
-          alt={event.name}
+          alt={event.name || ""}
           width={155}
           height={155}
           className="object-cover"
@@ -51,7 +52,8 @@ export const EventCard = ({ event }: EventCardProps) => {
           className={cn(
             styles.text.cardTitleMedium,
             styles.color.black,
-            styles.layout.mb2
+            styles.layout.mb2,
+            "pr-4 truncate"
           )}
         >
           {event.name}
@@ -62,7 +64,7 @@ export const EventCard = ({ event }: EventCardProps) => {
           <div className={cn(styles.component.iconGroup, styles.layout.mb3)}>
             <Icon icon={Calendar} color="#9E9E9E" size={17} />
             <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
-              {event.date}
+              {formatDate(event.date || event.startDate || "")}
             </span>
           </div>
 
@@ -71,7 +73,13 @@ export const EventCard = ({ event }: EventCardProps) => {
             className={cn(styles.component.iconGroupSmall, styles.layout.mb3)}
           >
             <Icon icon={Pin} color="#9E9E9E" size={17} />
-            <span className={cn(styles.color.gray400, styles.text.bodyXs)}>
+            <span
+              className={cn(
+                styles.color.gray400,
+                styles.text.bodyXs,
+                "truncate max-w-[80px]"
+              )}
+            >
               {event.location}
             </span>
           </div>

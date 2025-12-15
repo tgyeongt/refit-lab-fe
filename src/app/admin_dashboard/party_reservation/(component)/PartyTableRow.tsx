@@ -11,6 +11,7 @@ import PeopleIcon from "@/assets/icon/people.svg";
 import CalendarIcon from "@/assets/icon/calendar.svg";
 import EditIcon from "@/assets/icon/write.svg";
 import TrashIcon from "@/assets/icon/trash.svg";
+import { formatDate } from "@/shared/util/formatDate";
 
 interface PartyTableRowProps {
   party: Party;
@@ -40,7 +41,7 @@ export const PartyTableRow = ({
 
       {/* 날짜 */}
       <td className="px-2">
-        <span className="text-sm">{party.date}</span>
+        <span className="text-sm">{formatDate(party.date)}</span>
       </td>
 
       {/* 장소 */}
