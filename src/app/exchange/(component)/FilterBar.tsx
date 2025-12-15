@@ -1,6 +1,6 @@
 "use client";
 
-export const TABS = ["아우터", "상의", "하의", "신발", "액세서리"] as const;
+export const TABS = ["아우터", "상의", "하의", "신발", "액세사리"] as const;
 export type RecommendTab = (typeof TABS)[number];
 
 interface FilterBarProps {
