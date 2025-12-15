@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useHeader from "@/shared/hooks/useHeader";
 import { ProfileSection } from "./(component)/ProfileSection";
@@ -10,6 +11,7 @@ import { MenuSection } from "./(component)/MenuSection";
 import { mypageStyles } from "./(util)/mypage-styles";
 import { useMyPage } from "./(hook)/query/useMyPage";
 import { myPageMenu } from "./(util)/dummyData";
+import { useAuth } from "@/shared/stores/useAuthStore";
 
 export default function MyPage() {
   const router = useRouter();
@@ -17,6 +19,16 @@ export default function MyPage() {
 
   // 마이페이지 데이터 조회
   const { data: myPageData, isLoading, error } = useMyPage();
+  const { setUser, user } = useAuth();
+
+  // API 데이터
+  const userData = myPageData?.data;
+
+  // 전역 authStore에 사용자 정보 / 로그인 여부 동기화
+  useEffect(() => {
+    if (!userData) return;
+    setUser(userData.user);
+  }, [userData, setUser, user]);
 
   // 로딩 상태
   if (isLoading) {
@@ -41,7 +53,6 @@ export default function MyPage() {
   }
 
   // API 데이터 또는 기본값
-  const userData = myPageData?.data;
   const userName = userData?.user?.nickname || "사용자";
   const userProfile =
     userData?.user?.profileImageUrl || "/images/default-profile.jpg";
