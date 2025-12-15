@@ -1,19 +1,22 @@
-"use client";
-
 import axios from "axios";
 
 export const toggleCommentLike = async (
-  id: number,
+  commentId: number,
   token: string
-): Promise<boolean> => {
+): Promise<{ isLiked: boolean; likes: number }> => {
   const { data } = await axios.post(
-    `https://api.refitlab.site/api/comments/${id}/like`,
-    {},
+    `https://api.refitlab.site/api/comments/${commentId}/like`,
+    null, // body가 필요 없으면 null
     {
       headers: { Authorization: `Bearer ${token}` },
     }
   );
 
   if (!data.success) throw new Error(data.message || "댓글 좋아요 요청 실패");
-  return data.data;
+
+  // 서버에서 isLiked, likes 반환
+  return {
+    isLiked: data.data.isLiked,
+    likes: data.data.likes,
+  };
 };
