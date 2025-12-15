@@ -1,14 +1,16 @@
-// 행사 상태 타입
+import { BaseResponse } from "@/shared/api/BaseResponse";
+
+// UI에서 사용하는 행사 상태 타입
 export type PartyStatus = "scheduled" | "ongoing" | "completed";
 
-// 행사 데이터 타입
+// UI에서 사용하는 행사 데이터 타입
 export interface Party {
   id: string;
   name: string;
   date: string;
   location: string;
   currentReservations: number;
-  maxReservations: number;
+  maxReservations: number | null;
   status: PartyStatus;
 }
 
@@ -27,5 +29,49 @@ export const PARTY_STATUS_STYLES: Record<
   scheduled: { bg: "#DBEAFE", text: "#4181DB" },
   ongoing: { bg: "#E2FEFF", text: "#08B0B7" },
   completed: { bg: "#EEEEEE", text: "#424242" },
+};
+
+// ===== 관리자 행사 리스트 API 타입 =====
+
+export type AdminEventStatus = "UPCOMING" | "ONGOING" | "ENDED";
+
+export interface AdminEvent {
+  eventId: number;
+  name: string;
+  startDate: string;
+  location: string;
+  reservedCount: number;
+  capacity: number | null;
+  status: AdminEventStatus;
+}
+
+export interface AdminEventsPageData {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+  items: AdminEvent[];
+}
+
+export type ResponseAdminEvents = BaseResponse<AdminEventsPageData>;
+
+// API → UI 매핑
+export const mapPartyFromAdminEvent = (event: AdminEvent): Party => {
+  const statusMap: Record<AdminEventStatus, PartyStatus> = {
+    UPCOMING: "scheduled",
+    ONGOING: "ongoing",
+    ENDED: "completed",
+  };
+
+  return {
+    id: String(event.eventId),
+    name: event.name,
+    date: event.startDate,
+    location: event.location,
+    currentReservations: event.reservedCount,
+    maxReservations: event.capacity,
+    status: statusMap[event.status],
+  };
 };
 

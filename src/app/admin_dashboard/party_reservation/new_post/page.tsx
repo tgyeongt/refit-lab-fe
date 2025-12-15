@@ -10,10 +10,12 @@ import {
 } from "./(schema)/partyFormSchema";
 import { DatePicker } from "./(component)/DatePicker";
 import { FileUploader } from "@/shared/components/FileUploader";
+import { useCreateAdminEvent } from "../(hook)/mutation/useCreateAdminEvent";
 
 // 신규 행사 등록 페이지 (CSR)
 export default function NewPostPage() {
   const router = useRouter();
+  const { mutateAsync: createEvent, isPending } = useCreateAdminEvent();
 
   const {
     register,
@@ -42,9 +44,8 @@ export default function NewPostPage() {
   const showCapacity = watch("showCapacity");
   const selectedStatus = watch("status");
 
-  const onSubmit = (data: PartyFormData) => {
-    console.log("제출 데이터:", data);
-    // TODO: API 호출하여 서버에 데이터 전송
+  const onSubmit = async (data: PartyFormData) => {
+    await createEvent(data);
     alert("행사가 등록되었습니다!");
     router.push("/admin_dashboard/party_reservation");
   };
@@ -98,7 +99,7 @@ export default function NewPostPage() {
                           "px-3 py-1.5 rounded text-base font-medium cursor-pointer transition-colors",
                           {
                             "bg-[#A772CD] text-white": isSelected,
-                            "bg-[#E0E0E0] text-gray-5A": !isSelected,
+                            "bg-[#E0E0E0]": !isSelected,
                           }
                         )}
                       >
@@ -118,7 +119,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="예시) 21% 파티 수원"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
+                    "w-full h-[45px] px-5 border outline-none rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.name,
                       "border-gray-6 focus:border-purple": !errors.name,
@@ -138,7 +139,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="예시) 경기도 수원시"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
+                    "w-full h-[45px] px-5 border outline-none rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.location,
                       "border-gray-6 focus:border-purple": !errors.location,
@@ -246,7 +247,7 @@ export default function NewPostPage() {
                     type="number"
                     placeholder="111"
                     className={clsx(
-                      "w-[153px] h-[45px] px-5 border rounded text-base transition-colors bg-white",
+                      "w-[153px] h-[45px] px-5 border outline-none rounded text-base transition-colors bg-white",
                       {
                         "border-red focus:border-red": errors.capacity,
                         "border-gray-6 focus:border-purple": !errors.capacity,
@@ -272,7 +273,7 @@ export default function NewPostPage() {
                   type="text"
                   placeholder="urllink"
                   className={clsx(
-                    "w-full h-[45px] px-5 border rounded text-base transition-colors bg-white",
+                    "w-full h-[45px] px-5 border outline-none rounded text-base transition-colors bg-white",
                     {
                       "border-red focus:border-red": errors.url,
                       "border-gray-6 focus:border-purple": !errors.url,
@@ -337,6 +338,7 @@ export default function NewPostPage() {
                   type="button"
                   onClick={handleSubmit(onSubmit)}
                   className="flex-1 h-10 bg-purple text-white rounded text-base font-medium cursor-pointer hover:bg-purple/90 transition-colors"
+                  disabled={isPending}
                 >
                   올리기
                 </button>

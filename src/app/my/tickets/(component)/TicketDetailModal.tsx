@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import Icon from "@/shared/components/Icon";
 import CalendarIcon from "@/assets/icon/calendar.svg";
 import XIcon from "@/assets/icon/X.svg";
 import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
-import { MOCK_TICKETS } from "../(dummy)/ticketData";
 import { Ticket } from "../(types)/ticket";
 import { formatDate } from "@/shared/util/formatDate";
 
@@ -21,14 +19,8 @@ const STATUS_LABELS = {
 export const TicketDetailModal = () => {
   const { isOpen, type, modalData } = useModalInfo();
   const { closeModal } = useModalActions();
-  const [ticket, setTicket] = useState<Ticket | null>(null);
 
-  useEffect(() => {
-    if (isOpen && type === "ticket-detail" && modalData?.ticketId) {
-      const foundTicket = MOCK_TICKETS.find((t) => t.id === modalData.ticketId);
-      setTicket(foundTicket || null);
-    }
-  }, [isOpen, type, modalData]);
+  const ticket = modalData?.ticket as Ticket | undefined;
 
   if (!isOpen || type !== "ticket-detail" || !ticket) {
     return null;

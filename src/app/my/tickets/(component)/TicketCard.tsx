@@ -29,7 +29,7 @@ export const TicketCard = ({ ticket }: TicketCardProps) => {
   const { openModal } = useModalActions();
 
   const handleClick = () => {
-    openModal("ticket-detail", { ticketId: ticket.id });
+    openModal("ticket-detail", { ticket });
   };
 
   return (
@@ -40,13 +40,13 @@ export const TicketCard = ({ ticket }: TicketCardProps) => {
     >
       <div className="flex h-[150px]">
         {/* 왼쪽: 티켓 정보 */}
-        <div className="flex-1 p-[21px] flex flex-col justify-between">
+        <div className="flex-1 p-[21px] flex flex-col justify-between ">
           {/* 제목 */}
           <div>
-            <h3 className="text-[20px] font-semibold text-purple leading-[20px] mb-[5px]">
+            <h3 className="text-[20px] font-semibold text-purple leading-[20px] mb-[5px] line-clamp-2">
               {ticket.eventName}
             </h3>
-            <p className="text-base font-light text-gray-5A leading-[20px]">
+            <p className="text-base font-light text-gray-5A leading-[20px] mb-2 line-clamp-1">
               {ticket.location}
             </p>
           </div>
