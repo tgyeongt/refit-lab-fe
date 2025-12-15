@@ -1,13 +1,13 @@
 "use client";
 
 import CloseIcon from "@/assets/icon/close.svg";
-import { usePostForm } from "../(hook)/usePostForm";
-import { useSheetSelect } from "../(hook)/useSheetSelect";
 import ImageUploader from "./ImageUploader";
 import TextField from "./TextField";
 import BottomSheet from "./BottomSheet";
 import { useRouter } from "next/navigation";
 import useLocationStore from "@/shared/stores/locationStore";
+import { useExchangePostStore } from "@/shared/stores/exchangePostStore";
+import { useSheetSelect } from "../(hook)/useSheetSelect";
 
 interface ExchangePostFormProps {
   onClose?: () => void;
@@ -19,8 +19,18 @@ export default function ExchangePostForm({
   onSubmit,
 }: ExchangePostFormProps) {
   const router = useRouter();
-  const { form, update, submit } = usePostForm(onSubmit);
-  const { location } = useLocationStore();
+  const location = useLocationStore((s) => s.location);
+
+  const {
+    photo,
+    title,
+    category,
+    condition,
+    size,
+    wantCategory,
+    description,
+    update,
+  } = useExchangePostStore();
 
   const { openSheet, open, tempValue, setTempValue, confirm, close, disabled } =
     useSheetSelect((sheet, value) => {
@@ -31,13 +41,26 @@ export default function ExchangePostForm({
     });
 
   const isValid =
-    form.photo.length > 0 &&
-    form.title.trim() !== "" &&
-    form.category !== "" &&
-    form.condition !== "" &&
-    form.size !== "" &&
-    form.wantCategory !== "" &&
+    photo.length > 0 &&
+    title.trim() !== "" &&
+    category !== "" &&
+    condition !== "" &&
+    size !== "" &&
+    wantCategory !== "" &&
     location !== null;
+
+  const handleSubmit = () => {
+    onSubmit?.({
+      photo,
+      title,
+      category,
+      condition,
+      size,
+      wantCategory,
+      description,
+      spot: location,
+    });
+  };
 
   return (
     <div className="bg-white py-[20px]">
@@ -55,14 +78,14 @@ export default function ExchangePostForm({
 
       <div className="px-[18px]">
         <ImageUploader
-          files={form.photo}
+          files={photo}
           onChange={(files) => update("photo", files)}
         />
 
         <TextField
           label="제목"
           required
-          value={form.title}
+          value={title}
           placeholder="예) 오버핏 흰색 셔츠"
           onChange={(v) => update("title", v)}
         />
@@ -70,7 +93,7 @@ export default function ExchangePostForm({
         <TextField
           label="카테고리"
           required
-          value={form.category}
+          value={category}
           placeholder="선택해주세요"
           readOnly
           onClick={() => open("category")}
@@ -79,7 +102,7 @@ export default function ExchangePostForm({
         <TextField
           label="상태"
           required
-          value={form.condition}
+          value={condition}
           placeholder="선택해주세요"
           readOnly
           onClick={() => open("condition")}
@@ -88,7 +111,7 @@ export default function ExchangePostForm({
         <TextField
           label="사이즈"
           required
-          value={form.size}
+          value={size}
           placeholder="선택해주세요"
           readOnly
           onClick={() => open("size")}
@@ -101,7 +124,7 @@ export default function ExchangePostForm({
           </div>
 
           <textarea
-            value={form.description}
+            value={description}
             placeholder="아이템에 대한 상세 설명을 작성해주세요"
             onChange={(e) => update("description", e.target.value)}
             className="
@@ -120,11 +143,10 @@ export default function ExchangePostForm({
 
       <div className="px-[18px]">
         <p className="text-[18px] font-medium py-[30px]">교환 희망 아이템</p>
-
         <TextField
           label="카테고리"
           required
-          value={form.wantCategory}
+          value={wantCategory}
           placeholder="선택해주세요"
           readOnly
           onClick={() => open("wantCategory")}
@@ -140,20 +162,14 @@ export default function ExchangePostForm({
         />
       </div>
 
-      <div className="flex gap-[12px] mt-[80px] px-[18px]">
+      <div className="px-[18px] mt-[80px]">
         <button
           type="button"
-          onClick={submit}
+          onClick={handleSubmit}
           disabled={!isValid}
-          className={`
-    flex-1 text-[18px] p-[14px] rounded-[10px]
-    transition
-    ${
-      isValid
-        ? "bg-[#642C8D] text-white"
-        : "bg-[#BDBDBD] text-white cursor-not-allowed"
-    }
-  `}
+          className={`w-full p-[14px] rounded-[10px] ${
+            isValid ? "bg-[#642C8D]" : "bg-[#BDBDBD]"
+          } text-white`}
         >
           등록하기
         </button>
