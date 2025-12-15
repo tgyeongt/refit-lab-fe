@@ -1,0 +1,29 @@
+{
+  "id": "1",
+  "title": "2025 21%파티",
+  "description": "짧은 행사 소개 같은게 들어가면 좋을듯 자세하게 들어가야되는 부분이라고 생각하빈다 다시입다 연구소에서는 4~5줄정도라고 하는데 그 부분이 이렇게 들어가는 게 좋을까 싶어요 시입다 연구소에서는 4~5줄정도라고 하는데 그 부분이 이렇게 들어가는 게 좋을까 싶어요",
+  "location": "서울 어디구 어디동",
+  "date": "2025.12.12",
+  "thumbnailUrl": "/image/21party.svg",
+  "info": {
+    "date": "2025.12.12",
+    "location": "서울 어디구 어디동",
+    "participantCapacity": "NNN명",
+    "totalClothesExchanged": "nnn 벌",
+    "recycledItems": "재활용품"
+  },
+  "galleryImages": [
+    "/image/mockClothesImg1.jpg",
+    "/image/mockClothesImg2.jpg",
+    "/image/mockClothesImg3.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg",
+    "/image/mockEventImg.jpg"
+  ],
+  "totalGalleryCount": 26,
+  "isReservable": true
+}

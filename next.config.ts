@@ -49,6 +49,8 @@ const nextConfig: NextConfig = {
     fileLoaderRule.exclude = /\.svg$/i;
     return config;
   },
+  // React Compiler 사용
+  reactCompiler: true,
 };
 
 export default nextConfig;

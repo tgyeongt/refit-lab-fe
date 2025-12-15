@@ -1,0 +1,63 @@
+import { CommunityPost } from "@/app/community/dummyData";
+import ProfileImg from "@/assets/image/Profile.png";
+
+// 내가 작성한 글 Mock 데이터 (현재 사용자: 김재생)
+export const MY_POST_DATA: (CommunityPost & { thumbnailUrl?: string })[] = [
+  {
+    id: 101,
+    tag: "정보 공유",
+    title: "21파티에선 정확히 어떤걸 하나요?",
+    description: "처음 가보는거라 질문 드립니다 ㅠㅠ",
+    time: "2시간 전",
+    likes: 4,
+    comments: 3,
+    userName: "김재생",
+    userProfile: ProfileImg.src,
+  },
+  {
+    id: 102,
+    tag: "수선 꿀팁",
+    title: "청바지 수선 중에 기장 줄여보신...",
+    description: "처음 가보는거라 질문 드립니다 ㅠㅠ",
+    time: "02:33",
+    likes: 4,
+    comments: 3,
+    userName: "김재생",
+    userProfile: ProfileImg.src,
+    thumbnailUrl: "/image/mockEventImg.jpg",
+  },
+  {
+    id: 103,
+    tag: "정보 공유",
+    title: "예쁜 오버핏 가디건 수선하기",
+    description: "안녕하세요 날씨 너무 추워졌죠 오늘은 ...",
+    time: "02:33",
+    likes: 3,
+    comments: 3,
+    userName: "김재생",
+    userProfile: ProfileImg.src,
+    thumbnailUrl: "/image/mockEventImg.jpg",
+  },
+  {
+    id: 104,
+    tag: "정보 공유",
+    title: "오버핏 가디건 수선 꿀팁 공유",
+    description: "안녕하세요 날씨 너무 추워졌죠 오늘은 ...",
+    time: "02:33",
+    likes: 5,
+    comments: 2,
+    userName: "김재생",
+    userProfile: ProfileImg.src,
+  },
+  {
+    id: 105,
+    tag: "자유 질문",
+    title: "의류 수선 처음인데 추천 부탁드려요",
+    description: "재봉틀 사용법부터 배워야 할까요?",
+    time: "1일 전",
+    likes: 7,
+    comments: 5,
+    userName: "김재생",
+    userProfile: ProfileImg.src,
+  },
+];

@@ -1,3 +1,11 @@
-export default function Layout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+import Header from "@/shared/components/Header";
+import { ReactNode } from "react";
+
+export default function Layout({ children }: { children: ReactNode }) {
+  return (
+    <>
+      <Header />
+      <main className="min-h-screen">{children}</main>
+    </>
+  );
 }
