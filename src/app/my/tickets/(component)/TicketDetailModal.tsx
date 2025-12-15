@@ -8,6 +8,7 @@ import XIcon from "@/assets/icon/X.svg";
 import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 import { MOCK_TICKETS } from "../(dummy)/ticketData";
 import { Ticket } from "../(types)/ticket";
+import { formatDate } from "@/shared/util/formatDate";
 
 // 티켓 상태 라벨
 const STATUS_LABELS = {
@@ -97,7 +98,7 @@ export const TicketDetailModal = () => {
                   color="#642C8D"
                 />
                 <span className="text-sm font-medium text-black">
-                  {ticket.eventDate}
+                  {formatDate(ticket.eventDate)}
                 </span>
               </div>
             </div>

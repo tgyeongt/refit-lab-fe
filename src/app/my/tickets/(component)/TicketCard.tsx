@@ -5,6 +5,7 @@ import Icon from "@/shared/components/Icon";
 import QRIcon from "@/assets/icon/QR.svg";
 import CalendarIcon from "@/assets/icon/calendar.svg";
 import { useModalActions } from "@/shared/stores/useModalStore";
+import { formatDate } from "@/shared/util/formatDate";
 
 interface TicketCardProps {
   ticket: Ticket;
@@ -54,7 +55,7 @@ export const TicketCard = ({ ticket }: TicketCardProps) => {
           <div className="flex items-center gap-[5px]">
             <Icon icon={CalendarIcon} width={16} height={16} color="#9E9E9E" />
             <span className="text-sm font-medium text-gray-6 leading-[20px]">
-              유효기간: {ticket.eventDate}
+              유효기간: {formatDate(ticket.eventDate)}
             </span>
           </div>
 

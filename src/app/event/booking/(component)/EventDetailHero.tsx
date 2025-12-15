@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
-import { EventDetail } from "../(util)/event-detail";
+import { EventDetail } from "@/app/event/types/event";
 
 interface EventDetailHeroProps {
   eventDetail: EventDetail;
@@ -20,7 +20,7 @@ export const EventDetailHero = ({
       <div className={bookingStyles.component.imageContainer}>
         <Image
           src={eventDetail.thumbnailUrl || "/image/21party.svg"}
-          alt={eventDetail.title}
+          alt={eventDetail.name}
           width={361}
           height={361}
           className="w-full h-[361px] object-cover"
@@ -41,8 +41,7 @@ export const EventDetailHero = ({
               bookingStyles.color.textPurple
             )}
           >
-            🔥현재까지 {eventDetail.info.participantCapacity || "0명"}이
-            참가했어요!
+            🔥현재까지 {eventDetail.totalReservedCount || 0}명이 참가했어요!
           </span>
         </div>
       </div>
@@ -60,10 +59,10 @@ export const EventDetailHero = ({
             bookingStyles.text.heroTitle,
             bookingStyles.color.textPurple,
             bookingStyles.layout.mb20px,
-            "mt-[30px]"
+            "mt-[30px] leading-8"
           )}
         >
-          {eventDetail.title}
+          {eventDetail.name}
         </h1>
         {/* 설명 */}
         <p

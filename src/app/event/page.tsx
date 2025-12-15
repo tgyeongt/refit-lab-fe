@@ -4,12 +4,22 @@ import { HeroEventCard } from "@/app/event/(component)/HeroEventCard";
 import { EventList } from "@/app/event/(component)/EventList";
 import { cn, styles } from "@/app/event/(util)/event-styles";
 import { useEventsGroup } from "@/app/event/(hook)/query/useEventsGroup";
-import { ScheduledEvent, EndedEvent } from "@/app/event/types/event";
+import { ScheduledEvent, EndedEvent, UpcomingEvent } from "@/app/event/types/event";
 import events from "@/app/event/(util)/events.json";
 
 export default function PartyEventsPage() {
   const { upcomingEvent, scheduledEvents, endedEvents } = events;
   const { data: eventsGroup, isLoading, error } = useEventsGroup();
+
+  // Mock upcoming event을 API 타입으로 변환
+  const mockUpcomingEvent: UpcomingEvent = {
+    eventId: parseInt(upcomingEvent.id),
+    thumbnailUrl: upcomingEvent.thumbnailUrl,
+    name: upcomingEvent.title,
+    description: upcomingEvent.description,
+    location: upcomingEvent.location,
+    dday: upcomingEvent.dDay || 0,
+  };
 
   // Mock 데이터를 API 타입으로 변환
   const mockScheduledEvent: ScheduledEvent = {
@@ -18,8 +28,7 @@ export default function PartyEventsPage() {
     name: scheduledEvents.title,
     description: scheduledEvents.description,
     location: scheduledEvents.location,
-    date: scheduledEvents.date,
-    dday: 0,
+    startDate: scheduledEvents.date,
   };
 
   const mockEndedEvent: EndedEvent = {
@@ -28,11 +37,11 @@ export default function PartyEventsPage() {
     name: endedEvents.title,
     description: endedEvents.description,
     location: endedEvents.location,
-    date: endedEvents.date,
-    dday: 0,
+    startDate: endedEvents.date,
   };
 
   // API 데이터가 null이면 mock 데이터 사용
+  const upcomingEventData = eventsGroup?.upcoming || mockUpcomingEvent;
   const scheduledEvent = eventsGroup?.scheduled || mockScheduledEvent;
   const endedEvent = eventsGroup?.ended || mockEndedEvent;
 
@@ -52,7 +61,7 @@ export default function PartyEventsPage() {
             다가오는 행사
           </h2>
         </div>
-        <HeroEventCard event={upcomingEvent} />
+        <HeroEventCard event={upcomingEventData} />
 
         {/* 히어로 카드 하단 설명 */}
         <p
@@ -62,7 +71,7 @@ export default function PartyEventsPage() {
             styles.text.bodySm
           )}
         >
-          {upcomingEvent.description}
+          {upcomingEventData.description}
         </p>
       </section>
 

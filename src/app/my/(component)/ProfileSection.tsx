@@ -5,8 +5,30 @@ import { mypageStyles, cn } from "../(util)/mypage-styles";
 import ProfileImgUploader from "@/shared/components/ProfileImgUploader";
 
 interface ProfileSectionProps {
-  userName: string;
-  userProfile: string;
+  userName: string | undefined;
+  userProfile: string | null;
+}
+
+const FALLBACK_SRC = "/assets/image/profile.png";
+
+// 이미지 소스 정규화
+function normalizeImageSrc(input?: string | null) {
+  const s = (input ?? "").trim();
+
+  // 빈 값 / 가짜 값
+  if (!s || s === "null" || s === "undefined") return FALLBACK_SRC;
+
+  // 이미 절대 URL
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+  // data/blob
+  if (s.startsWith("data:") || s.startsWith("blob:")) return s;
+
+  // //cdn...
+  if (s.startsWith("//")) return `https:${s}`;
+
+  if (s.startsWith("/")) return s;
+  return `/${s}`;
 }
 
 export const ProfileSection = ({
@@ -38,8 +60,8 @@ export const ProfileSection = ({
             )}
           >
             <Image
-              src={userProfile}
-              alt={userName}
+              src={normalizeImageSrc(userProfile)}
+              alt={userName || "김다입님"}
               fill
               className={cn("object-contain")}
             />
@@ -50,7 +72,10 @@ export const ProfileSection = ({
 
         {/* 사용자 이름 및 편집 버튼 */}
         <div className={mypageStyles.profile.userNameContainer}>
-          <ProfileImgUploader userName={userName} currentIgmUrl={userProfile} />
+          <ProfileImgUploader
+            userName={userName || ""}
+            currentIgmUrl={userProfile}
+          />
         </div>
       </div>
     </div>

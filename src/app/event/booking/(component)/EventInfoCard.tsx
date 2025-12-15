@@ -2,7 +2,8 @@
 
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
-import { EventDetail } from "../(util)/event-detail";
+import { EventDetail } from "@/app/event/types/event";
+import { formatDateRange } from "@/shared/util/formatDate";
 
 interface EventInfoCardProps {
   eventDetail: EventDetail;
@@ -21,15 +22,20 @@ export const EventInfoCard = ({ eventDetail }: EventInfoCardProps) => {
         행사 정보
       </h2>
       <div className={bookingStyles.layout.flexCol}>
-        <InfoRow label="날짜" value={eventDetail.date} />
-        <InfoRow label="장소" value={eventDetail.location} />
         <InfoRow
-          label="참여 정원"
-          value={eventDetail.info.participantCapacity}
+          label="날짜"
+          value={formatDateRange(eventDetail.startDate, eventDetail.endDate)}
         />
+        <InfoRow label="장소" value={eventDetail.location} />
+        {eventDetail.capacity != null && (
+          <InfoRow
+            label="참여 정원"
+            value={`${eventDetail.totalReservedCount}/${eventDetail.capacity}명`}
+          />
+        )}
         <InfoRow
           label="누적 교환 의류수"
-          value={eventDetail.info.totalClothesExchanged}
+          value={`${eventDetail.totalReservedCount}벌`}
         />
       </div>
     </div>
