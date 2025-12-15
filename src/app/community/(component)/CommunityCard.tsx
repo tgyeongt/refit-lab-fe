@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import LikeIcon from "@/assets/icon/like.svg";
 import CommentIcon from "@/assets/icon/comment.svg";
+import { useTimeAgo } from "@/shared/hooks/useTimeAgo";
 
 interface CommunityPost {
   postId: number;
@@ -22,6 +23,7 @@ interface CommunityCardProps {
 
 export default function CommunityCard({ post }: CommunityCardProps) {
   const router = useRouter();
+  const timeAgoText = useTimeAgo(post.createdAt);
 
   const CATEGORY_LABEL_MAP: Record<CommunityPost["category"], string> = {
     FREE: "자유 질문",
@@ -49,9 +51,7 @@ export default function CommunityCard({ post }: CommunityCardProps) {
       </p>
 
       <div className="flex justify-between items-center text-[13px] mt-[10px]">
-        <span className="text-[#757575]">
-          {new Date(post.createdAt).toLocaleDateString()}
-        </span>
+        <span className="text-[#757575]">{timeAgoText}</span>
         <div className="flex gap-[10px] text-[#9E9E9E]">
           <span className="flex gap-[3px]">
             <LikeIcon width={20} height={20} /> {post.likes}

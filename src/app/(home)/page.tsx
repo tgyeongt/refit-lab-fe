@@ -19,13 +19,13 @@ export default function HomePage() {
   return (
     <main>
       <MainSection />
-      <Navigation
+      {/* <Navigation
         sections={[
           { label: "교환", targetId: "exchange" },
           { label: "행사", targetId: "event" },
           { label: "커뮤니티", targetId: "community" },
         ]}
-      />
+      /> */}
 
       <Section
         id="exchange"
