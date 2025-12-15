@@ -9,6 +9,7 @@ import useLocationStore from "@/shared/stores/locationStore";
 import { useExchangePostStore } from "@/shared/stores/exchangePostStore";
 import { useSheetSelect } from "../(hook)/useSheetSelect";
 import { createExchangePost } from "@/app/exchange/(api)/createExchangePost";
+import { useMyPage } from "@/app/my/(hook)/query/useMyPage";
 
 interface ExchangePostFormProps {
   onClose?: () => void;
@@ -19,6 +20,7 @@ export default function ExchangePostForm({
   onClose,
   onSubmit,
 }: ExchangePostFormProps) {
+  const { data: myUser, isLoading, isError } = useMyPage();
   const router = useRouter();
   const location = useLocationStore((s) => s.location);
 
@@ -79,6 +81,7 @@ export default function ExchangePostForm({
 
   const handleSubmit = async () => {
     if (!location) return;
+    if (!myUser) return;
 
     try {
       const request = {
@@ -91,14 +94,14 @@ export default function ExchangePostForm({
         exchangeSpot: location.placeName ?? "",
         spotLatitude: location.lat,
         spotLongitude: location.lng,
-        letter, // 쪽지 내용
+        letter,
       };
 
       const res = await createExchangePost(request, photo);
 
       console.log("✅ 교환글 생성 성공:", res);
 
-      router.push(`/exchange/${res.exchangePostId}`);
+      router.back();
     } catch (error: any) {
       console.log("🖼 imageList:", photo);
       console.error("❌ 교환글 생성 실패");
