@@ -9,7 +9,7 @@ export default function LocalCard({ item }: { item: ExchangePost }) {
 
   return (
     <div
-      onClick={() => router.push(`/exchange/local/${item.exchangePostId}`)}
+      onClick={() => router.push(`/exchange/${item.exchangePostId}`)}
       className="flex flex-col gap-[10px] bg-white cursor-pointer flex-shrink-0 rounded-[10px]"
     >
       <div className="w-[150px] h-[150px] overflow-hidden rounded-[8px]">

@@ -1,7 +1,6 @@
 "use client";
 
 import useHeader from "@/shared/hooks/useHeader";
-import CardiganImg from "@/assets/image/cardigan.png";
 import PaperImg from "@/assets/image/bg-paper.png";
 import CarbonImg from "@/assets/image/carbon-reduction.png";
 import LetterImg from "@/assets/image/letter.png";
@@ -12,76 +11,89 @@ import Image from "next/image";
 import KakaoMap from "./KakaoMap";
 import FloatingExchangeButton from "./FloatingExchangeButton";
 
+import { useQuery } from "@tanstack/react-query";
+import {
+  getExchangeDetail,
+  ExchangeDetailData,
+} from "@/app/exchange/(api)/getExchangeDetail";
+import { useParams } from "next/navigation";
+
 export default function ExchangeDetailPage() {
-  useHeader({
-    showBack: true,
-    showMenu: true,
+  useHeader({ showBack: true, showMenu: true });
+
+  const params = useParams();
+  const exchangePostId = Number(params.exchangePostId);
+
+  const { data, isLoading, isError } = useQuery<ExchangeDetailData>({
+    queryKey: ["exchangeDetail", exchangePostId],
+    queryFn: () => getExchangeDetail(exchangePostId),
+    enabled: !!exchangePostId,
   });
+
+  if (isLoading) return <p className="text-center mt-10">Loading...</p>;
+  if (isError || !data)
+    return <p className="text-center mt-10">데이터를 불러오지 못했습니다.</p>;
 
   return (
     <>
       <div className="w-full pb-[80px]">
+        {/* 이미지 */}
         <div className="w-full aspect-square relative">
-          <Image
-            src={CardiganImg}
-            alt="cardigan"
-            fill
-            className="object-cover"
-            priority
-          />
+          {data.imageUrlList[0] && (
+            <Image
+              src={data.imageUrlList[0]}
+              alt={data.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
         </div>
 
         <div className="px-[15px] py-[12px]">
-          <p className="text-[#757575] text-[14px]">바지</p>
-          <p className="text-[18px] font-medium mb-[25px]">
-            스판 여성용 빈티지 청바지
-          </p>
+          <p className="text-[#757575] text-[14px]">{data.category}</p>
+          <p className="text-[18px] font-medium mb-[25px]">{data.title}</p>
 
           <div className="border-b border-[#9E9E9E]">
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">사이즈</span>
-              <span>M</span>
+              <span>{data.size}</span>
             </div>
 
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">상태</span>
-              <span>상</span>
+              <span>{data.status}</span>
             </div>
-            <p className="text-[14px] text-[#9E9E9E] p-[15px]">6시간 전</p>
+
+            <p className="text-[14px] text-[#9E9E9E] p-[15px]">
+              {new Date(data.createdAt).toLocaleString()}
+            </p>
           </div>
 
-          <div className="border-b border-[#9E9E9E] py-[25px]">
-            <div className="bg-[#F5F5F7] text-[16px] px-[15px] py-[20px] flex min-h-[100px]">
-              <p>
-                두번 밖에 안 입어본 새 청바지입니다~ 상태 좋아요 일자로 떨어지는
-                핏이 예쁩니다.
-              </p>
-            </div>
-          </div>
+          {/* 교환 희망 정보 */}
           <div className="pt-[25px] pb-[10px]">
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">교환 희망</span>
-              <span>아우터</span>
-            </div>
-
-            <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
-              <span className="text-[#5D5D5D] min-w-[80px]">사이즈</span>
-              <span>M</span>
+              <span>{data.preferCategoryList.join(", ")}</span>
             </div>
           </div>
         </div>
 
+        {/* 교환 스팟 */}
         <div className="p-[15px]">
           <p className="text-[14px]">교환 희망 스팟</p>
           <div className="flex gap-[5px] items-center mt-[5px] mb-[10px]">
             <PinIcon width={21} height={21} color="#642C8D" />
-            <span className="text-[20px] font-semibold">시청역</span>
+            <span className="text-[20px] font-semibold">
+              {data.exchangeSpot}
+            </span>
           </div>
           <div className="mt-2 mb-[25px]">
-            <KakaoMap address="시청역" />
+            <KakaoMap address={data.exchangeSpot} />
           </div>
         </div>
 
+        {/* 태그, 추가 이미지 */}
         <div className="p-[15px]">
           <div
             style={{
@@ -114,6 +126,7 @@ export default function ExchangeDetailPage() {
             />
           </div>
 
+          {/* 교환자 정보 */}
           <div className="bg-[#F5F5F7] px-[15px] py-[10px]">
             <p className="text-[14px]">교환자</p>
             <div className="flex items-center justify-between pt-[8px] pb-[20px]">
@@ -125,7 +138,7 @@ export default function ExchangeDetailPage() {
                   height={40}
                   className="rounded-full object-cover aspect-square"
                 />
-                <span className="font-semibold mr-[3px]">김다입</span>
+                <span className="font-semibold mr-[3px]">{data.nickname}</span>
                 <span>님</span>
               </div>
               <button className="text-[14px] text-[#642C8D]">쓴 글 보기</button>
@@ -133,6 +146,7 @@ export default function ExchangeDetailPage() {
           </div>
         </div>
       </div>
+
       <FloatingExchangeButton />
     </>
   );
