@@ -1,4 +1,4 @@
-// src/app/community/(api)/getPosts.ts
+"use client";
 import axios from "axios";
 
 /** 카테고리 타입 */
@@ -17,8 +17,8 @@ export interface CommunityPost {
   nickname: string;
   isAuthor: boolean;
   isLiked: boolean;
-  imageUrlList: string[];
-  commentIdList: number[];
+  imageUrlList?: string[];
+  commentIdList?: number[];
 }
 
 /** API 응답 타입 */
@@ -31,33 +31,26 @@ export interface GetPostsResponse {
 
 /** 조회 파라미터 */
 export interface GetPostsParams {
-  category: CommunityCategory[]; // 여러 카테고리 가능
+  category?: CommunityCategory[]; // 여러 카테고리 가능, 전체 조회 시 생략
   lastPostId?: number; // 첫 조회 시 생략 가능
   size?: number;
 }
 
-/** 인증 토큰 */
-const getAuthToken = (): string | null => {
-  // 예: localStorage에서 토큰 가져오기
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("accessToken");
-  }
-  return null;
-};
-
 /** 커뮤니티 게시글 조회 */
 export const getPosts = async (
-  params: GetPostsParams
+  params: GetPostsParams,
+  token: string
 ): Promise<GetPostsResponse> => {
   try {
-    const token = getAuthToken();
     const queryParams: Record<string, string | number> = {
       size: params.size ?? 20,
     };
 
-    if (params.category.length > 0) {
+    // 전체 조회일 때 category 생략
+    if (params.category && params.category.length > 0) {
       queryParams["category"] = params.category.join(",");
     }
+
     if (params.lastPostId) queryParams["lastPostId"] = params.lastPostId;
 
     console.log(
@@ -69,7 +62,7 @@ export const getPosts = async (
     const { data } = await axios.get("https://api.refitlab.site/api/posts", {
       params: queryParams,
       headers: {
-        Authorization: token ? `Bearer ${token}` : "",
+        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
       validateStatus: () => true,
@@ -80,8 +73,8 @@ export const getPosts = async (
     if (!data.success) throw new Error(data.message || "API 요청 실패");
 
     return data.data;
-  } catch (error: any) {
-    console.error("getPosts 에러:", error.response ?? error);
-    throw error;
+  } catch (err: any) {
+    console.error("getPosts 에러:", err.response ?? err);
+    throw err;
   }
 };

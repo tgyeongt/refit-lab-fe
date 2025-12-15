@@ -23,6 +23,12 @@ interface CommunityCardProps {
 export default function CommunityCard({ post }: CommunityCardProps) {
   const router = useRouter();
 
+  const CATEGORY_LABEL_MAP: Record<CommunityPost["category"], string> = {
+    FREE: "자유 질문",
+    REPAIR: "수선 꿀팁",
+    INFO: "정보 공유",
+  };
+
   const handleCardClick = () => {
     router.push(`/community/${post.postId}`);
   };
@@ -33,7 +39,7 @@ export default function CommunityCard({ post }: CommunityCardProps) {
       onClick={handleCardClick}
     >
       <div className="inline-block bg-[#F5F5F5] text-[#642C8D] text-[12px] font-medium px-[10px] py-[4px] rounded-[5px] mb-[8px]">
-        {post.category}
+        {CATEGORY_LABEL_MAP[post.category]}
       </div>
 
       <p className="text-[18px] font-medium">{post.title}</p>
