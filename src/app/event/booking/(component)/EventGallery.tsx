@@ -4,7 +4,7 @@ import { useState } from "react";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { GalleryItem } from "./GalleryItem";
-import GalleryModal from "./GalleryModal";
+import { GalleryModal } from "./GalleryModal";
 import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 import { EventDetail } from "../../types/event";
 
@@ -20,6 +20,10 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
 
   // recentImageUrlList를 사용
   const galleryImages = eventDetail.recentImageUrlList || [];
+
+  if (!eventDetail) {
+    return null;
+  }
 
   // 이미지가 없는 경우
   if (galleryImages.length === 0) {
@@ -95,7 +99,7 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
 
       {/* 갤러리 모달 */}
       <GalleryModal
-        open={isModalOpen}
+        isOpen={isModalOpen}
         onClose={handleCloseModal}
         images={galleryImages}
         initialIndex={initialImageIndex}
