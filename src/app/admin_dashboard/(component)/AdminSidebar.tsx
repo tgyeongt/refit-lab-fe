@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { clsx } from "clsx";
 import Icon from "@/shared/components/Icon";
@@ -9,7 +10,6 @@ import CommunityIcon from "@/assets/icon/people.svg";
 import TagIcon from "@/assets/icon/ticket.svg";
 import QRCodeIcon from "@/assets/icon/QR.svg";
 import PartyReservIcon from "@/assets/icon/party-reserv.svg";
-import { useState, useEffect } from "react";
 
 // 네비게이션 아이콘 목록
 type NavIconName = "home" | "party" | "chart" | "tag" | "qr" | "community";

@@ -19,6 +19,7 @@ const QUICK_ACCESS_ICON_COMPONENTS: Record<
   qr: QRCodeIcon,
   community: CommunityIcon,
 };
+
 interface QuickAccessCardProps {
   icon: QuickAccessIconName;
 }
@@ -44,11 +45,17 @@ const CardIcon = ({ icon }: QuickAccessCardProps) => {
 export const QuickAccessCards = ({ cards }: { cards: QuickAccessCard[] }) => {
   return (
     <div className="grid grid-cols-4 gap-7 shrink-0">
-      {cards.map((card) => (
+      {cards.map((card) => {
+        const href =
+          card.title === "행사 등록 및 예약 관리"
+            ? "/admin_dashboard/party_reservation"
+            : card.link;
+
+        return (
         <Link
           key={card.id}
-          href={card.link}
-          className="block bg-white rounded-[18px] py-9 px-6 shadow-md hover:shadow-lg transition-shadow min-w-[225px] min-h-[245px]"
+            href={href}
+            className="block bg-white rounded-[18px] py-9 px-6 shadow-md hover:shadow-lg transition-shadow duration-150 min-w-[225px] min-h-[245px]"
         >
           <div className="flex justify-between items-start mb-5">
             {/* 타이틀 */}
@@ -70,7 +77,8 @@ export const QuickAccessCards = ({ cards }: { cards: QuickAccessCard[] }) => {
           {/* 상태 */}
           <p className="text-sm text-gray-6">{card.status}</p>
         </Link>
-      ))}
+        );
+      })}
     </div>
   );
 };

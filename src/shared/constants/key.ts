@@ -5,6 +5,8 @@ export const QUERY_KEY = {
   eventDetail: "event-detail",
   users: "users",
   myPage: "my-page",
+  myTickets: "my-tickets",
+  adminEvents: "admin-events",
 };
 
 // Storage Key (localStorage, sessionStorage)

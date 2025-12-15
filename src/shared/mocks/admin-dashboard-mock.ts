@@ -32,7 +32,7 @@ export const QUICK_ACCESS_CARDS_MOCK: QuickAccessCard[] = [
     description: "새로운 행사를 등록하고 \n참가자 예약을 관리합니다",
     status: "12개 진행중",
     icon: "party",
-    link: "#",
+    link: "/admin_dashboard/party_reservation",
   },
   {
     id: "exchange-status",

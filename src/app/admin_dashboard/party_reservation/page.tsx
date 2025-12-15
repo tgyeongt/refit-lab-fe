@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { SearchSection } from "./(component)/SearchSection";
 import { NewPartyButton } from "./(component)/NewPartyButton";
 import { PartyRegistrationTable } from "./(component)/PartyRegistrationTable";
-import { PARTY_MOCK_DATA } from "./(dummy)/partyData";
 import { PartyStatus } from "./(types)/party";
+import { useAdminEvents } from "./(hook)/useAdminEvents";
+import { useDeleteAdminEvent } from "./(hook)/mutation/useDeleteAdminEvent";
 
 // 행사 등록 페이지
 export default function PartyReservationPage() {
@@ -17,38 +18,40 @@ export default function PartyReservationPage() {
 
   const itemsPerPage = 5;
 
-  // 필터링된 데이터
-  let filteredParties = PARTY_MOCK_DATA;
+  // API status 매핑
+  const statusToApiStatus = (
+    status: "all" | PartyStatus
+  ): "UPCOMING" | "ONGOING" | "ENDED" | undefined => {
+    switch (status) {
+      case "scheduled":
+        return "UPCOMING";
+      case "ongoing":
+        return "ONGOING";
+      case "completed":
+        return "ENDED";
+      default:
+        return undefined; // 전체
+    }
+  };
 
-  // 상태 필터
-  if (activeStatus !== "all") {
-    filteredParties = filteredParties.filter(
-      (party) => party.status === activeStatus
-    );
-  }
+  const { parties, pagination, isLoading, error } = useAdminEvents({
+    page: currentPage - 1, // API는 0-based
+    size: itemsPerPage,
+    status: statusToApiStatus(activeStatus),
+    q: searchTerm || undefined,
+  });
 
-  // 검색어 필터
-  if (searchTerm) {
-    filteredParties = filteredParties.filter(
-      (party) =>
-        party.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        party.location.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }
+  const totalPages = pagination?.totalPages ?? 1;
 
-  // 페이지네이션
-  const totalPages = Math.ceil(filteredParties.length / itemsPerPage);
-  const paginatedParties = filteredParties.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // 상태별 카운트 (단일 API로는 전체 집계가 어려워 우선 동일 값 사용)
+  const total = pagination?.totalElements ?? 0;
+  const { mutate: deleteEvent } = useDeleteAdminEvent();
 
-  // 상태별 카운트
   const counts = {
-    all: PARTY_MOCK_DATA.length,
-    scheduled: PARTY_MOCK_DATA.filter((p) => p.status === "scheduled").length,
-    ongoing: PARTY_MOCK_DATA.filter((p) => p.status === "ongoing").length,
-    completed: PARTY_MOCK_DATA.filter((p) => p.status === "completed").length,
+    all: total,
+    scheduled: total,
+    ongoing: total,
+    completed: total,
   };
 
   // 핸들러
@@ -62,8 +65,11 @@ export default function PartyReservationPage() {
   };
 
   const handleDelete = (id: string) => {
-    console.log("삭제:", id);
-    // TODO: 삭제 확인 모달 열기
+    if (typeof window !== "undefined") {
+      const confirmed = window.confirm("해당 행사를 삭제하시겠습니까?");
+      if (!confirmed) return;
+    }
+    deleteEvent(id);
   };
 
   const handleSearch = (term: string) => {
@@ -92,14 +98,17 @@ export default function PartyReservationPage() {
       {/* 버튼 섹션 */}
       <div className="flex items-end justify-between mt-14 mb-4">
         <div className="flex gap-4.5 text-base font-medium text-gray-5A">
-          전체 <span className="text-purple">{counts.all}건</span>
+          전체{" "}
+          <span className="text-purple">
+            {pagination?.totalElements ?? 0}건
+          </span>
         </div>
         <NewPartyButton onClick={handleNewParty} />
       </div>
 
       {/* 테이블 */}
       <PartyRegistrationTable
-        parties={paginatedParties}
+        parties={parties}
         onEdit={handleEdit}
         onDelete={handleDelete}
         currentPage={currentPage}

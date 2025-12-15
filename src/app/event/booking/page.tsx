@@ -7,67 +7,48 @@ import { BookingButton } from "@/app/event/booking/(component)/BookingButton";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "@/app/event/(util)/event-styles";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, Suspense } from "react";
-import mockEventDetail from "@/app/event/booking/(util)/mock-event-detail.json";
-import { EventDetail } from "./(util)/event-detail";
+import { Suspense } from "react";
+import { useEventDetail } from "@/app/event/(hook)/query/useEventDetail";
 
 // useSearchParams를 사용하는 컴포넌트
 function BookingPageContent() {
-  // mock 데이터 추출
-  const {
-    id,
-    title,
-    description,
-    location,
-    date,
-    thumbnailUrl,
-    info,
-    galleryImages,
-    totalGalleryCount,
-    isReservable,
-  } = mockEventDetail;
-
-  // 이벤트 상세 정보 객체 생성
-  const eventDetail: EventDetail = {
-    id,
-    title,
-    description,
-    location,
-    date,
-    thumbnailUrl,
-    info,
-    galleryImages,
-    totalGalleryCount,
-    isReservable,
-  };
   const router = useRouter();
   const searchParams = useSearchParams();
-  // 이벤트 ID 추출 (현재는 1로 고정)
-  const eventId = searchParams.get("id") || "1";
 
-  // 임시 상태 관리
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isBookingPending, setIsBookingPending] = useState<boolean>(false);
+  // 쿼리스트링에서 이벤트 ID 추출 (?id=1)
+  const idParam = searchParams.get("id");
+  const eventId = idParam ? Number(idParam) : null;
 
-  // 예약 처리
-  const handleBooking = () => {
-    if (!eventDetail) return;
+  const isValidEventId = eventId !== null && !isNaN(eventId) && eventId > 0;
 
-    setIsBookingPending(true);
-    setTimeout(() => {
-      setIsBookingPending(false);
-      setIsLoading(false);
-    }, 1000);
-    router.push(`/event/booking/reservation`);
+  const {
+    data: eventDetail,
+    isLoading,
+    error,
+  } = useEventDetail(isValidEventId ? eventId : 0);
+
+  const handleReservationSuccess = () => {
+    router.refresh();
   };
 
-  // 자세히 알아보기
   const handleDetailClick = () => {
     // 추가 정보 모달 또는 페이지
     console.log("자세히 알아보기 클릭");
   };
 
-  // 로딩 상태
+  if (!isValidEventId) {
+    return (
+      <main
+        className={cn(
+          bookingStyles.color.bgPage,
+          "min-h-screen flex items-center justify-center"
+        )}
+      >
+        <p className={bookingStyles.text.body}>유효하지 않은 행사 ID입니다.</p>
+      </main>
+    );
+  }
+
   if (isLoading) {
     return (
       <main
@@ -77,6 +58,34 @@ function BookingPageContent() {
         )}
       >
         <p className={bookingStyles.text.body}>로딩 중...</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main
+        className={cn(
+          bookingStyles.color.bgPage,
+          "min-h-screen flex items-center justify-center"
+        )}
+      >
+        <p className={bookingStyles.text.body}>
+          행사를 불러오는데 실패했습니다.
+        </p>
+      </main>
+    );
+  }
+
+  if (!eventDetail) {
+    return (
+      <main
+        className={cn(
+          bookingStyles.color.bgPage,
+          "min-h-screen flex items-center justify-center"
+        )}
+      >
+        <p className={bookingStyles.text.body}>행사를 찾을 수 없습니다.</p>
       </main>
     );
   }
@@ -99,26 +108,26 @@ function BookingPageContent() {
         )}
       >
         <EventDetailHero
-          eventDetail={eventDetail!}
+          eventDetail={eventDetail}
           onDetailClick={handleDetailClick}
         />
       </div>
 
       {/* 행사 정보 카드 */}
       <div className={bookingStyles.layout.mb6}>
-        <EventInfoCard eventDetail={eventDetail!} />
+        <EventInfoCard eventDetail={eventDetail} />
       </div>
 
       {/* 갤러리 섹션 */}
       <div className={bookingStyles.layout.mb7}>
-        <EventGallery eventDetail={eventDetail!} />
+        <EventGallery eventDetail={eventDetail} />
       </div>
 
       {/* 예약하기 버튼 (하단 고정) */}
       <BookingButton
-        isReservable={eventDetail?.isReservable || false}
-        isLoading={isBookingPending}
-        onClick={handleBooking}
+        isReserved={eventDetail.isReserved || false}
+        eventId={eventDetail.eventId}
+        onReservationSuccess={handleReservationSuccess}
       />
     </main>
   );
