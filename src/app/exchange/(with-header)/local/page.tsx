@@ -1,6 +1,7 @@
 "use client";
 
 import useHeader from "@/shared/hooks/useHeader";
+import NotFound from "@/shared/components/NotFound";
 
 export default function ExchangeLocalPage() {
   useHeader({
@@ -8,5 +9,9 @@ export default function ExchangeLocalPage() {
     showMenu: true,
   });
 
-  return <div>내 주변 옷 보러가기 페이지</div>;
+  return (
+    <div>
+      <NotFound />
+    </div>
+  );
 }
