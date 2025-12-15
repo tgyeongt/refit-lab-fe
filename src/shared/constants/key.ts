@@ -10,7 +10,6 @@ export const QUERY_KEY = {
 // Storage Key (localStorage, sessionStorage)
 export const STORAGE_KEY = {
   partyHistory: "party-history-storage",
-  accessToken: "accessToken",
+  legacyAccessToken: "accessToken",
   authStore: "auth-store", // Zustand persist용 전체 인증 상태 저장 키
-  // 추가 storage key는 여기에 추가
 };
