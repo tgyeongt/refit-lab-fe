@@ -30,15 +30,47 @@ privateAPI.interceptors.request.use(
           const accessToken = parsed?.state?.accessToken;
           if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
+          } else {
+            console.warn("[API] accessToken이 없습니다.");
           }
         } catch (error) {
-          // 파싱 실패 시 무시
+          console.error("[API] authStore 파싱 실패:", error);
         }
+      } else {
+        console.warn("[API] authStore 데이터가 없습니다.");
       }
     }
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// privateAPI 응답 인터셉터: 에러 처리
+privateAPI.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      // 서버에서 응답을 받았지만 에러 상태 코드
+      console.error("[API] 응답 에러:", {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data,
+        url: error.config?.url,
+      });
+    } else if (error.request) {
+      // 요청은 보냈지만 응답을 받지 못함
+      console.error("[API] 요청 실패 (응답 없음):", {
+        url: error.config?.url,
+        message: error.message,
+      });
+    } else {
+      // 요청 설정 중 에러
+      console.error("[API] 요청 설정 에러:", error.message);
+    }
     return Promise.reject(error);
   }
 );

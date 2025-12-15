@@ -2,12 +2,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { STORAGE_KEY } from "@/shared/constants/key";
 import { MyPageUser } from "@/app/my/(types)/my";
+import { useShallow } from "zustand/react/shallow";
 
 // 인증 상태 타입
 interface AuthState {
   accessToken: string | null;
   user: MyPageUser | null;
   isLoggedIn: boolean;
+  hydrated: boolean;
 }
 
 // 인증 액션 타입
@@ -30,6 +32,7 @@ export const useAuthStore = create<AuthStore>()(
       accessToken: null,
       user: null,
       isLoggedIn: false,
+      hydrated: false,
       actions: {
         setAccessToken: (token) =>
           set((state) => ({
@@ -56,6 +59,7 @@ export const useAuthStore = create<AuthStore>()(
             accessToken: null,
             user: null,
             isLoggedIn: false,
+            hydrated: true,
           });
         },
       },
@@ -67,20 +71,42 @@ export const useAuthStore = create<AuthStore>()(
         user: state.user,
         isLoggedIn: state.isLoggedIn,
       }),
+
+      onRehydrateStorage: () => (state, error) => {
+        if (useAuthStore.getState().hydrated) return;
+
+        useAuthStore.setState({
+          hydrated: true,
+          isLoggedIn: !!state?.accessToken,
+        });
+      },
     }
   )
 );
 
 // 인증 정보 훅
 export const useAuthInfo = () => {
-  return useAuthStore((state) => ({
-    accessToken: state.accessToken,
-    user: state.user,
-    isLoggedIn: state.isLoggedIn,
-  }));
+  return useAuthStore(
+    useShallow((state) => ({
+      accessToken: state.accessToken,
+      user: state.user,
+      isLoggedIn: state.isLoggedIn,
+      hydrated: state.hydrated,
+    }))
+  );
 };
 
 // 인증 액션 훅
 export const useAuthActions = () => {
   return useAuthStore((state) => state.actions);
+};
+
+export const useAuth = () => {
+  const authInfo = useAuthInfo();
+  const authActions = useAuthActions();
+
+  return {
+    ...authInfo,
+    ...authActions,
+  };
 };
