@@ -6,15 +6,18 @@ import { useHeaderStore } from "@/shared/stores/headerStore";
 import BoardSelector from "./(component)/BoardSelector";
 import ImageSelector from "./(component)/ImageSelector";
 import CloseIcon from "@/assets/icon/close.svg";
+import { postNewPost } from "../(api)/postNewPost";
+import { useAuth } from "@/shared/stores/useAuthStore";
 
 export default function PostPage() {
+  const { accessToken } = useAuth();
   const { setHeader, setRightHeader } = useHeaderStore();
 
   const [board, setBoard] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const [images, setImages] = useState<File[]>([]); // 이미지 목록
+  const [images, setImages] = useState<File[]>([]);
 
   const isActive = title.trim().length > 0 && content.trim().length > 0;
 
@@ -27,8 +30,27 @@ export default function PostPage() {
 
     setRightHeader({
       text: "올리기",
-      onClick: () =>
-        console.log("게시물 등록", { board, title, content, images }),
+      onClick: async () => {
+        if (!accessToken) return alert("로그인이 필요합니다.");
+        if (!board) return alert("게시판을 선택해주세요.");
+
+        try {
+          const result = await postNewPost(
+            {
+              postCategory: board,
+              title,
+              content,
+              imageList: images,
+            },
+            accessToken
+          );
+          console.log("게시글 등록 완료:", result);
+          alert("게시글이 등록되었습니다!");
+        } catch (err: any) {
+          console.error("게시글 등록 실패:", err.message);
+          alert("게시글 등록 중 오류가 발생했습니다.");
+        }
+      },
       active: isActive,
     });
 
