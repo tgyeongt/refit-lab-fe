@@ -20,9 +20,7 @@ const privateAPI = axios.create({
 // privateAPI 요청 인터셉터: Authorization 헤더에 accessToken 추가
 privateAPI.interceptors.request.use(
   (config) => {
-    // 클라이언트 사이드에서만 실행
     if (typeof window !== "undefined") {
-      // Zustand persist에서 저장된 인증 상태 읽기
       const authStoreData = localStorage.getItem(STORAGE_KEY.authStore);
       if (authStoreData) {
         try {
