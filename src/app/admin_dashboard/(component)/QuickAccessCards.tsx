@@ -52,31 +52,31 @@ export const QuickAccessCards = ({ cards }: { cards: QuickAccessCard[] }) => {
             : card.link;
 
         return (
-          <Link
-            key={card.id}
+        <Link
+          key={card.id}
             href={href}
             className="block bg-white rounded-[18px] py-9 px-6 shadow-md hover:shadow-lg transition-shadow duration-150 min-w-[225px] min-h-[245px]"
-          >
-            <div className="flex justify-between items-start mb-5">
-              {/* 타이틀 */}
-              <h3 className="text-lg font-semibold text-black whitespace-pre-line leading-snug">
-                {card.title}
-              </h3>
+        >
+          <div className="flex justify-between items-start mb-5">
+            {/* 타이틀 */}
+            <h3 className="text-lg font-semibold text-black whitespace-pre-line leading-snug">
+              {card.title}
+            </h3>
 
-              {/* 아이콘 */}
-              <div className="mb-4 mr-4">
-                <CardIcon icon={card.icon as QuickAccessIconName} />
-              </div>
+            {/* 아이콘 */}
+            <div className="mb-4 mr-4">
+              <CardIcon icon={card.icon as QuickAccessIconName} />
             </div>
+          </div>
 
-            {/* 설명 */}
-            <p className="text-base text-gray-7 mb-7 whitespace-pre-line leading-relaxed">
-              {card.description}
-            </p>
+          {/* 설명 */}
+          <p className="text-base text-gray-7 mb-7 whitespace-pre-line leading-relaxed">
+            {card.description}
+          </p>
 
-            {/* 상태 */}
-            <p className="text-sm text-gray-6">{card.status}</p>
-          </Link>
+          {/* 상태 */}
+          <p className="text-sm text-gray-6">{card.status}</p>
+        </Link>
         );
       })}
     </div>

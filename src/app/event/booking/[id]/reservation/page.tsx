@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { cn } from "@/app/event/(util)/event-styles";
 import useHeader from "@/shared/hooks/useHeader";
 import Icon from "@/shared/components/Icon";
@@ -19,6 +18,8 @@ import {
   validateFilesSize,
   formatFileSize,
 } from "@/shared/util/file-validation";
+import { useIssueDevTicket } from "@/app/event/(hook)/mutation/useIssueDevTicket";
+import { useAuth } from "@/shared/stores/useAuthStore";
 
 const MAX_CLOTHES_COUNT = 10;
 
@@ -64,6 +65,8 @@ export default function ReservationPage() {
 
   // Mutation 훅
   const { mutate: createReservation, isPending } = useCreateReservation();
+  const { mutateAsync: issueDevTicket } = useIssueDevTicket();
+  const { user } = useAuth();
 
   const clothesCount = watch("clothesCount");
   const isEmailConsent = watch("isEmailConsent");
@@ -128,9 +131,31 @@ export default function ReservationPage() {
         clothImageList: data.clothImageList,
       },
       {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
           console.log("=== 예약 성공 ===");
           console.log("응답:", response);
+
+          try {
+            if (!user?.userId) {
+              console.warn(
+                "[티켓 발급] userId가 없어 dev 티켓을 발급하지 않습니다."
+              );
+            } else {
+              // TODO: 만료일(expiresAt)은 실제 비즈니스 로직에 맞게 조정 필요
+              const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+              await issueDevTicket({
+                type: "EVENT",
+                targetId: eventId,
+                userId: user.userId,
+                expiresAt: today,
+              });
+              console.log("=== Dev 티켓 발급 성공 ===");
+            }
+          } catch (ticketError) {
+            console.error("=== Dev 티켓 발급 실패 ===", ticketError);
+          }
+
           setIsModalOpen(true);
         },
         onError: (error: any) => {
