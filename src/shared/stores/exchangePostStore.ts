@@ -9,6 +9,7 @@ export type ExchangePostFormState = {
   wantCategory: string;
   wantSize: string;
   description: string;
+  letter: string;
 
   update: <K extends keyof Omit<ExchangePostFormState, "update" | "reset">>(
     key: K,
@@ -26,6 +27,7 @@ const initialState = {
   wantCategory: "",
   wantSize: "",
   description: "",
+  letter: "",
 };
 
 export const useExchangePostStore = create<ExchangePostFormState>((set) => ({
