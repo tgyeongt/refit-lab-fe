@@ -1,309 +1,162 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import type { Swiper as SwiperType } from "swiper/types";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Thumbs } from "swiper/modules";
-import type { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
-import ArrowLeft from "@/assets/icon/arrow-left.svg";
-import gallery from "@/assets/icon/gallery.svg";
-import Icon from "@/shared/components/Icon";
-import { cn } from "@/app/event/(util)/event-styles";
+import { FreeMode, Thumbs, Keyboard } from "swiper/modules";
 
-interface GalleryModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+type GalleryModalProps = {
+  open: boolean;
   images: string[];
   initialIndex?: number;
-}
+  onClose: () => void;
+};
 
-export const GalleryModal = ({
-  isOpen,
-  onClose,
+export default function GalleryModal({
+  open,
   images,
   initialIndex = 0,
-}: GalleryModalProps) => {
+  onClose,
+}: GalleryModalProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
-  const [mainSwiper, setMainSwiper] = useState<SwiperType | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
-  // initialIndex가 변경될 때 메인 슬라이더 이동
+  // ✅ destroyed 된 thumbs 인스턴스는 절대 사용하지 않기
+  const safeThumbs = useMemo(() => {
+    if (!thumbsSwiper) return null;
+    if (thumbsSwiper.destroyed) return null;
+    return thumbsSwiper;
+  }, [thumbsSwiper]);
+
+  // ✅ 모달 닫힐 때 thumbs 초기화 (재오픈 안정화)
   useEffect(() => {
-    if (!isOpen) {
-      document.body.style.overflow = "unset";
-      return;
-    }
+    if (!open) setThumbsSwiper(null);
+  }, [open]);
 
+  // (옵션) ESC 닫기 + 바디 스크롤 잠금
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+      setThumbsSwiper(null);
     };
-  }, [isOpen, initialIndex]);
+  }, [open, onClose]);
 
-  // Swiper가 활성화 되면 initialIndex 위치로 이동
-  useEffect(() => {
-    if (!isOpen) return;
-    if (!mainSwiper) return;
-    if (mainSwiper.destroyed) return;
+  // ✅ 핵심: 닫혔으면 Swiper를 “아예 렌더링 안 함”
+  if (!open) return null;
 
-    try {
-      mainSwiper.slideTo(initialIndex);
-    } catch (error) {
-      console.error("Swiper slideTo error:", error);
-    }
-  }, [isOpen, initialIndex, mainSwiper]);
-
-  // 컴포넌트 언마운트 시 Swiper 인스턴스 정리
-  useEffect(() => {
-    return () => {
-      if (mainSwiper && !mainSwiper.destroyed) {
-        try {
-          mainSwiper.destroy(true, true);
-        } catch (error) {
-          console.error("Main Swiper 정리 오류:", error);
-        }
-      }
-      if (thumbsSwiper && !thumbsSwiper.destroyed) {
-        try {
-          thumbsSwiper.destroy(true, true);
-        } catch (error) {
-          console.error("Thumbs Swiper 정리 오류:", error);
-        }
-      }
-    };
-  }, [mainSwiper, thumbsSwiper]);
-
-  if (!isOpen) return null;
-
-  // 모달 닫기
-  const handleClose = () => {
-    onClose();
-  };
-
-  const handleSlideChange = (swiper: SwiperType) => {
-    setCurrentIndex(swiper.activeIndex);
-
-    if (thumbsSwiper && !thumbsSwiper.destroyed) {
-      try {
-        thumbsSwiper.slideTo(swiper.activeIndex);
-      } catch (error) {
-        console.error("Thumbs Swiper slideTo error:", error);
-      }
-    }
-  };
+  if (!images || images.length === 0) {
+    return (
+      <div
+        className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60"
+        onClick={onClose}
+      >
+        <div
+          className="w-[min(92vw,720px)] rounded-2xl bg-white p-6"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <p className="text-sm text-gray-700">표시할 이미지가 없습니다.</p>
+          <button
+            className="mt-4 rounded-xl bg-black px-4 py-2 text-white"
+            onClick={onClose}
+          >
+            닫기
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
-      className={cn(
-        "fixed",
-        "inset-0",
-        "z-50",
-        "bg-[#141414]",
-        "flex",
-        "flex-col"
-      )}
-      onClick={handleClose}
+      className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
     >
-      {/* 헤더 - 뒤로가기 버튼 */}
       <div
-        className={cn(
-          "relative",
-          "w-full",
-          "h-[44px]",
-          "flex",
-          "items-center",
-          "px-[14px]",
-          "pt-[13px]",
-          "pb-[12px]",
-          "z-10"
-        )}
+        className="w-[min(92vw,860px)] rounded-2xl bg-white p-4 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          onClick={handleClose}
-          className={cn(
-            "w-[28px]",
-            "h-[28px]",
-            "flex",
-            "items-center",
-            "justify-center",
-            "cursor-pointer"
-          )}
-        >
-          <Icon
-            icon={ArrowLeft}
-            color="#929292"
-            width={28}
-            height={28}
-            className="w-[28px] h-[28px]"
-          />
-        </button>
-      </div>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="text-sm font-medium text-gray-800">
+            {initialIndex + 1} / {images.length}
+          </div>
+          <button
+            className="rounded-xl px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            onClick={onClose}
+          >
+            닫기
+          </button>
+        </div>
 
-      {/* 메인 이미지 슬라이더 */}
-      <div
-        className={cn(
-          "flex-1",
-          "relative",
-          "w-full",
-          "flex",
-          "items-center",
-          "justify-center"
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
+        {/* 메인 Swiper */}
         <Swiper
-          modules={[Thumbs]}
-          thumbs={
-            thumbsSwiper && !thumbsSwiper.destroyed
-              ? { swiper: thumbsSwiper }
-              : undefined
-          }
-          onSwiper={(swiper) => {
-            if (swiper && !swiper.destroyed) {
-              setMainSwiper(swiper);
-            }
-          }}
-          onSlideChange={handleSlideChange}
-          initialSlide={initialIndex}
-          className={cn("w-full", "h-full")}
-          spaceBetween={0}
-          slidesPerView={1}
+          // ✅ thumbs가 준비되기 전에는 thumbs prop 자체를 안 넘기는 게 안전
+          thumbs={safeThumbs ? { swiper: safeThumbs } : undefined}
+          modules={[Thumbs, Keyboard]}
+          keyboard={{ enabled: true }}
+          initialSlide={Math.min(Math.max(initialIndex, 0), images.length - 1)}
+          spaceBetween={12}
+          className="rounded-2xl"
         >
-          {images.map((imageUrl, index) => (
-            <SwiperSlide key={index}>
-              <div
-                className={cn(
-                  "relative",
-                  "w-full",
-                  "h-full",
-                  "flex",
-                  "items-center",
-                  "justify-end"
-                )}
-              >
+          {images.map((src, idx) => (
+            <SwiperSlide key={`${src}-${idx}`}>
+              <div className="relative h-[60vh] w-full overflow-hidden rounded-2xl bg-gray-100">
                 <Image
-                  src={imageUrl}
-                  alt={`갤러리 이미지 ${index + 1}`}
+                  src={src}
+                  alt={`gallery-${idx}`}
                   fill
-                  className={cn("object-contain")}
-                  priority={index === initialIndex}
+                  sizes="(max-width: 860px) 92vw, 860px"
+                  className="object-contain"
+                  priority={idx === initialIndex}
                 />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
 
-      {/* 하단 썸네일 및 카운터 */}
-      <div
-        className={cn(
-          "flex",
-          "flex-col",
-          "justify-center",
-          "w-full",
-          "pt-[23px]"
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* 썸네일 슬라이더 */}
-        <div className={cn("mb-2.5", "px-3")}>
+        {/* 썸네일 Swiper */}
+        <div className="mt-4">
           <Swiper
-            modules={[Thumbs]}
-            onSwiper={(swiper) => {
-              if (swiper && !swiper.destroyed) {
-                setThumbsSwiper(swiper);
-              }
-            }}
+            modules={[FreeMode, Thumbs]}
+            onSwiper={(s) => setThumbsSwiper(s)}
+            onDestroy={() => setThumbsSwiper(null)} // ✅ 방어
             watchSlidesProgress
+            freeMode
             spaceBetween={10}
             slidesPerView="auto"
-            centeredSlides
-            className={cn("w-full")}
+            className="rounded-2xl"
           >
-            {images.map((imageUrl, index) => (
+            {images.map((src, idx) => (
               <SwiperSlide
-                key={index}
-                className={cn("w-[44px]!", "h-[60px]!", "cursor-pointer")}
+                key={`thumb-${src}-${idx}`}
+                className="w-[72px]! h-[72px]!"
               >
-                <div
-                  className={cn(
-                    "relative",
-                    "w-full",
-                    "h-full",
-                    "rounded-[4px]",
-                    currentIndex === index
-                      ? "border-[1.5px]! border-[#08B0B7]"
-                      : "border-[1.5px]! border-transparent"
-                  )}
-                  onClick={() => {
-                    if (mainSwiper && !mainSwiper.destroyed) {
-                      try {
-                        mainSwiper.slideTo(index);
-                      } catch (error) {
-                        console.error("Main Swiper slideTo error:", error);
-                      }
-                    }
-                  }}
-                >
-                  <div
-                    className={cn(
-                      "relative",
-                      "w-full",
-                      "h-full",
-                      "overflow-hidden",
-                      "rounded-[2.5px]"
-                    )}
-                  >
-                    <Image
-                      src={imageUrl}
-                      alt={`썸네일 ${index + 1}`}
-                      width={66}
-                      height={84}
-                      className={cn(
-                        "object-cover",
-                        "w-full",
-                        "h-full",
-                        currentIndex === index ? "opacity-100" : "opacity-60"
-                      )}
-                    />
-                  </div>
+                <div className="relative h-[72px] w-[72px] overflow-hidden rounded-xl bg-gray-100">
+                  <Image
+                    src={src}
+                    alt={`thumb-${idx}`}
+                    fill
+                    sizes="72px"
+                    className="object-cover"
+                  />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
-
-      {/* 카운터 */}
-      <div
-        className={cn(
-          "flex",
-          "items-center",
-          "justify-center",
-          "gap-[10px]",
-          "pb-6"
-        )}
-      >
-        <div className={cn("w-[24px]", "h-[24px]", "relative")}>
-          <Icon icon={gallery} className="w-[24px] h-[24px]" />
-        </div>
-        <span
-          className={cn(
-            "text-white",
-            "text-[14px]",
-            "font-medium",
-            "leading-[1.193]",
-            "tracking-[-0.035em]"
-          )}
-        >
-          {currentIndex + 1}/{images.length}
-        </span>
-      </div>
     </div>
   );
-};
+}

@@ -1,57 +1,37 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { bookingStyles } from "@/app/event/booking/(util)/booking-styles";
 import { cn } from "../../(util)/event-styles";
-import {
-  usePartyHistoryActions,
-  usePartyHistoryInfo,
-} from "@/shared/stores/usePartyHistoryStore";
-import { Event } from "@/app/event/types/event";
 
 interface BookingButtonProps {
-  isReservable: boolean;
+  isReserved: boolean;
   isLoading?: boolean;
-  isReserved?: boolean;
-  onClick?: () => void;
-  eventData?: Event; // 예약할 행사 정보
+  eventId: number;
+  onReservationSuccess?: () => void;
 }
 
-// 예약하기 버튼 컴포넌트
+// 예약하기 버튼 컴포넌트 (라우팅만 처리)
 export const BookingButton = ({
-  isReservable,
   isLoading = false,
-  isReserved: isReservedProp = false,
-  onClick,
-  eventData,
+  isReserved,
+  eventId,
+  onReservationSuccess,
 }: BookingButtonProps) => {
-  const { addReservedEvent } = usePartyHistoryActions();
-  const { reservedEvents } = usePartyHistoryInfo();
-
-  // Store에서 예약 여부 확인
-  const isReservedInStore = eventData
-    ? reservedEvents.some((e) => e.eventId === eventData.eventId)
-    : false;
-
-  const isReserved = isReservedProp || isReservedInStore;
+  const router = useRouter();
 
   const handleReserveClick = () => {
     if (isReserved) {
       return;
     }
 
-    // 커스텀 onClick이 있으면 실행
-    onClick?.();
-
-    // 행사 정보가 있으면 Store에 추가
-    if (eventData) {
-      addReservedEvent(eventData);
-      alert("예약이 완료되었습니다!");
-    }
+    // 예약 페이지로 라우팅
+    router.push(`/event/booking/${eventId}/reservation`);
   };
 
   return (
     <div className={bookingStyles.component.bookingButton}>
-      {/* 임시 설정: 이미 예약한 행사인 경우 */}
+      {/* 이미 예약한 행사인 경우 */}
       {isReserved ? (
         <button
           className={cn(bookingStyles.component.buttonCTADisabled)}
@@ -63,7 +43,7 @@ export const BookingButton = ({
       ) : (
         <button
           onClick={handleReserveClick}
-          disabled={!isReservable || isLoading}
+          disabled={isReserved || isLoading}
           className={bookingStyles.component.buttonCTA}
           type="button"
         >
