@@ -1,25 +1,63 @@
 "use client";
 
-import { useState } from "react";
-import { Comment } from "../../dummyData";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/shared/stores/useAuthStore";
 import CommentItem from "./CommentItem";
 import CommentInputBar from "./CommentInputBar";
+import {
+  getCommentsByPostId,
+  CommentUI,
+  postNewComment,
+} from "../../(api)/getCommentsByPostId";
+import { useState } from "react";
 
 interface AnswerSectionProps {
-  comments: Comment[];
+  postId: number;
 }
 
-export default function AnswerSection({ comments }: AnswerSectionProps) {
+export default function AnswerSection({ postId }: AnswerSectionProps) {
+  const { accessToken, isLoggedIn, hydrated } = useAuth();
+  const queryClient = useQueryClient();
   const [replyTargetId, setReplyTargetId] = useState<number | null>(null);
 
-  const handleOpenReplyInput = (id: number) => {
-    setReplyTargetId(id);
+  const {
+    data: comments,
+    isLoading,
+    isError,
+  } = useQuery<CommentUI[]>({
+    queryKey: ["comments", postId, accessToken],
+    queryFn: () => {
+      if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
+      return getCommentsByPostId(postId, accessToken); // 계층 구조 포함
+    },
+    enabled: hydrated && isLoggedIn,
+  });
+
+  const handleOpenReplyInput = (id: number) => setReplyTargetId(id);
+
+  const handleSubmitReply = async (text: string) => {
+    if (!accessToken) return;
+    try {
+      await postNewComment(
+        postId,
+        text,
+        replyTargetId ?? undefined,
+        accessToken
+      );
+      setReplyTargetId(null);
+      queryClient.invalidateQueries({
+        predicate: (query) =>
+          query.queryKey[0] === "comments" && query.queryKey[1] === postId,
+      });
+    } catch (err) {
+      console.error("댓글 작성 실패:", err);
+    }
   };
 
-  const handleSubmitReply = (text: string) => {
-    console.log(`답글 대상: ${replyTargetId}, 내용: ${text}`);
-    setReplyTargetId(null);
-  };
+  if (!hydrated) return <p>댓글 준비중...</p>;
+  if (isLoading) return <p>댓글 로딩중...</p>;
+  if (isError) return <p>댓글을 불러오지 못했습니다.</p>;
+  if (!comments || comments.length === 0) return <p>댓글이 없습니다.</p>;
 
   return (
     <section className="mt-3">
@@ -35,10 +73,9 @@ export default function AnswerSection({ comments }: AnswerSectionProps) {
         ))}
       </div>
 
-      {/* 입력창 */}
       {replyTargetId !== null && (
         <CommentInputBar
-          onSubmit={(text) => handleSubmitReply(text)}
+          onSubmit={handleSubmitReply}
           onClose={() => setReplyTargetId(null)}
         />
       )}
