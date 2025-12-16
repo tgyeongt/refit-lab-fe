@@ -28,7 +28,7 @@ export default function CommunityDetailPage() {
     queryKey: ["communityPost", postId, accessToken],
     queryFn: () => {
       if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
-      return getPostById(postId, accessToken);
+      return getPostById(postId);
     },
     enabled: hydrated && isLoggedIn,
   });

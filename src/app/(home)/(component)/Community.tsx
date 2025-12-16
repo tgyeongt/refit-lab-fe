@@ -17,7 +17,7 @@ export default function CommunityTopPosts() {
     queryKey: ["allCommunityPosts", accessToken],
     queryFn: () => {
       if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
-      return getPosts({ category: [], size: 100 }, accessToken);
+      return getPosts({ category: [], size: 100 });
     },
     enabled: hydrated && isLoggedIn,
   });
