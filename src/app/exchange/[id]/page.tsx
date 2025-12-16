@@ -13,7 +13,7 @@ import PinIcon from "@/assets/icon/pin.svg";
 import Image from "next/image";
 import KakaoMap from "./KakaoMap";
 import FloatingExchangeButton from "./FloatingExchangeButton";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getExchangeDetail,
@@ -33,6 +33,9 @@ export default function ExchangeDetailPage() {
     queryFn: () => getExchangeDetail(exchangePostId),
     enabled: !!exchangePostId && !Number.isNaN(exchangePostId),
   });
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!data) return;
@@ -92,20 +95,37 @@ export default function ExchangeDetailPage() {
     "3XL": "XL3",
   };
 
+  const handleScroll = () => {
+    if (!sliderRef.current) return;
+    const scrollLeft = sliderRef.current.scrollLeft;
+    const width = sliderRef.current.clientWidth;
+    const index = Math.round(scrollLeft / width);
+    setCurrentImageIndex(index);
+  };
+
   return (
     <>
       <div className="w-full pb-[80px]">
-        {/* 이미지 */}
-        <div className="w-full aspect-square relative">
-          {data.imageUrlList[0] && (
-            <Image
-              src={data.imageUrlList[0]}
-              alt={data.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          )}
+        {/* 이미지 슬라이더 */}
+        <div
+          className="w-full aspect-square relative overflow-x-scroll scroll-snap-x snap-mandatory flex"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
+          {data.imageUrlList.map((url, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-full h-full relative scroll-snap-start"
+            >
+              <Image
+                src={url}
+                alt={data.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          ))}
         </div>
 
         <div className="px-[15px] py-[12px]">
@@ -192,25 +212,6 @@ export default function ExchangeDetailPage() {
               priority
             />
           </div>
-
-          {/* 교환자 정보 */}
-          {/* <div className="bg-[#F5F5F7] px-[15px] py-[10px]">
-            <p className="text-[14px]">교환자</p>
-            <div className="flex items-center justify-between py-[15px]">
-              <div className="flex items-center space-x-3">
-                <Image
-                  src={DummyImg}
-                  alt="profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover aspect-square"
-                />
-                <span className="font-semibold mr-[3px]">{data.nickname}</span>
-                <span>님</span>
-              </div>
-              <button className="text-[14px] text-[#642C8D]">쓴 글 보기</button>
-            </div>
-          </div> */}
         </div>
       </div>
 
