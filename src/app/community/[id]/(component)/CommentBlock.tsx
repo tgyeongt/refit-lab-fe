@@ -45,15 +45,11 @@ export default function CommentBlock({
   const handleLike = async () => {
     if (!accessToken) return alert("로그인이 필요합니다.");
 
-    console.log("Comment ID:", commentId);
-
     try {
-      const { isLiked, likes } = await toggleCommentLike(
-        commentId,
-        accessToken
-      );
-      setIsLiked(isLiked);
-      setLikes(likes);
+      await toggleCommentLike(commentId, accessToken);
+
+      setIsLiked((prev) => !prev);
+      setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
     } catch (err) {
       console.error(err);
       alert("좋아요 요청 중 오류가 발생했습니다.");

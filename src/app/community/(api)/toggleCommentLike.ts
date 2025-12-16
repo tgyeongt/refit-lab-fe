@@ -12,11 +12,6 @@ export const toggleCommentLike = async (
     }
   );
 
-  if (!data.success) throw new Error(data.message || "댓글 좋아요 요청 실패");
-
-  // 서버에서 isLiked, likes 반환
-  return {
-    isLiked: data.data.isLiked,
-    likes: data.data.likes,
-  };
+  if (!data.success) throw new Error(data.message || "댓글 요청 실패");
+  return data.data; // true / false
 };
