@@ -61,7 +61,7 @@ export default function Exchange() {
       }}
       className="w-full min-h-[490px] mt-[30px]"
     >
-      <div className="flex items-center justify-between px-[15px] pt-[30px]">
+      <div className="flex items-center justify-between px-[15px] pt-[50px]">
         <h2 className="text-[24px] font-semibold">지금 교환 중인 옷</h2>
         <Link href="/exchange" className="text-[14px] text-[#9E9E9E]">
           더보기
