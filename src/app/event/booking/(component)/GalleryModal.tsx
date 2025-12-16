@@ -72,7 +72,7 @@ export const GalleryModal = ({
     // 썸네일 슬라이더가 현재 슬라이드로 스크롤되도록
     if (thumbsSwiper) {
       thumbsSwiper.slideTo(swiper.activeIndex);
-    }
+  }
   };
 
   return (
@@ -95,7 +95,7 @@ export const GalleryModal = ({
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
+          <button
           onClick={handleClose}
           className={cn(
             "w-[28px]",
@@ -107,8 +107,8 @@ export const GalleryModal = ({
           )}
         >
           <Icon icon={ArrowLeft} className="w-[28px] h-[28px] text-white" />
-        </button>
-      </div>
+          </button>
+        </div>
 
       {/* 메인 이미지 슬라이더 */}
       <div

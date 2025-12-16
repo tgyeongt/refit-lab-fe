@@ -10,7 +10,7 @@ const ITEMS_PER_PAGE = 4;
 
 // 내 경험 공유글 페이지
 export default function ExperiencePostsPage() {
-  useHeader({ title: "내 경험 공유글", showBack: true, showMenu: true });
+  useHeader({ title: "내 경험 공유글", showBack: true, showMenu: false });
   const [currentPage, setCurrentPage] = useState(1);
 
   const { posts, pagination, isLoading, error } = useMyPosts(
@@ -57,4 +57,3 @@ export default function ExperiencePostsPage() {
     </main>
   );
 }
-

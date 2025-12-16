@@ -80,7 +80,8 @@ export const mypageStyles = {
       "leading-[1.3333333333333333em]",
       "tracking-[-0.006666666666666667em]",
       "text-[#642C8D]",
-      "text-center"
+      "text-center",
+      "pr-2"
     ),
     divider: cn("w-0", "h-[11px]", "border-l", "border-[#642C8D]"),
     ticket: cn("flex", "items-center", "gap-3", "translate-x-[-8px]"),

@@ -13,10 +13,19 @@ export const formatDate = (dateString: string): string => {
 };
 
 // 날짜 범위를 YYYY.MM.DD ~ YYYY.MM.DD 형식으로 변환
-export const formatDateRange = (
-  startDate: string,
-  endDate: string
-): string => {
+export const formatDateRange = (startDate: string, endDate: string): string => {
   return `${formatDate(startDate)} ~ ${formatDate(endDate)}`;
 };
 
+// 날짜를 M/D 형식으로 변환 (그래프용)
+export const formatDateForChart = (dateString: string): string => {
+  try {
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return `${month}/${day}`;
+  } catch (error) {
+    console.error("날짜 포맷 변환 실패:", error);
+    return dateString;
+  }
+};
