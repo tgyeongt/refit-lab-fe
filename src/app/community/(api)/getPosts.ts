@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import { privateAPI } from "@/shared/api/apiInstance";
 
 /** 카테고리 타입 */
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";

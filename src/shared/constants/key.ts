@@ -5,6 +5,11 @@ export const QUERY_KEY = {
   eventDetail: "event-detail",
   users: "users",
   myPage: "my-page",
+  myTickets: "my-tickets",
+  adminEvents: "admin-events",
+  myJoinedEvents: "my-joined-events",
+  myPosts: "my-posts",
+  eventImages: "event-images",
 };
 
 // Storage Key (localStorage, sessionStorage)

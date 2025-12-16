@@ -23,7 +23,6 @@ export const uploadImageToS3 = async (
       params: {
         pathName: UploadImageToS3PathName.PROFILE_IMAGE,
       },
-      headers: { "Content-Type": "multipart/form-data" },
     });
 
     return data;

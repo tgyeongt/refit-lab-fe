@@ -14,18 +14,18 @@ import CommunityIcon from "@/assets/icon/community.svg";
 import MyPageIcon from "@/assets/icon/mypage.svg";
 
 import DummyImg from "@/assets/image/Profile.png";
-import { useAuth } from "@/shared/stores/useAuthStore";
+import { useMyPage } from "@/app/my/(hook)/query/useMyPage";
 
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isSidebarOpen, setSidebarOpen } = useHeaderStore();
-  const { user, isLoggedIn } = useAuth();
+  const { data: myPage } = useMyPage();
 
   if (!isSidebarOpen) return null;
 
-  const userName = user?.nickname ?? "님";
-  const profileImage = user?.profileImageUrl ?? DummyImg;
+  const userName = myPage?.data?.user?.nickname ?? "님";
+  const profileImage = myPage?.data?.user?.profileImageUrl ?? DummyImg;
 
   const menuItems = [
     { label: "홈", path: "/", icon: HomeIcon },

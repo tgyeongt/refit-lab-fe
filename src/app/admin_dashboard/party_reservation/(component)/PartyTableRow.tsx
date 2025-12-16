@@ -35,7 +35,7 @@ export const PartyTableRow = ({
           <div className="w-4 h-4 text-gray-5A">
             <Icon icon={CalendarIcon} width={16} height={16} color="#9E9E9E" />
           </div>
-          <span className="text-sm">{party.name}</span>
+          <span className="text-sm truncate max-w-[300px]">{party.name}</span>
         </div>
       </td>
 
@@ -50,7 +50,9 @@ export const PartyTableRow = ({
           <div className="w-4 h-4 text-gray-5A">
             <Icon icon={PinIcon} width={16} height={16} color="#9E9E9E" />
           </div>
-          <span className="text-sm">{party.location}</span>
+          <span className="text-sm truncate max-w-[150px]">
+            {party.location}
+          </span>
         </div>
       </td>
 
@@ -61,7 +63,8 @@ export const PartyTableRow = ({
             <Icon icon={PeopleIcon} color="#9E9E9E" />
           </div>
           <span className="text-sm">
-            {party.currentReservations} / {party.maxReservations}
+            {party.currentReservations} /{" "}
+            {party.maxReservations != null ? party.maxReservations : "미정"}
           </span>
         </div>
       </td>

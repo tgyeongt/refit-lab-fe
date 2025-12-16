@@ -57,10 +57,8 @@ export default function MyPage() {
   const userProfile =
     userData?.user?.profileImageUrl || "/images/default-profile.jpg";
   const exchangeCount = userData?.exchangeCount || 0;
+  const carbonChangeList = userData?.carbonChangeList || [];
   const carbonReduction = userData?.totalReducedCarbonG || 0;
-  const ticketCount = 0; // 티켓 개수는 별도 API 필요
-  const membershipLevel = "bronze"; // 멤버십 레벨은 별도 로직 필요
-
   // 보유 티켓 클릭 핸들러
   const handleTicketClick = () => {
     router.push("/my/tickets");
@@ -97,10 +95,10 @@ export default function MyPage() {
       <div className={mypageStyles.badges.container}>
         <div className={mypageStyles.badges.wrapper}>
           <div className={mypageStyles.badges.membership}>
-            <MembershipBadge level={membershipLevel} />
+            <MembershipBadge />
           </div>
           <div className={mypageStyles.badges.divider} />
-          <TicketBadge count={ticketCount} onClick={handleTicketClick} />
+          <TicketBadge onClick={handleTicketClick} />
         </div>
       </div>
 
@@ -109,6 +107,7 @@ export default function MyPage() {
         <StatsCard
           exchangeCount={exchangeCount}
           carbonReduction={carbonReduction}
+          carbonChangeList={carbonChangeList}
         />
       </div>
 

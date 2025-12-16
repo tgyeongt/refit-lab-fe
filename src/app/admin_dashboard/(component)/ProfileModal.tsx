@@ -9,6 +9,9 @@ import XIcon from "@/assets/icon/X.svg";
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
+  profileImageUrl?: string;
+  nickname?: string;
+  username?: string;
 }
 
 const buttonItems = [
@@ -30,7 +33,13 @@ const buttonItems = [
   },
 ];
 
-export const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
+export const ProfileModal = ({
+  isOpen,
+  onClose,
+  profileImageUrl,
+  nickname,
+  username,
+}: ProfileModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -45,11 +54,18 @@ export const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
       <div className="flex flex-col items-center pt-14 pb-4">
         {/* 프로필 이미지 */}
         <div className="relative w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-[#9E9E9E]">
-          <Image src={ProfileImg} alt="Profile" fill className="object-cover" />
+          <Image
+            src={profileImageUrl || ProfileImg}
+            alt="Profile"
+            fill
+            className="object-cover"
+          />
         </div>
 
         {/* 이름 */}
-        <h3 className="mt-3 text-xl text-gray-5A tracking-tight">김관리</h3>
+        <h3 className="mt-3 text-xl text-gray-5A tracking-tight">
+          {nickname || "김관리"}
+        </h3>
 
         {/* 권한 배지 */}
         <div className="mt-2 px-[11px] py-1 bg-[#EDD5F2] rounded-lg">
@@ -70,7 +86,7 @@ export const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
         {/* 이메일 */}
         <div className="h-[38px] flex items-center justify-center">
           <span className="text-sm text-gray-2 tracking-tight">
-            admin@example.com
+            {username || "admin@example.com"}
           </span>
         </div>
 

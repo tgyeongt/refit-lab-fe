@@ -2,7 +2,7 @@ import { CommunityPost } from "@/app/community/dummyData";
 import ProfileImg from "@/assets/image/Profile.png";
 
 // 내가 작성한 글 Mock 데이터 (현재 사용자: 김재생)
-export const MY_POST_DATA: CommunityPost[] = [
+export const MY_POST_DATA: (CommunityPost & { thumbnailUrl?: string })[] = [
   {
     id: 101,
     tag: "정보 공유",
