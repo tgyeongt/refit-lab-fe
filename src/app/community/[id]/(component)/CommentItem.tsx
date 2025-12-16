@@ -25,7 +25,7 @@ export default function CommentItem({
   };
 
   return (
-    <div style={{ marginLeft: level * 20 }} className="flex flex-col gap-2">
+    <div style={{ marginLeft: level * 30 }} className="flex flex-col gap-2">
       <CommentBlock
         commentId={comment.commentId}
         userProfile={comment.userProfile}
