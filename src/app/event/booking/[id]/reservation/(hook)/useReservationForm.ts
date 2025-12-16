@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
-import {
-  validateFilesSize,
-} from "@/shared/util/file-validation";
+import { validateFilesSize } from "@/shared/util/file-validation";
 import { useCreateReservation } from "@/app/event/(hook)/mutation/useCreateReservation";
 import { useIssueDevTicket } from "@/app/event/(hook)/mutation/useIssueDevTicket";
 import { useAuth } from "@/shared/stores/useAuthStore";
-import type { ReservationFormData } from "./(schema)/reservationSchema";
+import type { ReservationFormData } from "../(schema)/reservationSchema";
 
 const MAX_CLOTHES_COUNT = 10;
 
@@ -166,4 +164,3 @@ export const useReservationForm = ({
     setIsModalOpen,
   };
 };
-
