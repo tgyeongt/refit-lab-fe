@@ -5,11 +5,10 @@ import TicketIcon from "@/assets/icon/ticket.svg";
 import { mypageStyles } from "../(util)/mypage-styles";
 
 interface TicketBadgeProps {
-  count?: number;
   onClick?: () => void;
 }
 
-export const TicketBadge = ({ count, onClick }: TicketBadgeProps) => {
+export const TicketBadge = ({ onClick }: TicketBadgeProps) => {
   return (
     <div
       className={`${mypageStyles.badges.ticket} ${

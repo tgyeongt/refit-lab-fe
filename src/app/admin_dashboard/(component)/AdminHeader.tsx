@@ -9,11 +9,20 @@ import { useModalActions, useModalInfo } from "@/shared/stores/useModalStore";
 import ModalPortal from "@/shared/components/ModalPortal";
 import { clsx } from "clsx";
 import Icon from "@/shared/components/Icon";
+import { useAdminUser } from "../(hook)/useAdminUser";
 
 // 관리자 페이지 헤더
 export const AdminHeader = () => {
   const { isOpen } = useModalInfo();
   const { openModal, closeModal } = useModalActions();
+
+  // 관리자(현재 로그인 유저) 정보 조회
+  const { data: userResponse } = useAdminUser();
+  const user = userResponse?.data;
+
+  const profileImageUrl = user?.profileImageUrl;
+  const nickname = user?.nickname;
+  const username = user?.username;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-20 bg-white border-b border-gray-5">
@@ -28,7 +37,7 @@ export const AdminHeader = () => {
           {/* 프로필 아이콘 */}
           <div className="relative w-[50px] h-[50px] rounded-full overflow-hidden">
             <Image
-              src={ProfileImg}
+              src={profileImageUrl || ProfileImg}
               alt="Profile"
               fill
               className="object-cover"
@@ -56,7 +65,13 @@ export const AdminHeader = () => {
 
       {/* 프로필 모달 */}
       <ModalPortal>
-        <ProfileModal isOpen={isOpen} onClose={() => closeModal()} />
+        <ProfileModal
+          isOpen={isOpen}
+          onClose={() => closeModal()}
+          profileImageUrl={profileImageUrl}
+          nickname={nickname}
+          username={username}
+        />
       </ModalPortal>
     </header>
   );

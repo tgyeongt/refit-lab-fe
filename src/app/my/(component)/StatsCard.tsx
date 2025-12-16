@@ -1,37 +1,49 @@
 "use client";
 
+import { useMemo } from "react";
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { mypageStyles, cn } from "../(util)/mypage-styles";
 import styles from "./StatsCard.module.css";
+import { CarbonChange } from "../(types)/my";
+import { formatDateForChart } from "@/shared/util/formatDate";
 
 interface StatsCardProps {
   exchangeCount: number;
   carbonReduction: number;
+  carbonChangeList: CarbonChange[];
 }
 
-// 샘플 데이터
-const generateChartData = () => {
-  return [
-    { month: "1월", value: 0 },
-    { month: "2월", value: 150 },
-    { month: "3월", value: 150 },
-    { month: "4월", value: 200 },
-    { month: "5월", value: 300 },
-    { month: "6월", value: 350 },
-    { month: "7월", value: 400 },
-    { month: "8월", value: 500 },
-    { month: "9월", value: 600 },
-    { month: "10월", value: 600 },
-    { month: "11월", value: 640 },
-    { month: "12월", value: 700 },
-  ];
+// carbonChangeList를 그래프 데이터로 변환
+const generateChartData = (carbonChangeList: CarbonChange[]) => {
+  // 데이터가 없으면 초기값 0만 반환
+  if (!carbonChangeList || carbonChangeList.length === 0) {
+    return [{ date: "", value: 0 }];
+  }
+
+  // changedAt 기준으로 정렬 (과거 → 최신순, API에서 이미 정렬되어 올 수도 있지만 안전하게)
+  const sortedList = [...carbonChangeList].sort((a, b) => {
+    return new Date(a.changedAt).getTime() - new Date(b.changedAt).getTime();
+  });
+
+  // 날짜 형식 변환 및 그래프 데이터 생성
+  return sortedList.map((item) => {
+    return {
+      date: formatDateForChart(item.changedAt),
+      value: item.totalAfterG,
+    };
+  });
 };
 
 export const StatsCard = ({
   exchangeCount,
   carbonReduction,
+  carbonChangeList,
 }: StatsCardProps) => {
-  const chartData = generateChartData();
+  // carbonChangeList를 기반으로 그래프 데이터 생성
+  const chartData = useMemo(
+    () => generateChartData(carbonChangeList),
+    [carbonChangeList]
+  );
 
   return (
     <div className={cn(mypageStyles.stats.card, styles.statsCardContainer)}>

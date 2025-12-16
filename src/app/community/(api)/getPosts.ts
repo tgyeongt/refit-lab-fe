@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import { privateAPI } from "@/shared/api/apiInstance";
 
 /** 카테고리 타입 */
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
@@ -59,14 +59,17 @@ export const getPosts = async (
       queryParams
     );
 
-    const { data } = await axios.get("https://api.refitlab.site/api/posts", {
-      params: queryParams,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-      validateStatus: () => true,
-    });
+    const { data } = await privateAPI.get(
+      "https://api.refitlab.site/api/posts",
+      {
+        params: queryParams,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        validateStatus: () => true,
+      }
+    );
 
     console.log("API 응답:", data);
 
