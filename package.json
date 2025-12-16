@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@stomp/stompjs": "^7.2.1",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.90.10",
     "axios": "^1.13.0",
@@ -24,9 +25,11 @@
     "react-hook-form": "^7.68.0",
     "react-kakao-maps-sdk": "^1.2.0",
     "recharts": "^3.4.1",
+    "sockjs-client": "^1.6.1",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.3.1",
     "tanstack": "^1.0.3",
+    "uuid": "^13.0.0",
     "zod": "^3.25.76",
     "zustand": "^5.0.8"
   },
@@ -35,6 +38,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.10",
     "babel-plugin-react-compiler": "^1.0.0",
     "baseline-browser-mapping": "^2.9.4",
     "eslint": "^9",

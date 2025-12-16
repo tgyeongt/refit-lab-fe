@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/shared/stores/useAuthStore";
 import CommentItem from "./CommentItem";
@@ -9,7 +10,6 @@ import {
   CommentUI,
   postNewComment,
 } from "../../(api)/getCommentsByPostId";
-import { useState } from "react";
 
 interface AnswerSectionProps {
   postId: number;
@@ -26,9 +26,9 @@ export default function AnswerSection({ postId }: AnswerSectionProps) {
     isError,
   } = useQuery<CommentUI[]>({
     queryKey: ["comments", postId, accessToken],
-    queryFn: () => {
+    queryFn: async () => {
       if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
-      return getCommentsByPostId(postId, accessToken); // 계층 구조 포함
+      return getCommentsByPostId(postId, accessToken);
     },
     enabled: hydrated && isLoggedIn,
   });
@@ -66,7 +66,7 @@ export default function AnswerSection({ postId }: AnswerSectionProps) {
       <div className="space-y-5 pb-[80px]">
         {comments.map((comment) => (
           <CommentItem
-            key={comment.id}
+            key={comment.commentId}
             comment={comment}
             onReplyClick={handleOpenReplyInput}
           />

@@ -2,17 +2,21 @@
 
 import { useQuery } from "@tanstack/react-query";
 import useHeader from "@/shared/hooks/useHeader";
-import { useParams } from "next/navigation";
+import { useHeaderStore } from "@/shared/stores/headerStore";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import QuestionSection from "./(component)/QuestionSection";
 import AnswerSection from "./(component)/AnswerSection";
 import { getPostById, CommunityPost } from "../(api)/getPostById";
 import { useAuth } from "@/shared/stores/useAuthStore";
+import { deletePost } from "../(api)/deletePost";
 
 export default function CommunityDetailPage() {
-  useHeader({ showBack: true, showMenu: true });
+  useHeader({ showBack: true, showMenu: false });
 
   const { id } = useParams();
   const postId = Number(id);
+  const router = useRouter();
 
   const { accessToken, isLoggedIn, hydrated } = useAuth();
 
@@ -24,10 +28,32 @@ export default function CommunityDetailPage() {
     queryKey: ["communityPost", postId, accessToken],
     queryFn: () => {
       if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
-      return getPostById(postId, accessToken);
+      return getPostById(postId);
     },
     enabled: hydrated && isLoggedIn,
   });
+
+  useEffect(() => {
+    if (!post) return;
+
+    useHeaderStore.getState().setHeader({
+      isAuthor: post.isAuthor,
+      showBack: true,
+      showMenu: false,
+      onDelete: async () => {
+        try {
+          if (!confirm("정말 삭제하시겠습니까?")) return;
+
+          await deletePost(post.postId);
+          alert("게시글이 삭제되었습니다.");
+          router.push("/community");
+        } catch (error: any) {
+          console.error(error);
+          alert("게시글 삭제에 실패했습니다.");
+        }
+      },
+    });
+  }, [post]);
 
   if (!hydrated) return <p className="text-center mt-10">데이터 준비 중...</p>;
   if (!isLoggedIn)

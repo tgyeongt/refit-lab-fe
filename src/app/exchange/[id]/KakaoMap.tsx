@@ -29,17 +29,6 @@ type KakaoStatic = {
       position: KakaoLatLng;
       map?: KakaoMapInstance;
     }) => unknown;
-    services: {
-      Geocoder: new () => {
-        addressSearch: (
-          query: string,
-          callback: (result: { x: string; y: string }[], status: string) => void
-        ) => void;
-      };
-      Status: {
-        OK: string;
-      };
-    };
   };
 };
 
@@ -50,21 +39,24 @@ declare global {
 }
 
 interface KakaoMapProps {
-  address: string;
+  latitude: number;
+  longitude: number;
 }
 
-export default function KakaoMap({ address }: KakaoMapProps) {
+export default function KakaoMap({ latitude, longitude }: KakaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (latitude == null || longitude == null) return;
+
     const existing = document.querySelector(`script[data-kakao="true"]`);
     if (existing) existing.remove();
 
     const script = document.createElement("script");
     script.async = true;
     script.setAttribute("data-kakao", "true");
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JAVASCRIPT_KAKAO_KEY}&autoload=false&libraries=services`;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JAVASCRIPT_KAKAO_KEY}&autoload=false`;
 
     const onLoad = () => {
       const kakao = window.kakao;
@@ -79,24 +71,14 @@ export default function KakaoMap({ address }: KakaoMapProps) {
           setErrorMessage("지도 컨테이너를 찾을 수 없습니다.");
           return;
         }
-        const center = new kakao.maps.LatLng(37.5665, 126.978);
+
+        const center = new kakao.maps.LatLng(latitude, longitude);
         const options: KakaoMapOptions = { center, level: 3 };
         const mapInstance = new kakao.maps.Map(container, options);
 
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(address, (result, status) => {
-          if (status === kakao.maps.services.Status.OK) {
-            const { x, y } = result[0];
-            const coords = new kakao.maps.LatLng(parseFloat(y), parseFloat(x));
-
-            new kakao.maps.Marker({
-              map: mapInstance,
-              position: coords,
-            });
-
-            mapInstance.setCenter(coords);
-          } else {
-          }
+        new kakao.maps.Marker({
+          map: mapInstance,
+          position: center,
         });
       });
     };
@@ -106,11 +88,9 @@ export default function KakaoMap({ address }: KakaoMapProps) {
 
     return () => {
       script.removeEventListener("load", onLoad);
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
+      if (document.head.contains(script)) document.head.removeChild(script);
     };
-  }, [address]);
+  }, [latitude, longitude]);
 
   return (
     <>

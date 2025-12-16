@@ -3,17 +3,19 @@
 import { useRouter } from "next/navigation";
 
 interface FloatingExchangeButtonProps {
+  postId: number;
   onClick?: () => void;
 }
 
 export default function FloatingExchangeButton({
+  postId,
   onClick,
 }: FloatingExchangeButtonProps) {
   const router = useRouter();
 
   const handleClick = () => {
     if (onClick) onClick();
-    router.push("/exchange/local");
+    router.push(`/exchange/chat/${postId}`); // postId 사용
   };
 
   return (

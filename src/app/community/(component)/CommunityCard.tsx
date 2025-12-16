@@ -40,15 +40,30 @@ export default function CommunityCard({ post }: CommunityCardProps) {
       className="p-[20px] border-b border-[#EEEEEE]"
       onClick={handleCardClick}
     >
-      <div className="inline-block bg-[#F5F5F5] text-[#642C8D] text-[12px] font-medium px-[10px] py-[4px] rounded-[5px] mb-[8px]">
-        {CATEGORY_LABEL_MAP[post.category]}
+      <div className="flex justify-between gap-[12px]">
+        <div className="flex-1 min-w-0">
+          <div className="inline-block bg-[#F5F5F5] text-[#642C8D] text-[12px] font-medium px-[10px] py-[4px] rounded-[5px] mb-[8px]">
+            {CATEGORY_LABEL_MAP[post.category]}
+          </div>
+
+          <p className="text-[18px] font-medium truncate">{post.title}</p>
+
+          <p className="text-[15px] font-medium mt-[6px] text-[#757575] line-clamp-2">
+            {post.content}
+          </p>
+        </div>
+
+        {/*썸네일 */}
+        {post.imageUrlList && post.imageUrlList.length > 0 && (
+          <div className="w-[80px] h-[80px] flex-shrink-0 rounded-[6px] overflow-hidden bg-[#F5F5F5]">
+            <img
+              src={post.imageUrlList[0]}
+              alt="post thumbnail"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
       </div>
-
-      <p className="text-[18px] font-medium">{post.title}</p>
-
-      <p className="text-[15px] font-medium mt-[6px] text-[#757575]">
-        {post.content}
-      </p>
 
       <div className="flex justify-between items-center text-[13px] mt-[10px]">
         <span className="text-[#757575]">{timeAgoText}</span>

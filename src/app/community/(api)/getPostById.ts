@@ -1,11 +1,11 @@
 "use client";
 
-import axios from "axios";
-import { useAuth } from "@/shared/stores/useAuthStore";
+import { privateAPI } from "@/shared/api/apiInstance";
 
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
 
 export interface CommunityPost {
+  profileImageUrl: string | null;
   postId: number;
   category: CommunityCategory;
   title: string;
@@ -17,7 +17,7 @@ export interface CommunityPost {
   nickname: string;
   isAuthor: boolean;
   isLiked: boolean;
-  imageUrlList: string[];
+  imageUrlList: string[] | null;
   commentIdList: number[];
 }
 
@@ -25,23 +25,10 @@ export interface GetPostByIdResponse {
   content: CommunityPost;
 }
 
-export const getPostById = async (
-  id: number,
-  token: string
-): Promise<CommunityPost> => {
+/** 단일 게시글 조회 */
+export const getPostById = async (id: number): Promise<CommunityPost> => {
   try {
-    const { data } = await axios.get(
-      `https://api.refitlab.site/api/posts/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        validateStatus: () => true,
-      }
-    );
-
-    console.log("상세 API 응답:", data);
+    const { data } = await privateAPI.get(`/posts/${id}`);
 
     if (!data.success) throw new Error(data.message || "API 요청 실패");
 

@@ -6,7 +6,6 @@ import FilterBar, { RecommendTab } from "./FilterBar";
 import RecommendCard from "./RecommendCard";
 import { getExchangeList, ExchangePost } from "../(api)/getExchangeList";
 
-/** 탭 → API 카테고리 매핑 */
 const CATEGORY_MAP: Record<RecommendTab, ExchangePost["category"]> = {
   아우터: "OUTER",
   상의: "SHIRTS",
@@ -34,7 +33,6 @@ export default function RecommendSection() {
         });
 
         if (!ignore) {
-          console.log("⭐ recommend items:", res.content);
           setItems(res.content);
         }
       } catch (error) {

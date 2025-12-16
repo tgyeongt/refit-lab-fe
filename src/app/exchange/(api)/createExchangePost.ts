@@ -3,7 +3,6 @@ import { privateAPI } from "@/shared/api/apiInstance";
 export const createExchangePost = async (request: any, imageList: File[]) => {
   const formData = new FormData();
 
-  // JSON 문자열로 바로 append
   formData.append("request", JSON.stringify(request));
 
   imageList.forEach((file) => {

@@ -29,13 +29,12 @@ export default function Content({ activeTab }: ContentProps) {
     queryFn: () => {
       if (!isLoggedIn || !accessToken) throw new Error("로그인이 필요합니다.");
 
-      // 전체 탭이면 category 생략
       const categoriesToSend =
         activeTab === "전체" ? [] : CATEGORY_MAP[activeTab] || [];
 
-      return getPosts({ category: categoriesToSend, size: 20 }, accessToken);
+      return getPosts({ category: categoriesToSend, size: 20 });
     },
-    enabled: hydrated && isLoggedIn, // store hydrate 후, 로그인 상태일 때만 실행
+    enabled: hydrated && isLoggedIn,
   });
 
   if (!hydrated) return <p className="text-center mt-10">데이터 준비 중...</p>;
@@ -50,7 +49,7 @@ export default function Content({ activeTab }: ContentProps) {
     );
 
   return (
-    <div>
+    <div className="mb-[60px]">
       {data.content.map((post: CommunityPost) => (
         <CommunityCard
           key={post.postId}

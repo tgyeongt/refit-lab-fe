@@ -47,7 +47,7 @@ export default function LocalSection() {
         최근 {location?.placeName ?? "내 위치"} 주변 교환
       </p>
 
-      <div className="flex gap-[12px] overflow-x-auto pr-[10px] scrollbar-hide">
+      <div className="flex gap-[12px] overflow-x-auto pr-[10px] scrollbar-hide mb-[60px]">
         {loading && <p>로딩중...</p>}
 
         {!loading && items.length === 0 && (
@@ -60,7 +60,7 @@ export default function LocalSection() {
           })}
       </div>
 
-      <button
+      {/* <button
         onClick={() => router.push("/exchange/local")}
         className="
           w-full bg-[#8F53BB] text-white text-[14px]
@@ -69,7 +69,7 @@ export default function LocalSection() {
         "
       >
         내 주변 옷 교환 보러 가기
-      </button>
+      </button> */}
     </div>
   );
 }

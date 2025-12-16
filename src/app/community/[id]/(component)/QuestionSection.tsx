@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import LikeIcon from "@/assets/icon/like.svg";
-import Profile from "@/assets/image/Profile.png";
+import Profile from "@/assets/image/user-profile.png";
 import CommentIcon from "@/assets/icon/comment.svg";
 import CommentInputBar from "./CommentInputBar";
 import { CommunityPost } from "../../(api)/getPostById";
@@ -11,6 +11,7 @@ import { useAuth } from "@/shared/stores/useAuthStore";
 import { togglePostLike } from "../../(api)/togglePostLike";
 import { createComment } from "../../(api)/createComment";
 import { useTimeAgo } from "@/shared/hooks/useTimeAgo";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface QuestionSectionProps {
   post: CommunityPost;
@@ -21,6 +22,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const timeAgoText = useTimeAgo(post.createdAt);
+  const queryClient = useQueryClient();
 
   const { accessToken } = useAuth();
 
@@ -43,7 +45,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
     try {
       await createComment(post.postId, text, accessToken, parentCommentId);
       setIsReplyOpen(false);
-      // TODO: 댓글 리스트 갱신
+      queryClient.invalidateQueries({ queryKey: ["comments", post.postId] });
     } catch (err) {
       console.error(err);
       alert("댓글 작성 중 오류가 발생했습니다.");
@@ -54,7 +56,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
     <section className="border-b-6 border-[#EEEEEE] pb-4 relative">
       <div className="flex items-center mb-3 mt-[10px]">
         <Image
-          src={Profile}
+          src={post.profileImageUrl ? post.profileImageUrl : Profile}
           alt={post.nickname}
           width={35}
           height={35}
@@ -69,6 +71,23 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
       <div className="mb-3 px-[5px] pb-[20px]">
         <h2 className="text-[20px] font-semibold mb-2">{post.title}</h2>
         <p className="text-[16px] text-sm">{post.content}</p>
+        {post.imageUrlList && post.imageUrlList.length > 0 && (
+          <div className="mt-4 flex gap-3 overflow-x-auto">
+            {post.imageUrlList.map((url, idx) => (
+              <div
+                key={idx}
+                className="relative flex-shrink-0 w-[200px] h-[200px]"
+              >
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center gap-[100px] text-sm text-[#9E9E9E]">

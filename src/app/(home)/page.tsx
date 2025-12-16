@@ -7,7 +7,7 @@ import Sponser from "./(component)/Sponser";
 import Event from "./(component)/Event";
 import Footer from "./(component)/Footer";
 import MainSection from "./(component)/MainSection";
-import Navigation from "./(component)/Navigation";
+// import Navigation from "./(component)/Navigation";
 import useHeader from "@/shared/hooks/useHeader";
 
 export default function HomePage() {
@@ -27,12 +27,13 @@ export default function HomePage() {
         ]}
       /> */}
 
-      <Section
+      {/* <Section
         id="exchange"
         title={"지금 교환 중인 옷"}
         content={<Exchange />}
         detailUrl="exchange"
-      />
+      /> */}
+      <Exchange />
       <Section
         id="event"
         title={"예정된 행사"}

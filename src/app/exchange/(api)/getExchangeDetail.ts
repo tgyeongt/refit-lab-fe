@@ -14,11 +14,30 @@ export interface ExchangeDetailData {
   spotLongitude: number;
   isAuthor: boolean;
   createdAt: string;
+  description?: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  code: number;
+  message: string;
+  data: T;
 }
 
 export async function getExchangeDetail(
   exchangePostId: number
 ): Promise<ExchangeDetailData> {
-  const { data } = await privateAPI.get(`/exchanges/${exchangePostId}`);
-  return data.data;
+  if (!exchangePostId || Number.isNaN(exchangePostId)) {
+    throw new Error("유효하지 않은 exchangePostId입니다.");
+  }
+
+  const response = await privateAPI.get<ApiResponse<ExchangeDetailData>>(
+    `/exchanges/${exchangePostId}`
+  );
+
+  if (!response.data.success) {
+    throw new Error(response.data.message);
+  }
+
+  return response.data.data;
 }

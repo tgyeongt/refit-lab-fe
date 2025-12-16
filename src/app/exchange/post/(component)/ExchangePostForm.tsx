@@ -29,7 +29,7 @@ export default function ExchangePostForm({
     하의: "PANTS",
     아우터: "OUTER",
     신발: "SHOES",
-    액세사리: "ACCESSORY",
+    액세서리: "ACCESSORY",
   };
 
   const STATUS_MAP: Record<string, string> = {
@@ -99,12 +99,8 @@ export default function ExchangePostForm({
 
       const res = await createExchangePost(request, photo);
 
-      console.log("✅ 교환글 생성 성공:", res);
-
       router.back();
     } catch (error: any) {
-      console.log("🖼 imageList:", photo);
-      console.error("❌ 교환글 생성 실패");
       console.error(error?.response?.data);
     }
   };
@@ -252,7 +248,7 @@ export default function ExchangePostForm({
         onConfirm={confirm}
       >
         <div className="flex flex-col gap-[12px]">
-          {["상의", "하의", "아우터", "신발", "악세사리"].map((c) => (
+          {["상의", "하의", "아우터", "신발", "액세서리"].map((c) => (
             <button
               key={c}
               onClick={() => setTempValue(c)}
@@ -332,7 +328,7 @@ export default function ExchangePostForm({
         onConfirm={confirm}
       >
         <div className="flex flex-col gap-[12px]">
-          {["상의", "하의", "아우터", "신발", "악세사리"].map((c) => (
+          {["상의", "하의", "아우터", "신발", "액세서리"].map((c) => (
             <button
               key={c}
               onClick={() => setTempValue(c)}

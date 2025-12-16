@@ -1,23 +1,19 @@
 import { create } from "zustand";
 
-interface RightButtonConfig {
-  text: string | null;
-  onClick: (() => void) | null;
-  active?: boolean;
-}
-
 interface HeaderStore {
   title: string;
   showBack: boolean;
   showMenu: boolean;
 
-  rightButton: RightButtonConfig | null;
-
   isSidebarOpen: boolean;
+  isMoreOpen: boolean;
+
+  isAuthor?: boolean;
+  onDelete?: () => void;
 
   setHeader: (config: Partial<HeaderStore>) => void;
-  setRightHeader: (config: RightButtonConfig | null) => void;
   setSidebarOpen: (open: boolean) => void;
+  setMoreOpen: (open: boolean) => void;
 }
 
 export const useHeaderStore = create<HeaderStore>((set) => ({
@@ -25,13 +21,18 @@ export const useHeaderStore = create<HeaderStore>((set) => ({
   showBack: false,
   showMenu: true,
 
-  rightButton: null,
-
   isSidebarOpen: false,
+  isMoreOpen: false,
+  isAuthor: false,
 
-  setHeader: (config) => set((state) => ({ ...state, ...config })),
+  onDelete: undefined,
 
-  setRightHeader: (config) => set({ rightButton: config }),
+  setHeader: (config) =>
+    set((state) => ({
+      ...state,
+      ...config,
+    })),
 
   setSidebarOpen: (open) => set({ isSidebarOpen: open }),
+  setMoreOpen: (open) => set({ isMoreOpen: open }),
 }));

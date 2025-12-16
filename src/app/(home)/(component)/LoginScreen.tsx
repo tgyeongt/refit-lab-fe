@@ -6,7 +6,7 @@ import { testLogin } from "../(api)/testLogin";
 import Icon from "@/shared/components/Icon";
 import Logo from "@/assets/icon/logo.svg";
 import Kakao from "@/assets/icon/kakao.svg";
-import Naver from "@/assets/icon/naver.svg";
+// import Naver from "@/assets/icon/naver.svg";
 
 interface LoginScreenProps {
   onLogin: () => void;
@@ -27,20 +27,28 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
     },
   });
 
+  const handleKakaoLogin = () => {
+    window.location.href =
+      "http://api.refitlab.site/oauth2/authorization/kakao";
+  };
+
   return (
     <div className="flex flex-col items-center justify-center mx-auto min-h-screen max-w-3xl">
       <Icon icon={Logo} size={120} className="mt-[120px]" />
 
       <div className="flex flex-col gap-[15px] w-full px-6 mt-[100px]">
-        <button className="flex items-center justify-center gap-[30px] bg-[#FEE102] py-3 rounded-[5px] font-semibold">
+        <button
+          onClick={handleKakaoLogin}
+          className="flex items-center justify-center gap-[30px] bg-[#FEE102] py-3 rounded-[5px] font-semibold"
+        >
           <Kakao />
           <span>Kakao로 시작하기</span>
         </button>
 
-        <button className="flex items-center justify-center gap-[30px] bg-[#05C050] text-white py-3 rounded-[5px] font-semibold">
+        {/* <button className="flex items-center justify-center gap-[30px] bg-[#05C050] text-white py-3 rounded-[5px] font-semibold">
           <Naver />
           <span>Naver로 시작하기</span>
-        </button>
+        </button> */}
 
         <button
           onClick={() => mutate()}
@@ -51,9 +59,9 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         </button>
       </div>
 
-      <button className="mt-[60px] underline text-gray-500">
+      {/* <button className="mt-[60px] underline text-gray-500">
         Skip for now
-      </button>
+      </button> */}
     </div>
   );
 }

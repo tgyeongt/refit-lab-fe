@@ -36,7 +36,7 @@ export default function MainSection() {
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {cards.map((card, i) => (
-          <div key={i} className="min-w-full px-4">
+          <div key={i} className="min-w-full">
             <MainCard
               dday={card.dday}
               title={card.title}
