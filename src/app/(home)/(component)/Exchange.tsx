@@ -50,7 +50,7 @@ export default function Exchange() {
     return <p className="text-center mt-10">게시글이 없습니다.</p>;
 
   return (
-    <div className="px-4 py-6">
+    <div className="px-4 pt-6">
       <div className="flex gap-4 overflow-x-auto h-[280px] scrollbar-hide snap-x snap-mandatory">
         {items.map((item) => (
           <div key={item.exchangePostId} className="snap-start">
