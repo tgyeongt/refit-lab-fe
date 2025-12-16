@@ -40,8 +40,6 @@ export const getPostById = async (
       }
     );
 
-    console.log("상세 API 응답:", data);
-
     if (!data.success) throw new Error(data.message || "API 요청 실패");
 
     return data.data;

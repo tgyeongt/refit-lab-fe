@@ -11,7 +11,7 @@ const CATEGORY_MAP: Record<RecommendTab, ExchangePost["category"]> = {
   상의: "SHIRTS",
   하의: "PANTS",
   신발: "SHOES",
-  액세사리: "ACCESSORY",
+  액세서리: "ACCESSORY",
 };
 
 export default function RecommendSection() {
@@ -33,7 +33,6 @@ export default function RecommendSection() {
         });
 
         if (!ignore) {
-          console.log("⭐ recommend items:", res.content);
           setItems(res.content);
         }
       } catch (error) {

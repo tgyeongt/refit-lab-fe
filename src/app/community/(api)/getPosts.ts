@@ -53,12 +53,6 @@ export const getPosts = async (
 
     if (params.lastPostId) queryParams["lastPostId"] = params.lastPostId;
 
-    console.log(
-      "API 호출 URL:",
-      "https://api.refitlab.site/api/posts",
-      queryParams
-    );
-
     const { data } = await axios.get("https://api.refitlab.site/api/posts", {
       params: queryParams,
       headers: {
@@ -67,8 +61,6 @@ export const getPosts = async (
       },
       validateStatus: () => true,
     });
-
-    console.log("API 응답:", data);
 
     if (!data.success) throw new Error(data.message || "API 요청 실패");
 

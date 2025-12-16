@@ -10,7 +10,6 @@ export default function ExchangeMapPage() {
   useHeader({
     showBack: true,
     title: "교환 희망 스팟",
-    showMenu: false,
   });
 
   const router = useRouter();

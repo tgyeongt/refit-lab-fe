@@ -5,6 +5,7 @@ import PaperImg from "@/assets/image/bg-paper.png";
 import CarbonImg from "@/assets/image/carbon-reduction.png";
 import LetterImg from "@/assets/image/letter.png";
 import DummyImg from "@/assets/image/Profile.png";
+import { useTimeAgo } from "@/shared/hooks/useTimeAgo";
 
 import PinIcon from "@/assets/icon/pin.svg";
 import Image from "next/image";
@@ -22,17 +23,49 @@ export default function ExchangeDetailPage() {
   useHeader({ showBack: true, showMenu: true });
 
   const params = useParams();
-  const exchangePostId = Number(params.exchangePostId);
+  const exchangePostId = Number(params.id);
 
   const { data, isLoading, isError } = useQuery<ExchangeDetailData>({
     queryKey: ["exchangeDetail", exchangePostId],
     queryFn: () => getExchangeDetail(exchangePostId),
-    enabled: !!exchangePostId,
+    enabled: !!exchangePostId && !Number.isNaN(exchangePostId),
   });
+
+  if (!exchangePostId || Number.isNaN(exchangePostId)) {
+    return <p className="text-center mt-10">잘못된 접근입니다.</p>;
+  }
 
   if (isLoading) return <p className="text-center mt-10">Loading...</p>;
   if (isError || !data)
     return <p className="text-center mt-10">데이터를 불러오지 못했습니다.</p>;
+
+  const timeAgoText = useTimeAgo(data.createdAt);
+
+  const CATEGORY_MAP: Record<string, string> = {
+    SHIRTS: "상의",
+    PANTS: "하의",
+    OUTER: "아우터",
+    SHOES: "신발",
+    ACCESSORY: "액세서리",
+  };
+
+  const STATUS_MAP: Record<string, string> = {
+    GOOD: "상",
+    FAIR: "중",
+    BAD: "하",
+  };
+
+  const SIZE_MAP: Record<string, string> = {
+    Free: "FREE",
+    "2XS": "XS2",
+    XS: "XS",
+    S: "S",
+    M: "M",
+    L: "L",
+    XL: "XL",
+    "2XL": "XL2",
+    "3XL": "XL3",
+  };
 
   return (
     <>
@@ -51,30 +84,30 @@ export default function ExchangeDetailPage() {
         </div>
 
         <div className="px-[15px] py-[12px]">
-          <p className="text-[#757575] text-[14px]">{data.category}</p>
+          <p className="text-[#757575] text-[14px]">
+            {CATEGORY_MAP[data.category] || data.category}
+          </p>
           <p className="text-[18px] font-medium mb-[25px]">{data.title}</p>
 
           <div className="border-b border-[#9E9E9E]">
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">사이즈</span>
-              <span>{data.size}</span>
+              <span>{SIZE_MAP[data.size] || data.size}</span>
             </div>
 
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">상태</span>
-              <span>{data.status}</span>
+              <span>{STATUS_MAP[data.status] || data.status}</span>
             </div>
 
-            <p className="text-[14px] text-[#9E9E9E] p-[15px]">
-              {new Date(data.createdAt).toLocaleString()}
-            </p>
+            <p className="text-[14px] text-[#9E9E9E] p-[15px]">{timeAgoText}</p>
           </div>
 
           {/* 교환 희망 정보 */}
           <div className="pt-[25px] pb-[10px]">
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
               <span className="text-[#5D5D5D] min-w-[80px]">교환 희망</span>
-              <span>{data.preferCategoryList.join(", ")}</span>
+              <span>{CATEGORY_MAP[data.preferCategoryList.join(", ")]}</span>
             </div>
           </div>
         </div>
@@ -89,11 +122,14 @@ export default function ExchangeDetailPage() {
             </span>
           </div>
           <div className="mt-2 mb-[25px]">
-            <KakaoMap address={data.exchangeSpot} />
+            <KakaoMap
+              latitude={data.spotLatitude}
+              longitude={data.spotLongitude}
+            />
           </div>
         </div>
 
-        {/* 태그, 추가 이미지 */}
+        {/* 태그 */}
         <div className="p-[15px]">
           <div
             style={{
@@ -104,8 +140,8 @@ export default function ExchangeDetailPage() {
             className="flex flex-col gap-[3px] px-[30px] py-[25px] text-[20px] text-[#642C8D] font-semibold"
           >
             <p>#청춘의_영원한_파트너</p>
-            <p>#블루_진의_정석</p>
-            <p>#데님_헤리티지</p>
+            <p>#지속가능한_스타일</p>
+            <p>#중고_옷의_재발견</p>
           </div>
 
           <div className="w-full">
