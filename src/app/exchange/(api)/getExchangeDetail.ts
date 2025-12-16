@@ -14,6 +14,7 @@ export interface ExchangeDetailData {
   spotLongitude: number;
   isAuthor: boolean;
   createdAt: string;
+  description?: string;
 }
 
 interface ApiResponse<T> {

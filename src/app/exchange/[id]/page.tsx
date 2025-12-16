@@ -103,6 +103,12 @@ export default function ExchangeDetailPage() {
             <p className="text-[14px] text-[#9E9E9E] p-[15px]">{timeAgoText}</p>
           </div>
 
+          <div className="border-b border-[#9E9E9E] py-[25px]">
+            <div className="bg-[#F5F5F7] px-[15px] py-[20px] flex min-h-[100px] ">
+              <span>{data.description}</span>
+            </div>
+          </div>
+
           {/* 교환 희망 정보 */}
           <div className="pt-[25px] pb-[10px]">
             <div className="bg-[#F5F5F7] text-[14px] px-[15px] py-[10px] flex items-center">
@@ -165,7 +171,7 @@ export default function ExchangeDetailPage() {
           {/* 교환자 정보 */}
           <div className="bg-[#F5F5F7] px-[15px] py-[10px]">
             <p className="text-[14px]">교환자</p>
-            <div className="flex items-center justify-between pt-[8px] pb-[20px]">
+            <div className="flex items-center justify-between py-[15px]">
               <div className="flex items-center space-x-3">
                 <Image
                   src={DummyImg}
