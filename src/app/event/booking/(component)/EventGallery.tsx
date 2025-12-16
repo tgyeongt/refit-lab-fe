@@ -58,7 +58,6 @@ export const EventGallery = ({ eventDetail }: EventGalleryProps) => {
     router.push(`/event/booking/${eventDetail.eventId}/gallery`);
   };
 
-  // 이미지 클릭 핶ન → 기존 모달 유지
   const handleImageClick = (index: number) => {
     setInitialIndex(index);
     openModal("party-gallery");

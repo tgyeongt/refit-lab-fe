@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/app/event/(util)/event-styles";
@@ -13,36 +12,14 @@ import {
   reservationSchema,
   type ReservationFormData,
 } from "./(schema)/reservationSchema";
-import { useCreateReservation } from "@/app/event/(hook)/mutation/useCreateReservation";
-import {
-  validateFilesSize,
-  formatFileSize,
-} from "@/shared/util/file-validation";
-import { useIssueDevTicket } from "@/app/event/(hook)/mutation/useIssueDevTicket";
-import { useAuth } from "@/shared/stores/useAuthStore";
+import { useReservationForm } from "./(hook)/useReservationForm";
 
 const MAX_CLOTHES_COUNT = 10;
 
 export default function ReservationPage() {
   const params = useParams();
-  const router = useRouter();
   const eventId = Number(params.id);
   useHeader({ title: "행사 예약", showBack: true, showMenu: false });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // 이미지 미리보기 URL 생성 및 메모리 정리
-  useEffect(() => {
-    const previews = uploadedImages.map((file) => URL.createObjectURL(file));
-    setImagePreviews(previews);
-
-    return () => {
-      previews.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [uploadedImages]);
 
   // React Hook Form 설정
   const {
@@ -63,113 +40,25 @@ export default function ReservationPage() {
     },
   });
 
-  // Mutation 훅
-  const { mutate: createReservation, isPending } = useCreateReservation();
-  const { mutateAsync: issueDevTicket } = useIssueDevTicket();
-  const { user } = useAuth();
+  // 예약 폼 커스텀 훅
+  const {
+    uploadedImages,
+    imagePreviews,
+    isModalOpen,
+    isPending,
+    fileInputRef,
+    handleFileChange,
+    handleRemoveImage,
+    onSubmit,
+    setIsModalOpen,
+  } = useReservationForm({
+    eventId,
+    setValue,
+    watch,
+  });
 
   const clothesCount = watch("clothesCount");
   const isEmailConsent = watch("isEmailConsent");
-
-  // 다중 이미지 변경 핸들러
-  const handleMultipleImageChange = (files: File[]) => {
-    setUploadedImages(files);
-    setValue("clothImageList", files);
-    // input 초기화
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  // 직접 파일 선택 핸들러 (기존 UI용, 5MB 제한)
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-
-    const newFiles = Array.from(files);
-    const remainingSlots = MAX_CLOTHES_COUNT - uploadedImages.length;
-    const filesToAdd = newFiles.slice(0, remainingSlots);
-
-    // 파일 크기 검증 (5MB 제한)
-    const validation = validateFilesSize(filesToAdd);
-    if (!validation.valid && validation.errors) {
-      alert(validation.errors.join("\n"));
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      return;
-    }
-
-    const updatedImages = [...uploadedImages, ...filesToAdd];
-    handleMultipleImageChange(updatedImages);
-  };
-
-  // 폼 제출 핸들러
-  const onSubmit = (data: ReservationFormData) => {
-    console.log("=== 폼 제출 시작 ===");
-    console.log("eventId:", eventId);
-    console.log("폼 데이터:", data);
-    console.log("업로드된 이미지:", uploadedImages.length, "개");
-
-    // eventId 유효성 검사
-    if (!eventId || isNaN(eventId) || eventId <= 0) {
-      console.error("유효하지 않은 eventId:", eventId);
-      alert("유효하지 않은 행사 ID입니다.");
-      return;
-    }
-
-    createReservation(
-      {
-        eventId,
-        request: {
-          name: data.name,
-          phone: data.contact,
-          email: data.email,
-          clothCount: data.clothesCount,
-          marketingConsent: data.isEmailConsent,
-        },
-        clothImageList: data.clothImageList,
-      },
-      {
-        onSuccess: async (response) => {
-          console.log("=== 예약 성공 ===");
-          console.log("응답:", response);
-
-          try {
-            if (!user?.userId) {
-              console.warn(
-                "[티켓 발급] userId가 없어 dev 티켓을 발급하지 않습니다."
-              );
-            } else {
-              // TODO: 만료일(expiresAt)은 실제 비즈니스 로직에 맞게 조정 필요
-              const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
-
-              await issueDevTicket({
-                type: "EVENT",
-                targetId: eventId,
-                userId: user.userId,
-                expiresAt: today,
-              });
-              console.log("=== Dev 티켓 발급 성공 ===");
-            }
-          } catch (ticketError) {
-            console.error("=== Dev 티켓 발급 실패 ===", ticketError);
-          }
-
-          setIsModalOpen(true);
-        },
-        onError: (error: any) => {
-          console.error("=== 예약 실패 (컴포넌트 레벨) ===");
-          console.error("에러:", error);
-          console.error("에러 응답:", error?.response?.data);
-          const errorMessage =
-            error?.response?.data?.message ||
-            "예약에 실패했습니다. 다시 시도해주세요.";
-          alert(errorMessage);
-        },
-      }
-    );
-  };
 
   return (
     <main className="flex w-full justify-center bg-[#FCFCFC]">
@@ -286,13 +175,7 @@ export default function ReservationPage() {
                       {/* 삭제 버튼 */}
                       <button
                         type="button"
-                        onClick={() => {
-                          const newImages = uploadedImages.filter(
-                            (_, i) => i !== index
-                          );
-                          setUploadedImages(newImages);
-                          setValue("clothImageList", newImages);
-                        }}
+                        onClick={() => handleRemoveImage(index)}
                         className="absolute top-2 right-2 w-6 h-6 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center transition-colors"
                       >
                         <span className="text-white text-sm font-bold">×</span>
