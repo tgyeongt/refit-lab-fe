@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import CameraIcon from "@/assets/icon/camera-2.svg";
 import CloseIcon from "@/assets/icon/close.svg";
 
@@ -20,6 +21,14 @@ export default function ImageUploader({ files, onChange, max = 4 }: Props) {
     const nextFiles = files.filter((_, i) => i !== index);
     onChange(nextFiles);
   };
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="mb-4">

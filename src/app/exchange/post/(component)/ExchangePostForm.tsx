@@ -99,12 +99,8 @@ export default function ExchangePostForm({
 
       const res = await createExchangePost(request, photo);
 
-      console.log("✅ 교환글 생성 성공:", res);
-
       router.back();
     } catch (error: any) {
-      console.log("🖼 imageList:", photo);
-      console.error("❌ 교환글 생성 실패");
       console.error(error?.response?.data);
     }
   };

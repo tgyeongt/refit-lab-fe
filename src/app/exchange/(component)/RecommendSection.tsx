@@ -6,13 +6,12 @@ import FilterBar, { RecommendTab } from "./FilterBar";
 import RecommendCard from "./RecommendCard";
 import { getExchangeList, ExchangePost } from "../(api)/getExchangeList";
 
-/** 탭 → API 카테고리 매핑 */
 const CATEGORY_MAP: Record<RecommendTab, ExchangePost["category"]> = {
   아우터: "OUTER",
   상의: "SHIRTS",
   하의: "PANTS",
   신발: "SHOES",
-  액세서리: "ACCESSORY",
+  액세사리: "ACCESSORY",
 };
 
 export default function RecommendSection() {

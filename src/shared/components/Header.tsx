@@ -18,10 +18,7 @@ export default function Header() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const NO_HEADER_PATHS = ["/community/post", "/exchange/post"];
-
-  if (NO_HEADER_PATHS.includes(pathname)) {
-    return null;
-  }
+  const hideHeader = NO_HEADER_PATHS.includes(pathname);
 
   const {
     title,
@@ -31,13 +28,13 @@ export default function Header() {
     onDelete,
     setHeader,
     setSidebarOpen,
-    setMoreOpen,
   } = useHeaderStore();
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
-  // 페이지 이동 시 헤더 초기화
   useEffect(() => {
+    if (hideHeader) return;
+
     setHeader({
       title: "",
       showBack: false,
@@ -45,10 +42,11 @@ export default function Header() {
       onEdit: undefined,
       onDelete: undefined,
     });
-  }, [pathname, setHeader]);
+  }, [pathname, hideHeader, setHeader]);
 
-  // 바깥 클릭 시 닫기
   useEffect(() => {
+    if (hideHeader) return;
+
     const handleClickOutside = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setIsMoreOpen(false);
@@ -57,7 +55,9 @@ export default function Header() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [hideHeader]);
+
+  if (hideHeader) return null;
 
   return (
     <>
@@ -81,7 +81,7 @@ export default function Header() {
         </div>
 
         {/* 오른쪽 */}
-        <div className="flex justify-end w-1/3">
+        <div className="flex justify-end w-1/3 relative" ref={menuRef}>
           {showMenu ? (
             <button onClick={() => setSidebarOpen(true)}>
               <MenuIcon width={28} height={28} />
@@ -91,7 +91,7 @@ export default function Header() {
               <MoreIcon width={20} height={20} />
             </button>
           )}
-          {/* ✅ 드롭다운 메뉴 */}
+
           {isMoreOpen && !showMenu && (
             <div className="absolute right-0 top-8 w-[100px] bg-white shadow-md rounded-md p-1 text-sm z-50">
               <button
