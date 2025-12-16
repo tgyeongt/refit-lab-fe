@@ -21,14 +21,16 @@ interface UseExchangeChatReturn {
   messages: ChatMessage[];
   sendMessage: (content: string) => void;
   loading: boolean;
+  connected: boolean;
 }
 
 export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
   const [roomId, setRoomId] = useState<number | null>(null);
-  const [senderNickname, setSenderNickname] = useState<string>(""); // 상대 이름
-  const [senderProfileUrl, setSenderProfileUrl] = useState<string>(""); // 상대 프로필
+  const [senderNickname, setSenderNickname] = useState<string>("");
+  const [senderProfileUrl, setSenderProfileUrl] = useState<string>("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
+  const [connected, setConnected] = useState(false);
 
   const stompClient = useRef<Client | null>(null);
 
@@ -41,19 +43,12 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
 
         // 1️⃣ 채팅방 생성
         const roomData = await createExchangeChatRoom(postId);
-        console.log("roomData:", roomData); // 🔍 여기서 roomId, lastMessage 등 확인
         setRoomId(roomData.roomId);
 
-        // 2️⃣ 상대방 정보 가져오기 (메시지 API)
+        // 2️⃣ 최근 메시지 가져오기
         const chatData = await getChatMessages(roomData.roomId, undefined, 1);
-        console.log("chatData:", chatData); // 🔍 messages 배열 확인
         if (chatData.content.length > 0) {
           const firstMsg = chatData.content[0];
-          console.log("firstMsg senderNickname:", firstMsg.senderNickname);
-          console.log(
-            "firstMsg senderProfileImageUrl:",
-            firstMsg.senderProfileImageUrl
-          );
           setSenderNickname(firstMsg.senderNickname);
           setSenderProfileUrl(firstMsg.senderProfileImageUrl ?? "");
         }
@@ -71,7 +66,7 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
           ]);
         }
 
-        // 4️⃣ 웹소켓 연결
+        // 4️⃣ STOMP 웹소켓 연결
         const socket = new SockJS(`${process.env.NEXT_PUBLIC_WS_URL}/ws`);
         const client = new Client({
           webSocketFactory: () => socket,
@@ -80,12 +75,12 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
 
         client.onConnect = () => {
           console.log("✅ STOMP 연결됨");
+          setConnected(true);
 
           client.subscribe(
             `/sub/chats/rooms/${roomData.roomId}`,
             (msg: IMessage) => {
               const body = JSON.parse(msg.body);
-              console.log("받은 메시지:", body); // 🔍 메시지 수신 확인
               setMessages((prev) => [
                 ...prev,
                 {
@@ -107,6 +102,15 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
           });
         };
 
+        client.onStompError = (frame) => {
+          console.error("STOMP 에러:", frame.headers, frame.body);
+        };
+
+        client.onWebSocketClose = () => {
+          console.log("STOMP 연결 종료");
+          setConnected(false);
+        };
+
         client.activate();
         stompClient.current = client;
       } catch (error) {
@@ -121,13 +125,17 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
     return () => {
       if (stompClient.current) {
         stompClient.current.deactivate();
+        setConnected(false);
       }
     };
-  }, [postId]);
+  }, [postId, senderNickname]);
 
   const sendMessage = useCallback(
     (content: string) => {
-      if (!roomId || !stompClient.current) return;
+      if (!roomId || !stompClient.current || !stompClient.current.connected) {
+        console.warn("STOMP 연결이 완료되지 않아 메시지를 보낼 수 없습니다.");
+        return;
+      }
 
       const msg = { content, roomId };
       stompClient.current.publish({
@@ -156,5 +164,6 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
     messages,
     sendMessage,
     loading,
+    connected,
   };
 }

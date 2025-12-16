@@ -13,8 +13,14 @@ export default function ExchangeChatPage() {
   console.log("params:", params);
   console.log("postId:", postId);
 
-  const { senderNickname, senderProfileUrl, messages, sendMessage, loading } =
-    useExchangeChat(postId);
+  const {
+    senderNickname,
+    senderProfileUrl,
+    messages,
+    sendMessage,
+    loading,
+    connected,
+  } = useExchangeChat(postId);
 
   if (loading)
     return <p className="text-center mt-10 text-gray-500">채팅방 생성 중...</p>;
@@ -27,7 +33,7 @@ export default function ExchangeChatPage() {
         onBack={() => history.back()}
       />
       <ChatWindow messages={messages} />
-      <ChatInput onSend={sendMessage} />
+      <ChatInput onSend={sendMessage} canSend={connected} />
     </div>
   );
 }
