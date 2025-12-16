@@ -1,12 +1,11 @@
 "use client";
 
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { privateAPI } from "@/shared/api/apiInstance";
 
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
 
 export interface CommunityPost {
-  profileImageUrl: string | StaticImport;
+  profileImageUrl: string | null;
   postId: number;
   category: CommunityCategory;
   title: string;

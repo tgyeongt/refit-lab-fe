@@ -22,7 +22,7 @@ export default function ExchangeMapPage() {
 
   useCurrentLocation(); // 현재 위치 초기 세팅
 
-  // 1️⃣ Kakao Map SDK + 지도 초기화
+  // Kakao Map SDK + 지도 초기화
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -72,7 +72,7 @@ export default function ExchangeMapPage() {
     }
   }, [location?.lat, location?.lng]);
 
-  // 2️⃣ 위치 변경 시 지도 및 마커 이동
+  // 위치 변경 시 지도 및 마커 이동
   useEffect(() => {
     if (!location || !mapInstance.current || !markerInstance.current) return;
 
@@ -83,7 +83,7 @@ export default function ExchangeMapPage() {
     markerInstance.current.setPosition(pos);
   }, [location?.lat, location?.lng]);
 
-  // 3️⃣ 키워드 검색
+  // 키워드 검색
   useEffect(() => {
     if (!keyword || !mapInstance.current) return;
 

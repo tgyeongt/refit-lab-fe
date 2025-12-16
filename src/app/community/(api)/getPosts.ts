@@ -31,8 +31,8 @@ export interface GetPostsResponse {
 
 /** 조회 파라미터 */
 export interface GetPostsParams {
-  category?: CommunityCategory[]; // 여러 카테고리 가능, 전체 조회 시 생략
-  lastPostId?: number; // 첫 조회 시 생략 가능
+  category?: CommunityCategory[];
+  lastPostId?: number;
   size?: number;
 }
 

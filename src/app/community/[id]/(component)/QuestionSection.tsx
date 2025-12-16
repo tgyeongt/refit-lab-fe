@@ -76,7 +76,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
             {post.imageUrlList.map((url, idx) => (
               <div
                 key={idx}
-                className="relative flex flex-col w-full aspect-square"
+                className="relative flex-shrink-0 w-[200px] h-[200px]"
               >
                 <Image
                   src={url}

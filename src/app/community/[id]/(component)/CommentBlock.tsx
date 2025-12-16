@@ -46,7 +46,7 @@ export default function CommentBlock({
     if (!accessToken) return alert("로그인이 필요합니다.");
 
     try {
-      await toggleCommentLike(commentId, accessToken);
+      await toggleCommentLike(commentId);
 
       setIsLiked((prev) => !prev);
       setLikes((prev) => (isLiked ? prev - 1 : prev + 1));
