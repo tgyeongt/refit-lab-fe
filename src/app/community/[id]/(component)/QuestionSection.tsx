@@ -55,7 +55,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
     <section className="border-b-6 border-[#EEEEEE] pb-4 relative">
       <div className="flex items-center mb-3 mt-[10px]">
         <Image
-          src={Profile}
+          src={post.profileImageUrl ? post.profileImageUrl : Profile}
           alt={post.nickname}
           width={35}
           height={35}

@@ -1,10 +1,12 @@
 "use client";
 
 import axios from "axios";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
 
 export interface CommunityPost {
+  profileImageUrl: string | StaticImport;
   postId: number;
   category: CommunityCategory;
   title: string;

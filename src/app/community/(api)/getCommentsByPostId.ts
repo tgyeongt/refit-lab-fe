@@ -4,7 +4,7 @@ import axios from "axios";
 import UserProfile from "@/assets/image/user-profile.png";
 
 export interface CommentUI {
-  commentId: number; // id → commentId
+  commentId: number;
   isLiked: boolean;
   userName?: string;
   userProfile: string;
@@ -28,9 +28,9 @@ export const getCommentsByPostId = async (
 
   // 댓글과 대댓글 구조 변환
   const mapComment = (c: any): CommentUI => ({
-    commentId: c.commentId, // id → commentId
+    commentId: c.commentId,
     userName: c.nickname,
-    userProfile: c.userProfile || UserProfile,
+    userProfile: c.profileImageUrl || UserProfile,
     content: c.content,
     time: c.createdAt,
     likeCount: c.likeCount ?? 0,

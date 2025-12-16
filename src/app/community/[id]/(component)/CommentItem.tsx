@@ -24,8 +24,11 @@ export default function CommentItem({
     setOpenMenuId(null);
   };
 
+  const indent = 35;
+  const marginLeft = level === 0 ? 0 : indent;
+
   return (
-    <div style={{ marginLeft: level * 30 }} className="flex flex-col gap-2">
+    <div style={{ marginLeft }} className="flex flex-col gap-2">
       <CommentBlock
         commentId={comment.commentId}
         userProfile={comment.userProfile}
