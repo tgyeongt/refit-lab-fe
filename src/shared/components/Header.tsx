@@ -28,6 +28,7 @@ export default function Header() {
     onDelete,
     setHeader,
     setSidebarOpen,
+    isAuthor,
   } = useHeaderStore();
 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -41,6 +42,7 @@ export default function Header() {
       showMenu: true,
       onEdit: undefined,
       onDelete: undefined,
+      isAuthor: false, // 초기값
     });
   }, [pathname, hideHeader, setHeader]);
 
@@ -62,7 +64,6 @@ export default function Header() {
   return (
     <>
       <header className="flex items-center justify-between px-4 py-3 relative">
-        {/* 왼쪽 */}
         <div className="flex items-center w-1/3">
           {showBack ? (
             <button onClick={() => router.back()}>
@@ -75,12 +76,10 @@ export default function Header() {
           )}
         </div>
 
-        {/* 중앙 */}
         <div className="flex justify-center w-1/3">
           {title && <span className="text-[16px] font-medium">{title}</span>}
         </div>
 
-        {/* 오른쪽 */}
         <div className="flex justify-end w-1/3 relative" ref={menuRef}>
           {showMenu ? (
             <button onClick={() => setSidebarOpen(true)}>
@@ -93,26 +92,39 @@ export default function Header() {
           )}
 
           {isMoreOpen && !showMenu && (
-            <div className="absolute right-0 top-8 w-[100px] bg-white shadow-md rounded-md p-1 text-sm z-50">
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                onClick={() => {
-                  onEdit?.();
-                  setIsMoreOpen(false);
-                }}
-              >
-                수정
-              </button>
-
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                onClick={() => {
-                  onDelete?.();
-                  setIsMoreOpen(false);
-                }}
-              >
-                삭제
-              </button>
+            <div className="absolute right-0 top-8 w-[120px] bg-white shadow-md rounded-md p-1 text-sm z-50">
+              {isAuthor ? (
+                <>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      onEdit?.();
+                      setIsMoreOpen(false);
+                    }}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                    onClick={() => {
+                      onDelete?.();
+                      setIsMoreOpen(false);
+                    }}
+                  >
+                    삭제
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  onClick={() => {
+                    alert("신고 기능 실행");
+                    setIsMoreOpen(false);
+                  }}
+                >
+                  신고
+                </button>
+              )}
             </div>
           )}
         </div>

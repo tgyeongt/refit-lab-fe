@@ -8,6 +8,8 @@ interface HeaderStore {
   isSidebarOpen: boolean;
   isMoreOpen: boolean;
 
+  isAuthor?: boolean;
+
   onEdit?: () => void;
   onDelete?: () => void;
 
@@ -23,6 +25,7 @@ export const useHeaderStore = create<HeaderStore>((set) => ({
 
   isSidebarOpen: false,
   isMoreOpen: false,
+  isAuthor: false,
 
   onEdit: undefined,
   onDelete: undefined,
