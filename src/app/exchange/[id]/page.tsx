@@ -1,35 +1,63 @@
 "use client";
 
 import useHeader from "@/shared/hooks/useHeader";
+import { useHeaderStore } from "@/shared/stores/headerStore";
 import PaperImg from "@/assets/image/bg-paper.png";
 import CarbonImg from "@/assets/image/carbon-reduction.png";
 import LetterImg from "@/assets/image/letter.png";
 import DummyImg from "@/assets/image/Profile.png";
 import { useTimeAgo } from "@/shared/hooks/useTimeAgo";
+import { deleteExchangePost } from "../(api)/deleteExchangePost";
 
 import PinIcon from "@/assets/icon/pin.svg";
 import Image from "next/image";
 import KakaoMap from "./KakaoMap";
 import FloatingExchangeButton from "./FloatingExchangeButton";
-
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   getExchangeDetail,
   ExchangeDetailData,
 } from "@/app/exchange/(api)/getExchangeDetail";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export default function ExchangeDetailPage() {
-  useHeader({ showBack: true, showMenu: true });
+  useHeader({ showBack: true, showMenu: false });
 
   const params = useParams();
   const exchangePostId = Number(params.id);
+  const router = useRouter();
 
   const { data, isLoading, isError } = useQuery<ExchangeDetailData>({
     queryKey: ["exchangeDetail", exchangePostId],
     queryFn: () => getExchangeDetail(exchangePostId),
     enabled: !!exchangePostId && !Number.isNaN(exchangePostId),
   });
+
+  useEffect(() => {
+    if (!data) return;
+
+    useHeaderStore.getState().setHeader({
+      isAuthor: data.isAuthor,
+      showBack: true,
+      showMenu: false,
+      onEdit: () => console.log("수정"),
+      onDelete: async () => {
+        try {
+          if (!confirm("정말 삭제하시겠습니까?")) return;
+
+          await deleteExchangePost(data.exchangePostId);
+          alert("게시글이 삭제되었습니다.");
+          router.push("/exchange");
+        } catch (error: any) {
+          console.error(error);
+          alert("게시글 삭제에 실패했습니다.");
+        }
+      },
+    });
+  }, [data]);
+
+  console.log(data);
 
   if (!exchangePostId || Number.isNaN(exchangePostId)) {
     return <p className="text-center mt-10">잘못된 접근입니다.</p>;
@@ -169,7 +197,7 @@ export default function ExchangeDetailPage() {
           </div>
 
           {/* 교환자 정보 */}
-          <div className="bg-[#F5F5F7] px-[15px] py-[10px]">
+          {/* <div className="bg-[#F5F5F7] px-[15px] py-[10px]">
             <p className="text-[14px]">교환자</p>
             <div className="flex items-center justify-between py-[15px]">
               <div className="flex items-center space-x-3">
@@ -185,7 +213,7 @@ export default function ExchangeDetailPage() {
               </div>
               <button className="text-[14px] text-[#642C8D]">쓴 글 보기</button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
