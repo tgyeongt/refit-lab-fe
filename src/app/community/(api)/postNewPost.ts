@@ -1,39 +1,35 @@
-"use client";
+import { privateAPI } from "@/shared/api/apiInstance";
 
-import axios from "axios";
-
-export interface NewPostPayload {
+interface PostNewPostRequest {
   postCategory: string;
   title: string;
   content: string;
   imageList?: File[];
 }
 
-export const postNewPost = async (payload: NewPostPayload, token: string) => {
+export const postNewPost = async (data: PostNewPostRequest) => {
+  const { postCategory, title, content, imageList = [] } = data;
+
   const formData = new FormData();
 
-  formData.append("postCategory", payload.postCategory);
-  formData.append("title", payload.title);
-  formData.append("content", payload.content);
-
-  if (payload.imageList && payload.imageList.length > 0) {
-    payload.imageList.forEach((file) => {
-      formData.append("imageList", file);
-    });
-  }
-
-  const { data } = await axios.post(
-    "https://api.refitlab.site/api/posts/new",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  formData.append(
+    "request",
+    new Blob(
+      [
+        JSON.stringify({
+          postCategory,
+          title,
+          content,
+        }),
+      ],
+      { type: "application/json" }
+    )
   );
 
-  if (!data.success) throw new Error(data.message || "게시글 등록 실패");
+  imageList.forEach((file) => {
+    formData.append("imageList", file);
+  });
 
-  return data.data;
+  const response = await privateAPI.post("/posts/new", formData);
+  return response.data;
 };

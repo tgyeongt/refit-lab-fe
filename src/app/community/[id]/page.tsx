@@ -9,7 +9,7 @@ import { getPostById, CommunityPost } from "../(api)/getPostById";
 import { useAuth } from "@/shared/stores/useAuthStore";
 
 export default function CommunityDetailPage() {
-  useHeader({ showBack: true, showMenu: true });
+  useHeader({ showBack: true, showMenu: false });
 
   const { id } = useParams();
   const postId = Number(id);

@@ -66,7 +66,7 @@ export default function AnswerSection({ postId }: AnswerSectionProps) {
       <div className="space-y-5 pb-[80px]">
         {comments.map((comment) => (
           <CommentItem
-            key={comment.id}
+            key={comment.commentId}
             comment={comment}
             onReplyClick={handleOpenReplyInput}
           />

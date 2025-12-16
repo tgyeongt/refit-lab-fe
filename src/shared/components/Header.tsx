@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useHeaderStore } from "@/shared/stores/headerStore";
 
 import Icon from "@/shared/components/Icon";
@@ -15,6 +15,7 @@ import Sidebar from "./SideBar";
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const NO_HEADER_PATHS = ["/community/post", "/exchange/post"];
 
@@ -26,13 +27,14 @@ export default function Header() {
     title,
     showBack,
     showMenu,
-    isMoreOpen,
     onEdit,
     onDelete,
     setHeader,
     setSidebarOpen,
     setMoreOpen,
   } = useHeaderStore();
+
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   // 페이지 이동 시 헤더 초기화
   useEffect(() => {
@@ -44,6 +46,18 @@ export default function Header() {
       onDelete: undefined,
     });
   }, [pathname, setHeader]);
+
+  // 바깥 클릭 시 닫기
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMoreOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -73,51 +87,36 @@ export default function Header() {
               <MenuIcon width={28} height={28} />
             </button>
           ) : (
-            <button onClick={() => setMoreOpen(true)}>
-              <MoreIcon width={24} height={24} />
+            <button onClick={() => setIsMoreOpen((prev) => !prev)}>
+              <MoreIcon width={20} height={20} />
             </button>
+          )}
+          {/* ✅ 드롭다운 메뉴 */}
+          {isMoreOpen && !showMenu && (
+            <div className="absolute right-0 top-8 w-[100px] bg-white shadow-md rounded-md p-1 text-sm z-50">
+              <button
+                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                onClick={() => {
+                  onEdit?.();
+                  setIsMoreOpen(false);
+                }}
+              >
+                수정
+              </button>
+
+              <button
+                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                onClick={() => {
+                  onDelete?.();
+                  setIsMoreOpen(false);
+                }}
+              >
+                삭제
+              </button>
+            </div>
           )}
         </div>
       </header>
-
-      {/* More Bottom Sheet */}
-      {isMoreOpen && !showMenu && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/40 z-40"
-            onClick={() => setMoreOpen(false)}
-          />
-
-          <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50">
-            <button
-              className="w-full py-4 text-left px-6"
-              onClick={() => {
-                onEdit?.();
-                setMoreOpen(false);
-              }}
-            >
-              수정
-            </button>
-
-            <button
-              className="w-full py-4 text-left px-6 text-red-500"
-              onClick={() => {
-                onDelete?.();
-                setMoreOpen(false);
-              }}
-            >
-              삭제
-            </button>
-
-            <button
-              className="w-full py-3 text-center text-gray-400"
-              onClick={() => setMoreOpen(false)}
-            >
-              취소
-            </button>
-          </div>
-        </>
-      )}
 
       <Sidebar />
     </>

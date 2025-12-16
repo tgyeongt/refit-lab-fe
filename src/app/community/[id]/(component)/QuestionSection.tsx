@@ -69,6 +69,23 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
       <div className="mb-3 px-[5px] pb-[20px]">
         <h2 className="text-[20px] font-semibold mb-2">{post.title}</h2>
         <p className="text-[16px] text-sm">{post.content}</p>
+        {post.imageUrlList && post.imageUrlList.length > 0 && (
+          <div className="mt-4 flex gap-3 overflow-x-auto">
+            {post.imageUrlList.map((url, idx) => (
+              <div
+                key={idx}
+                className="relative flex flex-col w-full aspect-square"
+              >
+                <Image
+                  src={url}
+                  alt=""
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center gap-[100px] text-sm text-[#9E9E9E]">

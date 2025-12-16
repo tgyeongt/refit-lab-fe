@@ -6,7 +6,7 @@ export const toggleCommentLike = async (
 ): Promise<{ isLiked: boolean; likes: number }> => {
   const { data } = await axios.post(
     `https://api.refitlab.site/api/comments/${commentId}/like`,
-    null, // body가 필요 없으면 null
+    {},
     {
       headers: { Authorization: `Bearer ${token}` },
     }

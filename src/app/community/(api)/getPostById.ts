@@ -1,7 +1,6 @@
 "use client";
 
 import axios from "axios";
-import { useAuth } from "@/shared/stores/useAuthStore";
 
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
 
@@ -17,7 +16,7 @@ export interface CommunityPost {
   nickname: string;
   isAuthor: boolean;
   isLiked: boolean;
-  imageUrlList: string[];
+  imageUrlList: string[] | null;
   commentIdList: number[];
 }
 
