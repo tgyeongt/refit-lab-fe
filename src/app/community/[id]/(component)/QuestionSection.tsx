@@ -11,6 +11,7 @@ import { useAuth } from "@/shared/stores/useAuthStore";
 import { togglePostLike } from "../../(api)/togglePostLike";
 import { createComment } from "../../(api)/createComment";
 import { useTimeAgo } from "@/shared/hooks/useTimeAgo";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface QuestionSectionProps {
   post: CommunityPost;
@@ -21,6 +22,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const timeAgoText = useTimeAgo(post.createdAt);
+  const queryClient = useQueryClient();
 
   const { accessToken } = useAuth();
 
@@ -43,13 +45,12 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
     try {
       await createComment(post.postId, text, accessToken, parentCommentId);
       setIsReplyOpen(false);
-      // TODO: 댓글 리스트 갱신
+      queryClient.invalidateQueries({ queryKey: ["comments", post.postId] });
     } catch (err) {
       console.error(err);
       alert("댓글 작성 중 오류가 발생했습니다.");
     }
   };
-  console.log(post);
 
   return (
     <section className="border-b-6 border-[#EEEEEE] pb-4 relative">

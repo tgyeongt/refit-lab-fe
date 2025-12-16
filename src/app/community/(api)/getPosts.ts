@@ -38,28 +38,21 @@ export interface GetPostsParams {
 
 /** 커뮤니티 게시글 조회 */
 export const getPosts = async (
-  params: GetPostsParams,
-  token: string
+  params: GetPostsParams
 ): Promise<GetPostsResponse> => {
   try {
     const queryParams: Record<string, string | number> = {
       size: params.size ?? 20,
     };
 
-    // 전체 조회일 때 category 생략
     if (params.category && params.category.length > 0) {
       queryParams["category"] = params.category.join(",");
     }
 
     if (params.lastPostId) queryParams["lastPostId"] = params.lastPostId;
 
-    const { data } = await axios.get("https://api.refitlab.site/api/posts", {
+    const { data } = await privateAPI.get("/posts", {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      },
-      validateStatus: () => true,
     });
 
     if (!data.success) throw new Error(data.message || "API 요청 실패");

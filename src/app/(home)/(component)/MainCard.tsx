@@ -16,7 +16,7 @@ export default function MainCard({
   image,
 }: MainCardProps) {
   return (
-    <div className="relative w-full h-[55vw] max-h-[380px] overflow-hidden shadow-md">
+    <div className="relative w-full h-[65vw] max-h-[400px] overflow-hidden shadow-md">
       <Image src={image} alt={title} fill className="object-cover" priority />
 
       <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-5 text-white">

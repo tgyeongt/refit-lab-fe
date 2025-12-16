@@ -1,7 +1,7 @@
 "use client";
 
-import axios from "axios";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { privateAPI } from "@/shared/api/apiInstance";
 
 export type CommunityCategory = "FREE" | "REPAIR" | "INFO";
 
@@ -26,21 +26,10 @@ export interface GetPostByIdResponse {
   content: CommunityPost;
 }
 
-export const getPostById = async (
-  id: number,
-  token: string
-): Promise<CommunityPost> => {
+/** 단일 게시글 조회 */
+export const getPostById = async (id: number): Promise<CommunityPost> => {
   try {
-    const { data } = await axios.get(
-      `https://api.refitlab.site/api/posts/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-        validateStatus: () => true,
-      }
-    );
+    const { data } = await privateAPI.get(`/posts/${id}`);
 
     if (!data.success) throw new Error(data.message || "API 요청 실패");
 
