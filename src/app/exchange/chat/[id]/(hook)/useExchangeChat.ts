@@ -39,48 +39,60 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
 
     const init = async () => {
       try {
+        console.log("[Chat] 채팅 초기화 시작...");
         setLoading(true);
 
         // 1️⃣ 채팅방 생성
         const roomData = await createExchangeChatRoom(postId);
+        console.log("[Chat] 채팅방 생성 완료:", roomData);
         setRoomId(roomData.roomId);
 
         // 2️⃣ 최근 메시지 가져오기
         const chatData = await getChatMessages(roomData.roomId, undefined, 1);
+        console.log("[Chat] 최근 메시지 가져오기:", chatData);
+
         if (chatData.content.length > 0) {
           const firstMsg = chatData.content[0];
           setSenderNickname(firstMsg.senderNickname);
           setSenderProfileUrl(firstMsg.senderProfileImageUrl ?? "");
+          console.log(
+            "[Chat] 상대 정보 설정:",
+            firstMsg.senderNickname,
+            firstMsg.senderProfileImageUrl
+          );
         }
 
         // 3️⃣ 기존 마지막 메시지 표시
         if (roomData.lastMessage) {
-          setMessages([
-            {
-              id: uuidv4(),
-              sender: "other",
-              content: roomData.lastMessage,
-              timestamp: roomData.lastMessageAt ?? new Date().toISOString(),
-              isMine: false,
-            },
-          ]);
+          const lastMsg: ChatMessage = {
+            id: uuidv4(),
+            sender: "other",
+            content: roomData.lastMessage,
+            timestamp: roomData.lastMessageAt ?? new Date().toISOString(),
+            isMine: false,
+          };
+          setMessages([lastMsg]);
+          console.log("[Chat] 기존 마지막 메시지 표시:", lastMsg);
         }
 
         // 4️⃣ STOMP 웹소켓 연결
         const socket = new SockJS(`${process.env.NEXT_PUBLIC_WS_URL}/ws`);
         const client = new Client({
           webSocketFactory: () => socket,
-          debug: (str) => console.log("[STOMP]", str),
+          debug: (str) => console.log("[STOMP DEBUG]", str),
         });
 
         client.onConnect = () => {
-          console.log("✅ STOMP 연결됨");
+          console.log("[STOMP] 연결됨");
           setConnected(true);
 
+          // 구독
           client.subscribe(
             `/sub/chats/rooms/${roomData.roomId}`,
             (msg: IMessage) => {
               const body = JSON.parse(msg.body);
+              console.log("[STOMP] 수신 메시지:", body);
+
               setMessages((prev) => [
                 ...prev,
                 {
@@ -100,21 +112,22 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
             destination: `/pub/chats/rooms/${roomData.roomId}/read`,
             body: JSON.stringify({}),
           });
+          console.log("[STOMP] 읽음 처리 완료");
         };
 
         client.onStompError = (frame) => {
-          console.error("STOMP 에러:", frame.headers, frame.body);
+          console.error("[STOMP ERROR]", frame.headers, frame.body);
         };
 
         client.onWebSocketClose = () => {
-          console.log("STOMP 연결 종료");
+          console.log("[STOMP] 연결 종료");
           setConnected(false);
         };
 
         client.activate();
         stompClient.current = client;
       } catch (error) {
-        console.error("채팅방 초기화 실패:", error);
+        console.error("[Chat] 채팅방 초기화 실패:", error);
       } finally {
         setLoading(false);
       }
@@ -124,6 +137,7 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
 
     return () => {
       if (stompClient.current) {
+        console.log("[Chat] 컴포넌트 언마운트, 연결 종료");
         stompClient.current.deactivate();
         setConnected(false);
       }
@@ -132,8 +146,17 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
 
   const sendMessage = useCallback(
     (content: string) => {
+      console.log(
+        "[Chat] sendMessage 호출:",
+        content,
+        "roomId:",
+        roomId,
+        "connected:",
+        connected
+      );
+
       if (!roomId || !stompClient.current || !stompClient.current.connected) {
-        console.warn("STOMP 연결이 완료되지 않아 메시지를 보낼 수 없습니다.");
+        console.warn("[Chat] STOMP 연결 안됨, 메시지 전송 실패");
         return;
       }
 
@@ -142,6 +165,7 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
         destination: `/pub/chats/rooms/${roomId}/message`,
         body: JSON.stringify(msg),
       });
+      console.log("[STOMP] 메시지 발송:", msg);
 
       setMessages((prev) => [
         ...prev,
@@ -154,7 +178,7 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
         },
       ]);
     },
-    [roomId]
+    [roomId, connected]
   );
 
   return {

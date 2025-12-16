@@ -10,9 +10,6 @@ export default function ExchangeChatPage() {
   const params = useParams();
   const postId = params.id ? Number(params.id) : null;
 
-  console.log("params:", params);
-  console.log("postId:", postId);
-
   const {
     senderNickname,
     senderProfileUrl,
@@ -21,6 +18,13 @@ export default function ExchangeChatPage() {
     loading,
     connected,
   } = useExchangeChat(postId);
+
+  console.log(
+    "[Page] senderNickname:",
+    senderNickname,
+    "connected:",
+    connected
+  );
 
   if (loading)
     return <p className="text-center mt-10 text-gray-500">채팅방 생성 중...</p>;
