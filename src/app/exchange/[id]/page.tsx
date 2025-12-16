@@ -56,8 +56,6 @@ export default function ExchangeDetailPage() {
     });
   }, [data]);
 
-  console.log(data);
-
   if (!exchangePostId || Number.isNaN(exchangePostId)) {
     return <p className="text-center mt-10">잘못된 접근입니다.</p>;
   }

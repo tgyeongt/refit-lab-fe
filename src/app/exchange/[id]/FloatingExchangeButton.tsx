@@ -13,7 +13,7 @@ export default function FloatingExchangeButton({
 
   const handleClick = () => {
     if (onClick) onClick();
-    router.push("/exchange/local");
+    router.push("/exchange/chat");
   };
 
   return (

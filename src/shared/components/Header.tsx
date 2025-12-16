@@ -17,7 +17,11 @@ export default function Header() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const NO_HEADER_PATHS = ["/community/post", "/exchange/post"];
+  const NO_HEADER_PATHS = [
+    "/community/post",
+    "/exchange/post",
+    "/exchange/chat",
+  ];
   const hideHeader = NO_HEADER_PATHS.includes(pathname);
 
   const {
@@ -40,7 +44,7 @@ export default function Header() {
       showBack: false,
       showMenu: true,
       onDelete: undefined,
-      isAuthor: false, // 초기값
+      isAuthor: false,
     });
   }, [pathname, hideHeader, setHeader]);
 
