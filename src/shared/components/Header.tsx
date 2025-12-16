@@ -17,12 +17,10 @@ export default function Header() {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const NO_HEADER_PATHS = [
-    "/community/post",
-    "/exchange/post",
-    "/exchange/chat",
-  ];
-  const hideHeader = NO_HEADER_PATHS.includes(pathname);
+  const hideHeader =
+    pathname.startsWith("/exchange/chat") ||
+    pathname.startsWith("/community/post") ||
+    pathname.startsWith("/exchange/post");
 
   const {
     title,

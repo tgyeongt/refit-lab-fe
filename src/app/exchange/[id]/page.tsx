@@ -215,7 +215,7 @@ export default function ExchangeDetailPage() {
         </div>
       </div>
 
-      <FloatingExchangeButton />
+      <FloatingExchangeButton postId={exchangePostId} />
     </>
   );
 }

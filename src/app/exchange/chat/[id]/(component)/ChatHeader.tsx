@@ -26,7 +26,7 @@ export default function ChatHeader({
         alt={username}
         width={40}
         height={40}
-        className="rounded-full object-cover mr-3"
+        className="rounded-full object-contain mr-3"
       />
 
       <span className="font-medium text-gray-900 text-[16px]">{username}</span>
