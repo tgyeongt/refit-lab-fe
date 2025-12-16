@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import LikeIcon from "@/assets/icon/like.svg";
-import Profile from "@/assets/image/Profile.png";
+import Profile from "@/assets/image/user-profile.png";
 import CommentIcon from "@/assets/icon/comment.svg";
 import CommentInputBar from "./CommentInputBar";
 import { CommunityPost } from "../../(api)/getPostById";
@@ -49,6 +49,7 @@ export default function QuestionSection({ post }: QuestionSectionProps) {
       alert("댓글 작성 중 오류가 발생했습니다.");
     }
   };
+  console.log(post);
 
   return (
     <section className="border-b-6 border-[#EEEEEE] pb-4 relative">
