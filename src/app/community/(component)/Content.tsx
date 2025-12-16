@@ -32,7 +32,7 @@ export default function Content({ activeTab }: ContentProps) {
       const categoriesToSend =
         activeTab === "전체" ? [] : CATEGORY_MAP[activeTab] || [];
 
-      return getPosts({ category: categoriesToSend, size: 20 }, accessToken);
+      return getPosts({ category: categoriesToSend, size: 20 });
     },
     enabled: hydrated && isLoggedIn,
   });
