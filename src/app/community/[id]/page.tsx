@@ -40,7 +40,6 @@ export default function CommunityDetailPage() {
       isAuthor: post.isAuthor,
       showBack: true,
       showMenu: false,
-      onEdit: () => console.log("수정"),
       onDelete: async () => {
         try {
           if (!confirm("정말 삭제하시겠습니까?")) return;

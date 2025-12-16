@@ -24,7 +24,6 @@ export default function Header() {
     title,
     showBack,
     showMenu,
-    onEdit,
     onDelete,
     setHeader,
     setSidebarOpen,
@@ -40,7 +39,6 @@ export default function Header() {
       title: "",
       showBack: false,
       showMenu: true,
-      onEdit: undefined,
       onDelete: undefined,
       isAuthor: false, // 초기값
     });
@@ -94,26 +92,15 @@ export default function Header() {
           {isMoreOpen && !showMenu && (
             <div className="absolute right-0 top-8 w-[120px] bg-white shadow-md rounded-md p-1 text-sm z-50">
               {isAuthor ? (
-                <>
-                  <button
-                    className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                    onClick={() => {
-                      onEdit?.();
-                      setIsMoreOpen(false);
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                    onClick={() => {
-                      onDelete?.();
-                      setIsMoreOpen(false);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </>
+                <button
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
+                  onClick={() => {
+                    onDelete?.();
+                    setIsMoreOpen(false);
+                  }}
+                >
+                  삭제
+                </button>
               ) : (
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"

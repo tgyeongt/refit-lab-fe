@@ -9,8 +9,6 @@ interface HeaderStore {
   isMoreOpen: boolean;
 
   isAuthor?: boolean;
-
-  onEdit?: () => void;
   onDelete?: () => void;
 
   setHeader: (config: Partial<HeaderStore>) => void;
@@ -27,7 +25,6 @@ export const useHeaderStore = create<HeaderStore>((set) => ({
   isMoreOpen: false,
   isAuthor: false,
 
-  onEdit: undefined,
   onDelete: undefined,
 
   setHeader: (config) =>
