@@ -37,13 +37,13 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       <Icon icon={Logo} size={120} className="mt-[120px]" />
 
       <div className="flex flex-col gap-[15px] w-full px-6 mt-[100px]">
-        <button
+        {/* <button
           onClick={handleKakaoLogin}
           className="flex items-center justify-center gap-[30px] bg-[#FEE102] py-3 rounded-[5px] font-semibold"
         >
           <Kakao />
           <span>Kakao로 시작하기</span>
-        </button>
+        </button> */}
 
         {/* <button className="flex items-center justify-center gap-[30px] bg-[#05C050] text-white py-3 rounded-[5px] font-semibold">
           <Naver />
