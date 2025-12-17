@@ -42,9 +42,9 @@ export default function ExchangeSection() {
           {loading ? "위치 불러오는 중..." : location}
         </span>
 
-        <button onClick={fetchLocation} className="text-[#BDBDBD]">
+        {/* <button onClick={fetchLocation} className="text-[#BDBDBD]">
           위치 변경
-        </button>
+        </button> */}
       </div>
 
       <div className="flex bg-[#F6E9FF] py-[25px] pl-[25px] pr-[10px] rounded-[8px] mt-[15px] justify-between items-center">

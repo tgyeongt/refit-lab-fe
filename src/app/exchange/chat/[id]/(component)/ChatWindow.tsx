@@ -1,13 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export interface ChatMessage {
+interface ChatMessage {
   id: string;
-  sender: string;
   content: string;
-  timestamp: string;
-  isMine?: boolean;
+  isMine: boolean;
 }
 
 interface ChatWindowProps {
@@ -15,18 +13,16 @@ interface ChatWindowProps {
 }
 
 export default function ChatWindow({ messages }: ChatWindowProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
-    }
+    ref.current?.scrollTo(0, ref.current.scrollHeight);
   }, [messages]);
 
   return (
     <div
-      ref={containerRef}
-      className="flex-1 overflow-y-auto px-4 py-3 space-y-3"
+      ref={ref}
+      className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-[#FAFAFA]"
     >
       {messages.map((msg) => (
         <div
@@ -34,7 +30,7 @@ export default function ChatWindow({ messages }: ChatWindowProps) {
           className={`flex ${msg.isMine ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`px-[15px] py-[10px] rounded-[15px] max-w-[70%] text-sm ${
+            className={`px-4 py-2 rounded-[16px] max-w-[70%] text-sm ${
               msg.isMine
                 ? "bg-[#642C8D] text-white"
                 : "bg-[#EEEEEE] text-[#424242]"
