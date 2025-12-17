@@ -1,43 +1,55 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useState } from "react";
 import ChatHeader from "./(component)/ChatHeader";
 import ChatWindow from "./(component)/ChatWindow";
 import ChatInput from "./(component)/ChatInput";
-import { useExchangeChat } from "./(hook)/useExchangeChat";
+import Profile from "@/assets/image/user-profile.png";
+
+export interface ChatMessage {
+  id: string;
+  content: string;
+  isMine: boolean;
+}
 
 export default function ExchangeChatPage() {
-  const params = useParams();
-  const postId = params.id ? Number(params.id) : null;
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: "1",
+      content: "안녕하세요! 교환 문의 드려요 🙂",
+      isMine: true,
+    },
+    {
+      id: "2",
+      content: "네 안녕하세요!",
+      isMine: false,
+    },
+  ]);
 
-  const {
-    senderNickname,
-    senderProfileUrl,
-    messages,
-    sendMessage,
-    loading,
-    connected,
-  } = useExchangeChat(postId);
+  const handleSend = (message: string) => {
+    console.log("[UI] 메시지 전송:", message);
 
-  console.log(
-    "[Page] senderNickname:",
-    senderNickname,
-    "connected:",
-    connected
-  );
-
-  if (loading)
-    return <p className="text-center mt-10 text-gray-500">채팅방 생성 중...</p>;
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: String(Date.now()),
+        content: message,
+        isMine: true,
+      },
+    ]);
+  };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-white">
       <ChatHeader
-        username={senderNickname || "로딩 중..."}
-        profileUrl={senderProfileUrl || "/path/to/profile.jpg"}
+        username="홍길동"
+        profileUrl={Profile.src}
         onBack={() => history.back()}
       />
+
       <ChatWindow messages={messages} />
-      <ChatInput onSend={sendMessage} canSend={connected} />
+
+      <ChatInput onSend={handleSend} canSend={true} />
     </div>
   );
 }
