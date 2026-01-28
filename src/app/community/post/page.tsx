@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 
 import BoardSelector from "./(component)/BoardSelector";
 import ImageSelector from "./(component)/ImageSelector";
@@ -12,26 +12,48 @@ import BackIcon from "@/assets/icon/arrow-left.svg";
 import { useAuth } from "@/shared/stores/useAuthStore";
 import { usePostSubmit } from "./usePostSubmit";
 
+interface PostFormValues {
+  board: string | null;
+  title: string;
+  content: string;
+  images: File[];
+}
+
 export default function PostPage() {
   const router = useRouter();
   const { accessToken } = useAuth();
   const { submitPost } = usePostSubmit();
 
-  const [board, setBoard] = useState<string | null>(null);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState<File[]>([]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { isSubmitting },
+  } = useForm<PostFormValues>({
+    defaultValues: {
+      board: null,
+      title: "",
+      content: "",
+      images: [],
+    },
+  });
+
+  const title = watch("title");
+  const content = watch("content");
+  const images = watch("images");
 
   const isActive = title.trim().length > 0 && content.trim().length > 0;
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data: PostFormValues) => {
     if (!accessToken) {
       alert("로그인이 필요합니다.");
       return;
     }
 
     try {
-      await submitPost({ board, title, content, images });
+      await submitPost(data);
+      router.back();
     } catch (e) {
       if (e instanceof Error) {
         alert(e.message);
@@ -50,8 +72,8 @@ export default function PostPage() {
         <span className="text-[16px] font-medium">커뮤니티 글쓰기</span>
 
         <button
-          onClick={handleSubmit}
-          disabled={!isActive}
+          onClick={handleSubmit(onSubmit)}
+          disabled={!isActive || isSubmitting}
           className={`text-[16px] font-medium transition
             ${isActive ? "text-[#642C8D]" : "text-[#BDBDBD]"}`}
         >
@@ -61,20 +83,21 @@ export default function PostPage() {
 
       {/* 본문 */}
       <div className="p-4 pb-24 flex flex-col relative">
-        <BoardSelector value={board} onChange={setBoard} />
+        <BoardSelector
+          value={watch("board")}
+          onChange={(v) => setValue("board", v)}
+        />
 
         <input
+          {...register("title")}
           type="text"
           placeholder="제목을 입력하세요"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
           className="w-full p-2 text-[20px] mt-[16px] font-semibold outline-none"
         />
 
         <textarea
+          {...register("content")}
           placeholder="내용을 입력하세요"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
           className="w-full h-48 p-2 text-[16px] font-medium outline-none resize-none"
         />
 
@@ -88,7 +111,10 @@ export default function PostPage() {
               >
                 <button
                   onClick={() =>
-                    setImages((prev) => prev.filter((_, i) => i !== idx))
+                    setValue(
+                      "images",
+                      images.filter((_, i) => i !== idx)
+                    )
                   }
                   className="absolute top-2 right-2 z-10 bg-black/50 text-white
                     w-[30px] h-[30px] rounded-full flex items-center justify-center"
@@ -108,7 +134,9 @@ export default function PostPage() {
         )}
 
         <ImageSelector
-          onSelectImages={(files) => setImages((prev) => [...prev, ...files])}
+          onSelectImages={(files) =>
+            setValue("images", [...images, ...files])
+          }
         />
       </div>
     </>
