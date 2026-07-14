@@ -15,12 +15,13 @@ export default function ChatInput({ onSend, canSend }: ChatInputProps) {
 
   const handleSubmit = (e?: FormEvent) => {
     e?.preventDefault();
-    if (!message.trim()) return;
+    if (!message.trim() || !canSend) return;
     onSend(message);
     setMessage("");
   };
 
   const handleReserveExchange = () => {
+    if (!canSend) return;
     onSend("📦 교환 예약을 했어요. 이후 일정은 채팅으로 조율해요!");
     setShowActions(false);
   };

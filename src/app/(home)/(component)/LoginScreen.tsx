@@ -2,6 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { testLogin } from "../(api)/testLogin";
+import { useAuthStore } from "@/shared/stores/useAuthStore";
 
 import Icon from "@/shared/components/Icon";
 import Logo from "@/assets/icon/logo.svg";
@@ -23,7 +24,14 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
       }
     },
     onError: (err) => {
-      console.error("로그인 실패:", err);
+      // console.error("로그인 실패:", err);
+
+      // DB 서버가 꺼져있을 때 테스트 로그인이 막히지 않도록 로컬 우회 처리
+      console.error("로그인 실패, 로컬 우회로 진행:", err);
+      const devToken = "dev-bypass-token";
+      localStorage.setItem("accessToken", devToken);
+      useAuthStore.getState().actions.setAccessToken(devToken);
+      onLogin();
     },
   });
 
