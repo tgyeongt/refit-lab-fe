@@ -5,6 +5,7 @@ import SockJS from "sockjs-client";
 import { Client, IMessage } from "@stomp/stompjs";
 import { v4 as uuidv4 } from "uuid";
 import { createExchangeChatRoom, getChatMessages } from "../(api)/chat";
+import { useAuthStore } from "@/shared/stores/useAuthStore";
 
 export interface ChatMessage {
   id: string;
@@ -16,8 +17,8 @@ export interface ChatMessage {
 
 interface UseExchangeChatReturn {
   roomId: number | null;
-  senderNickname: string;
-  senderProfileUrl: string;
+  receiverNickname: string;
+  receiverProfileUrl: string;
   messages: ChatMessage[];
   sendMessage: (content: string) => void;
   loading: boolean;
@@ -26,101 +27,94 @@ interface UseExchangeChatReturn {
 
 export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
   const [roomId, setRoomId] = useState<number | null>(null);
-  const [senderNickname, setSenderNickname] = useState<string>("");
-  const [senderProfileUrl, setSenderProfileUrl] = useState<string>("");
+  const [receiverNickname, setReceiverNickname] = useState("");
+  const [receiverProfileUrl, setReceiverProfileUrl] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const [connected, setConnected] = useState(false);
 
   const stompClient = useRef<Client | null>(null);
+  const roomIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!postId) return;
 
+    let cancelled = false;
+    const myNickname = useAuthStore.getState().user?.nickname ?? "";
+
     const init = async () => {
       try {
-        console.log("[Chat] 채팅 초기화 시작...");
         setLoading(true);
 
-        // 1️⃣ 채팅방 생성
         const roomData = await createExchangeChatRoom(postId);
-        console.log("[Chat] 채팅방 생성 완료:", roomData);
+        if (cancelled) return;
+        roomIdRef.current = roomData.roomId;
         setRoomId(roomData.roomId);
+        setReceiverNickname(roomData.receiverNickname);
+        setReceiverProfileUrl(roomData.receiverProfileUrl);
 
-        // 2️⃣ 최근 메시지 가져오기
-        const chatData = await getChatMessages(roomData.roomId, undefined, 1);
-        console.log("[Chat] 최근 메시지 가져오기:", chatData);
+        const chatData = await getChatMessages(roomData.roomId, undefined, 20);
+        if (cancelled) return;
 
-        if (chatData.content.length > 0) {
-          const firstMsg = chatData.content[0];
-          setSenderNickname(firstMsg.senderNickname);
-          setSenderProfileUrl(firstMsg.senderProfileImageUrl ?? "");
-          console.log(
-            "[Chat] 상대 정보 설정:",
-            firstMsg.senderNickname,
-            firstMsg.senderProfileImageUrl
-          );
-        }
+        const history: ChatMessage[] = chatData.content
+          .slice()
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          )
+          .map((m) => ({
+            id: String(m.messageId),
+            sender: m.senderNickname === myNickname ? "me" : "other",
+            content: m.content,
+            timestamp: m.createdAt,
+            isMine: m.senderNickname === myNickname,
+          }));
+        setMessages(history);
 
-        // 3️⃣ 기존 마지막 메시지 표시
-        if (roomData.lastMessage) {
-          const lastMsg: ChatMessage = {
-            id: uuidv4(),
-            sender: "other",
-            content: roomData.lastMessage,
-            timestamp: roomData.lastMessageAt ?? new Date().toISOString(),
-            isMine: false,
-          };
-          setMessages([lastMsg]);
-          console.log("[Chat] 기존 마지막 메시지 표시:", lastMsg);
-        }
-
-        // 4️⃣ STOMP 웹소켓 연결
+        const accessToken = useAuthStore.getState().accessToken;
         const socket = new SockJS(`${process.env.NEXT_PUBLIC_WS_URL}/ws`);
         const client = new Client({
           webSocketFactory: () => socket,
-          debug: (str) => console.log("[STOMP DEBUG]", str),
+          connectHeaders: accessToken
+            ? { Authorization: `Bearer ${accessToken}` }
+            : {},
         });
 
         client.onConnect = () => {
-          console.log("[STOMP] 연결됨");
           setConnected(true);
 
-          // 구독
           client.subscribe(
             `/sub/chats/rooms/${roomData.roomId}`,
             (msg: IMessage) => {
               const body = JSON.parse(msg.body);
-              console.log("[STOMP] 수신 메시지:", body);
+
+              // 내가 보낸 메시지는 전송 시점에 이미 낙관적으로 추가했으므로 중복 추가하지 않음
+              if (body.senderNickname === myNickname) return;
 
               setMessages((prev) => [
                 ...prev,
                 {
-                  id: uuidv4(),
-                  sender:
-                    body.senderNickname === senderNickname ? "other" : "me",
+                  id: String(body.messageId ?? uuidv4()),
+                  sender: "other",
                   content: body.content,
                   timestamp: body.createdAt,
-                  isMine: body.senderNickname !== senderNickname,
+                  isMine: false,
                 },
               ]);
             }
           );
 
-          // 입장 후 읽음 처리
           client.publish({
             destination: `/pub/chats/rooms/${roomData.roomId}/read`,
             body: JSON.stringify({}),
           });
-          console.log("[STOMP] 읽음 처리 완료");
         };
 
         client.onStompError = (frame) => {
-          console.error("[STOMP ERROR]", frame.headers, frame.body);
+          console.error("[Chat] STOMP 에러:", frame.headers, frame.body);
         };
 
         client.onWebSocketClose = () => {
-          console.log("[STOMP] 연결 종료");
           setConnected(false);
         };
 
@@ -129,62 +123,48 @@ export function useExchangeChat(postId: number | null): UseExchangeChatReturn {
       } catch (error) {
         console.error("[Chat] 채팅방 초기화 실패:", error);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     init();
 
     return () => {
-      if (stompClient.current) {
-        console.log("[Chat] 컴포넌트 언마운트, 연결 종료");
-        stompClient.current.deactivate();
-        setConnected(false);
-      }
+      cancelled = true;
+      stompClient.current?.deactivate();
+      stompClient.current = null;
+      setConnected(false);
     };
-  }, [postId, senderNickname]);
+  }, [postId]);
 
-  const sendMessage = useCallback(
-    (content: string) => {
-      console.log(
-        "[Chat] sendMessage 호출:",
+  const sendMessage = useCallback((content: string) => {
+    const roomId = roomIdRef.current;
+    if (!roomId || !stompClient.current?.connected) {
+      console.warn("[Chat] STOMP 연결 안됨, 메시지 전송 실패");
+      return;
+    }
+
+    stompClient.current.publish({
+      destination: `/pub/chats/rooms/${roomId}/message`,
+      body: JSON.stringify({ content, roomId }),
+    });
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: uuidv4(),
+        sender: "me",
         content,
-        "roomId:",
-        roomId,
-        "connected:",
-        connected
-      );
-
-      if (!roomId || !stompClient.current || !stompClient.current.connected) {
-        console.warn("[Chat] STOMP 연결 안됨, 메시지 전송 실패");
-        return;
-      }
-
-      const msg = { content, roomId };
-      stompClient.current.publish({
-        destination: `/pub/chats/rooms/${roomId}/message`,
-        body: JSON.stringify(msg),
-      });
-      console.log("[STOMP] 메시지 발송:", msg);
-
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: uuidv4(),
-          sender: "me",
-          content,
-          timestamp: new Date().toISOString(),
-          isMine: true,
-        },
-      ]);
-    },
-    [roomId, connected]
-  );
+        timestamp: new Date().toISOString(),
+        isMine: true,
+      },
+    ]);
+  }, []);
 
   return {
     roomId,
-    senderNickname,
-    senderProfileUrl,
+    receiverNickname,
+    receiverProfileUrl,
     messages,
     sendMessage,
     loading,
