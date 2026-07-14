@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import MainCard from "./MainCard";
-import DummyImg from "@/assets/image/Profile.png";
+import DummyImg from "@/assets/image/party.png";
 import { useUpcomingEvents } from "@/app/event/(hook)/query/useUpcomingEvents";
 import type { MainCardProps } from "./MainCard";
 
